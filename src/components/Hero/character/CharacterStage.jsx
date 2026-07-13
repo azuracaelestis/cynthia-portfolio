@@ -47,7 +47,7 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
               className="absolute inset-0 h-full w-full select-none"
               style={{
                 opacity: mood === key ? 1 : 0,
-                visibility: mood === key ? 'visible' : 'hidden',
+                pointerEvents: 'none',
                 transitionProperty: 'opacity',
                 transitionDuration: reduceMotion ? '0ms' : '350ms',
                 transitionTimingFunction: 'ease-in-out',
