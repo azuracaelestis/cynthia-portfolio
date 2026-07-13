@@ -1,24 +1,34 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import stickyBlue from '../../assets/hero/sticky notes/sticky-notes-blue.svg';
+import stickyYellow from '../../assets/hero/sticky notes/sticky-notes-yellow.svg';
+import stickyBrown from '../../assets/hero/sticky notes/sticky-notes-brown.svg';
 
+// origin is the offset (px) back toward the character's head — notes fly
+// out from there on entrance and shrink back into it on exit.
 const NOTES = [
-  { color: 'bg-cream', rotate: -10, className: 'top-[2%] left-[6%] w-20 sm:w-24' },
-  { color: 'bg-sky-200', rotate: 8, className: 'top-[-4%] right-[2%] w-24 sm:w-28' },
-  { color: 'bg-amber-100', rotate: -6, className: 'top-[26%] left-[-6%] w-20 sm:w-24' },
+  { src: stickyBrown, rotate: -8, className: 'top-[-20%] left-[26%] w-20 sm:w-24', origin: { x: 20, y: 60 }, duration: 4.6 },
+  { src: stickyBlue, rotate: 8, className: 'top-[-8%] right-[6%] w-24 sm:w-28', origin: { x: -30, y: 50 }, duration: 5 },
+  { src: stickyYellow, rotate: -6, className: 'top-[46%] left-[20%] w-20 sm:w-24', origin: { x: 40, y: -50 }, duration: 5.8 },
 ];
 
-function Note({ color, rotate, className, delay }) {
+const ENTRANCE_DURATION = 0.5;
+
+function Note({ src, rotate, className, origin, duration, delay }) {
   return (
     <motion.div
-      className={`absolute ${color} ${className} aspect-square rounded-md shadow-lg p-3 flex flex-col justify-center gap-1.5`}
-      style={{ rotate }}
-      initial={{ opacity: 0, scale: 0.3, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.3, y: 10 }}
-      transition={{ duration: 0.45, delay, ease: 'backOut' }}
+      className={`absolute ${className}`}
+      initial={{ opacity: 0, scale: 0.25, x: origin.x, y: origin.y, rotate: 0 }}
+      animate={{ opacity: 1, scale: 1, x: 0, y: 0, rotate }}
+      exit={{ opacity: 0, scale: 0.25, x: origin.x, y: origin.y, rotate: 0 }}
+      transition={{ duration: ENTRANCE_DURATION, delay, ease: 'backOut' }}
     >
-      <span className="block h-1.5 rounded-full bg-black/15 w-full" />
-      <span className="block h-1.5 rounded-full bg-black/15 w-4/5" />
-      <span className="block h-1.5 rounded-full bg-black/15 w-3/5" />
+      <motion.img
+        src={src}
+        alt=""
+        className="w-full h-full select-none"
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration, delay: delay + ENTRANCE_DURATION, repeat: Infinity, ease: 'easeInOut' }}
+      />
     </motion.div>
   );
 }

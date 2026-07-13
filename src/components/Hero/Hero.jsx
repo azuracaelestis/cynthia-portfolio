@@ -37,13 +37,13 @@ export default function Hero() {
       id="home"
       className="relative lg:z-0 mx-auto max-w-7xl px-6 lg:px-10 pt-36 pb-24 grid lg:grid-cols-2 gap-12 items-center"
     >
-      <Decorations />
+      <Decorations show={mood === 'awake'} />
 
       <div className="relative font-dm">
         <h1 className="font-bold text-4xl sm:text-5xl lg:text-[64px] leading-[1.17] text-ink">
           I design product experiences that <em className="font-bold italic text-sky-600">simplify</em> complexity
         </h1>
-        <p className="mt-6 text-lg lg:text-2xl font-light leading-[1.42] text-ink/70 max-w-md">
+        <p className="mt-6 text-lg lg:text-2xl font-light leading-[1.42] text-black max-w-md">
           Bridging graphic design thinking and visual product design for tech.
         </p>
         <div className="mt-12 flex flex-wrap gap-6">

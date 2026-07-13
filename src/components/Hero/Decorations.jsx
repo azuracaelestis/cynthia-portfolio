@@ -18,9 +18,14 @@ const STICKERS = [
   { src: stickerPaleBloom, className: 'top-[68%] right-[9%] w-[81px] lg:top-[48%] lg:right-[8%] lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
 ];
 
-export default function Decorations() {
+export default function Decorations({ show = true }) {
   return (
-    <div className="pointer-events-none absolute inset-0 col-span-full row-span-full hidden sm:block" aria-hidden="true">
+    <motion.div
+      className="pointer-events-none absolute inset-0 col-span-full row-span-full hidden sm:block"
+      aria-hidden="true"
+      animate={{ opacity: show ? 1 : 0 }}
+      transition={{ duration: 0.35, ease: 'easeInOut' }}
+    >
       {STICKERS.map((sticker) => (
         <motion.img
           key={sticker.src}
@@ -32,6 +37,6 @@ export default function Decorations() {
           transition={{ duration: sticker.duration, delay: sticker.delay, repeat: Infinity, ease: 'easeInOut' }}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }
