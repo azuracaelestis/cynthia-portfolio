@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-display: "Poppins", "system-ui", sans-serif;
   --font-body: "Inter", "system-ui", sans-serif;
+  --font-dm: "DM Sans", "system-ui", sans-serif;
 
   --color-ink: #16181d;
   --color-paper: #ffffff;
@@ -60,6 +61,20 @@ body {
 
 #root {
   overflow-x: clip;
+}
+
+/* Hero character eye-tracking + head-tilt channels: driven purely by the
+   --eye-x/--eye-y/--head-tilt custom properties set on the CharacterStage
+   frame (see useEyeTracking.js), so the tracking hook only ever writes CSS
+   variables — never touches the SVG subtrees directly. */
+[data-eye-pupil] {
+  transform: translate(var(--eye-x, 0px), var(--eye-y, 0px));
+  transition: transform 120ms ease-out;
+}
+
+[data-head-tilt] {
+  transform: rotate(var(--head-tilt, 0deg));
+  transition: transform 150ms ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {

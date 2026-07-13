@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const NIGHT_START_HOUR = 20; // 8pm
-const NIGHT_END_HOUR = 6; // 6am
+export const NIGHT_START_HOUR = 20; // 8pm
+export const NIGHT_END_HOUR = 6; // 6am
 
 function getIsNight() {
   const hour = new Date().getHours();

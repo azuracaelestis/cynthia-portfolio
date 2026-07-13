@@ -24,7 +24,7 @@ const CARDS = [
 
 export default function DesignPractice() {
   return (
-    <section className="relative bg-sky-50 py-28 overflow-hidden">
+    <section className="relative lg:z-10 lg:-mt-16 rounded-t-[32px] bg-sky-50 py-28 overflow-hidden">
       <div className="mx-auto max-w-6xl px-6 lg:px-10 text-center">
         <span className="inline-block rounded-full bg-sky-200 text-sky-700 font-semibold text-sm px-4 py-1.5">
           My Design Practice
