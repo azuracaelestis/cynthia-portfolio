@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import profilePicture from '../assets/hero/profile-picture/cynthia-profile-picture.svg';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '#home' },
@@ -18,11 +19,7 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5 flex items-center justify-between gap-6">
         <a href="#home" className="flex items-center gap-3 shrink-0">
           <span className="w-11 h-11 rounded-full bg-sky-100 flex items-center justify-center overflow-hidden">
-            <svg viewBox="0 0 100 100" className="w-9 h-9">
-              <path d="M55 20 C75 20 88 38 88 58 C88 74 78 84 62 84 C46 84 36 72 36 56 C36 40 42 20 55 20Z" fill="#6fb3e0" />
-              <circle cx="52" cy="58" r="9" fill="none" stroke="#7a4a2a" strokeWidth="3" />
-              <path d="M58 55 L50 58 L58 61" stroke="#3a2a1c" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            </svg>
+            <img src={profilePicture} alt="Cynthia Tanawi" className="w-full h-full rounded-full object-cover" />
           </span>
           <span className="font-display font-bold text-lg text-ink whitespace-nowrap">Cynthia Tanawi</span>
         </a>

@@ -41,7 +41,7 @@ export default function Hero() {
 
       <div className="relative font-dm">
         <h1 className="font-bold text-4xl sm:text-5xl lg:text-[64px] leading-[1.17] text-ink">
-          I design product experiences that <em className="font-bold italic text-sky-600">simplify</em> complexity
+          I design product experiences that <em className="font-extrabold italic text-black">simplify</em> complexity
         </h1>
         <p className="mt-6 text-lg lg:text-2xl font-light leading-[1.42] text-black max-w-md">
           Bridging graphic design thinking and visual product design for tech.
@@ -51,7 +51,7 @@ export default function Hero() {
             href="#work"
             onMouseEnter={() => setIsHoveringWork(true)}
             onMouseLeave={() => setIsHoveringWork(false)}
-            className="rounded-full bg-[#f8ab1c] hover:bg-amber-600 transition-colors px-8 py-4 font-bold text-lg lg:text-xl text-ink"
+            className="rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-8 py-4 font-bold text-lg lg:text-xl text-ink"
           >
             View Work
           </a>

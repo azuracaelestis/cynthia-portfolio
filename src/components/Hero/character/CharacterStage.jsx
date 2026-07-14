@@ -25,15 +25,20 @@ const CHARACTER_SCALE = 1.08;
 const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, tiltDeg }, ref) {
   const reduceMotion = useReducedMotion();
 
+  const isSleeping = mood === 'sleeping';
+  const snoring = isSleeping && !reduceMotion;
+
   return (
-    <div
+    <motion.div
       ref={ref}
       className="relative w-[280px] h-[397px] sm:w-[360px] sm:h-[510px] lg:w-[420px] lg:h-[596px]"
       style={{
         '--eye-x': `${eyeOffset?.x ?? 0}px`,
         '--eye-y': `${eyeOffset?.y ?? 0}px`,
-        '--head-tilt': `${tiltDeg ?? 0}deg`,
+        ...(snoring ? {} : { '--head-tilt': `${tiltDeg ?? 0}deg` }),
       }}
+      animate={snoring ? { '--head-tilt': ['-1deg', '1deg', '-1deg'] } : undefined}
+      transition={snoring ? { duration: 4.5, repeat: Infinity, ease: 'easeInOut' } : undefined}
     >
       <div className="absolute inset-0" style={{ transform: `scale(${CHARACTER_SCALE})`, transformOrigin: 'bottom center' }}>
         <motion.div
@@ -77,7 +82,7 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 });
 
