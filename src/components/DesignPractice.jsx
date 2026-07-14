@@ -1,35 +1,61 @@
+import { motion } from 'framer-motion';
+import frictionIcon from '../assets/my design practice/icon/01-designing-from-friction.svg';
+import pushbackIcon from '../assets/my design practice/icon/02-welcoming-pushback.svg';
+import unfamiliarIcon from '../assets/my design practice/icon/03-choosing-the-unfamiliar.svg';
+import blueFlower from '../assets/hero/decorations/sticker-346.svg';
+import yellowSunburst from '../assets/hero/decorations/sticker-343.svg';
+
 const CARDS = [
   {
     title: 'Designing From Friction',
     body: 'I frame projects as human stories first — a moment of real friction becomes the brief, not a feature list.',
-    bg: 'bg-cream',
+    bg: 'bg-[#F2EFE8]',
     rotate: -4,
     offset: 'lg:translate-y-2',
+    icon: frictionIcon,
   },
   {
     title: 'Welcoming Pushback',
     body: 'I treat my first solution as a hypothesis, inviting other perspectives early, before a design is too expensive to change.',
-    bg: 'bg-sky-100',
+    bg: 'bg-[#E7F5FD]',
     rotate: 2,
     offset: 'lg:-translate-y-3',
+    icon: pushbackIcon,
   },
   {
     title: 'Choosing the Unfamiliar',
     body: 'I treat unfamiliar tools, domains, and constraints as the interesting part of a problem — not the risky part.',
-    bg: 'bg-amber-100',
+    bg: 'bg-[#FCEDBA]',
     rotate: -2,
     offset: 'lg:translate-y-4',
+    icon: unfamiliarIcon,
   },
 ];
 
 export default function DesignPractice() {
   return (
-    <section className="relative lg:z-10 lg:-mt-16 rounded-t-[32px] bg-sky-50 py-28 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 text-center">
-        <span className="inline-block rounded-full bg-sky-200 text-sky-700 font-semibold text-sm px-4 py-1.5">
+    <section className="relative lg:z-10 lg:-mt-16 rounded-t-[32px] bg-[#D0EBFB] py-28 overflow-hidden">
+      <motion.img
+        src={blueFlower}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-6 left-6 lg:top-10 lg:left-10 w-12 lg:w-[53px]"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.img
+        src={yellowSunburst}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-4 right-[6%] lg:right-[8%] w-20 lg:w-[97px]"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <div className="mx-auto max-w-6xl px-6 lg:px-10 text-center font-dm">
+        <span className="inline-block rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-xl px-6 py-3">
           My Design Practice
         </span>
-        <h2 className="mt-5 font-display font-extrabold text-3xl sm:text-4xl text-ink">
+        <h2 className="mt-5 font-extrabold text-[48px] text-ink">
           Story-Driven, Collaborative, &amp; Fearless
         </h2>
 
@@ -41,14 +67,11 @@ export default function DesignPractice() {
               style={{ '--r': `${card.rotate}deg` }}
             >
               <div
-                className={`h-full ${card.bg} rounded-2xl p-7 text-left shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
+                className={`aspect-square ${card.bg} rounded-2xl p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16181d" strokeWidth="1.8" className="mb-5">
-                  <path d="M12 20h9" strokeLinecap="round" />
-                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" strokeLinejoin="round" />
-                </svg>
-                <h3 className="font-display font-bold text-lg text-ink">{card.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/70">{card.body}</p>
+                <img src={card.icon} alt="" className="h-[50px] w-auto mb-5" />
+                <h3 className="font-bold text-2xl text-ink">{card.title}</h3>
+                <p className="mt-3 text-base leading-relaxed text-black">{card.body}</p>
               </div>
             </div>
           ))}
