@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import frictionIcon from '../assets/my design practice/icon/01-designing-from-friction.svg';
 import pushbackIcon from '../assets/my design practice/icon/02-welcoming-pushback.svg';
 import unfamiliarIcon from '../assets/my design practice/icon/03-choosing-the-unfamiliar.svg';
-import blueFlower from '../assets/hero/decorations/sticker-346.svg';
-import yellowSunburst from '../assets/hero/decorations/sticker-343.svg';
+import blueFlower from '../assets/my design practice/element-decoration/element5.svg';
+import yellowSunburst from '../assets/my design practice/element-decoration/element6.svg';
 
 const CARDS = [
   {
@@ -34,7 +34,7 @@ const CARDS = [
 
 export default function DesignPractice() {
   return (
-    <section className="relative lg:z-10 lg:-mt-16 rounded-t-[32px] bg-[#D0EBFB] py-28 overflow-hidden">
+    <section className="relative lg:z-10 lg:-mt-[185px] rounded-t-[32px] bg-[#D0EBFB] pt-28 pb-[500px] overflow-hidden">
       <motion.img
         src={blueFlower}
         alt=""
@@ -47,7 +47,7 @@ export default function DesignPractice() {
         src={yellowSunburst}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-4 right-[6%] lg:right-[8%] w-20 lg:w-[97px]"
+        className="pointer-events-none absolute top-[560px] right-[6%] lg:top-[600px] lg:right-[8%] w-20 lg:w-[97px]"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
       />
