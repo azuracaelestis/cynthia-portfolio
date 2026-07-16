@@ -76,7 +76,7 @@ export default function CaseStudies() {
   const containerRef = useRef(null);
 
   return (
-    <section id="work" className="relative bg-paper py-28">
+    <section id="work" className="relative z-20 -mt-[500px] pt-[180px] pb-28">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <h2 className="text-center font-display font-extrabold text-3xl sm:text-4xl text-ink mb-16">
           Case Studies
