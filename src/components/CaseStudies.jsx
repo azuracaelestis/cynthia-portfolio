@@ -31,7 +31,7 @@ function StudyCard({ study, index }) {
   return (
     <div
       className="sticky"
-      style={{ top: `calc(6rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
+      style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
     >
       <div className="relative rotate-[var(--r)]" style={{ '--r': `${study.rotate}deg` }}>
         <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
@@ -42,7 +42,7 @@ function StudyCard({ study, index }) {
 
         <div className="absolute inset-0 flex flex-col justify-center px-10 sm:px-14 pt-[12%] pb-10 sm:pb-14">
           <div className="max-w-[440px]">
-            <h3 className="font-dm font-extrabold text-5xl text-ink leading-tight">
+            <h3 className="font-dm font-extrabold text-[40px] text-ink leading-tight">
               {study.title}
             </h3>
             <p className="mt-4 font-dm text-xl text-ink/70">{study.body}</p>
@@ -69,14 +69,18 @@ export default function CaseStudies() {
   return (
     <section id="work" className="relative z-20 -mt-[500px] pt-[180px] pb-28">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
-        <h2 className="text-center font-dm font-extrabold text-3xl sm:text-4xl text-ink mb-16">
-          Case Studies
-        </h2>
+        <div ref={containerRef} className="relative">
+          <div className="relative h-24">
+            <h2 className="sticky top-24 z-30 text-center font-dm font-extrabold text-[44px] leading-none text-ink">
+              Case Studies
+            </h2>
+          </div>
 
-        <div ref={containerRef} className="relative flex flex-col gap-24">
-          {STUDIES.map((study, i) => (
-            <StudyCard key={study.tag} study={study} index={i} />
-          ))}
+          <div className="relative flex flex-col gap-24">
+            {STUDIES.map((study, i) => (
+              <StudyCard key={study.tag} study={study} index={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
