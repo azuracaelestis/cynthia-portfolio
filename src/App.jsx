@@ -28,7 +28,10 @@ export default function App() {
       <main>
         <Hero />
         <DesignPractice />
-        <CaseStudies />
+        <div className="relative">
+          <div className="sticky top-0 h-[500px] bg-bleed-blue" aria-hidden="true" />
+          <CaseStudies />
+        </div>
         <AboutMe />
       </main>
       <Footer />

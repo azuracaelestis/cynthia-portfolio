@@ -34,7 +34,7 @@ const CARDS = [
 
 export default function DesignPractice() {
   return (
-    <section className="relative lg:z-10 lg:-mt-[185px] rounded-t-[32px] bg-[#D0EBFB] pt-28 pb-[500px] overflow-hidden">
+    <section className="relative lg:z-10 lg:-mt-[185px] rounded-t-[32px] bg-[#D0EBFB] pt-28 pb-28 overflow-hidden">
       <motion.img
         src={blueFlower}
         alt=""
