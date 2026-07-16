@@ -34,47 +34,49 @@ const CARDS = [
 
 export default function DesignPractice() {
   return (
-    <section className="relative lg:z-10 lg:-mt-[185px] rounded-t-[32px] bg-[#D0EBFB] pt-28 pb-28 overflow-hidden">
-      <motion.img
-        src={blueFlower}
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute top-6 left-6 lg:top-10 lg:left-10 w-12 lg:w-[53px]"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.img
-        src={yellowSunburst}
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[560px] right-[6%] lg:top-[600px] lg:right-[8%] w-20 lg:w-[97px]"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 text-center font-dm">
-        <span className="inline-block rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-xl px-6 py-3">
-          My Design Practice
-        </span>
-        <h2 className="mt-5 font-extrabold text-[48px] text-ink">
-          Story-Driven, Collaborative, &amp; Fearless
-        </h2>
+    <section className="relative lg:z-10 lg:-mt-[185px]">
+      <div className="relative mx-auto max-w-6xl rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-28 pb-28 overflow-hidden">
+        <motion.img
+          src={blueFlower}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute top-10 left-10 lg:top-16 lg:left-16 w-[76px] h-[76px]"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.img
+          src={yellowSunburst}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute top-20 right-10 lg:top-24 lg:right-16 w-20 lg:w-[97px]"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="text-center font-dm">
+          <span className="inline-block rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[16px] px-6 py-3">
+            My Design Practice
+          </span>
+          <h2 className="mt-8 font-extrabold text-[44px] text-ink">
+            Story-Driven, Collaborative, Fearless
+          </h2>
 
-        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
-          {CARDS.map((card) => (
-            <div
-              key={card.title}
-              className={`group ${card.offset} rotate-[var(--r)] transition-transform duration-300 ease-out hover:-translate-y-4 hover:rotate-0`}
-              style={{ '--r': `${card.rotate}deg` }}
-            >
+          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
+            {CARDS.map((card) => (
               <div
-                className={`aspect-square ${card.bg} rounded-2xl p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
+                key={card.title}
+                className={`group ${card.offset} rotate-[var(--r)] transition-transform duration-300 ease-out hover:-translate-y-4 hover:rotate-0`}
+                style={{ '--r': `${card.rotate}deg` }}
               >
-                <img src={card.icon} alt="" className="h-[50px] w-auto mb-5" />
-                <h3 className="font-bold text-2xl text-ink">{card.title}</h3>
-                <p className="mt-3 text-base leading-relaxed text-black">{card.body}</p>
+                <div
+                  className={`aspect-square ${card.bg} rounded-2xl p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
+                >
+                  <img src={card.icon} alt="" className="h-[50px] w-auto mb-5" />
+                  <h3 className="font-bold text-2xl text-ink">{card.title}</h3>
+                  <p className="mt-3 text-base leading-relaxed text-black">{card.body}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

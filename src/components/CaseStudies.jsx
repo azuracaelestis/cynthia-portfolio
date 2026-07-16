@@ -67,13 +67,18 @@ export default function CaseStudies() {
   const containerRef = useRef(null);
 
   return (
-    <section id="work" className="relative z-20 -mt-[500px] pt-[180px] pb-28">
+    <section id="work" className="relative z-20 -mt-[500px] pt-[120px] pb-28">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div ref={containerRef} className="relative">
-          <div className="relative h-24">
-            <h2 className="sticky top-24 z-30 text-center font-dm font-extrabold text-[44px] leading-none text-ink">
-              Case Studies
-            </h2>
+          <div className="relative h-[171px]">
+            <div className="sticky top-24 z-30 text-center">
+              <span className="inline-block rounded-[16px] bg-[#FACC61] text-black font-semibold text-[16px] px-6 py-3">
+                Selected Projects
+              </span>
+              <h2 className="mt-8 font-dm font-extrabold text-[44px] leading-none text-ink">
+                Case Studies
+              </h2>
+            </div>
           </div>
 
           <div className="relative flex flex-col gap-24">
