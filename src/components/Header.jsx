@@ -21,7 +21,7 @@ export default function Header() {
           <span className="w-11 h-11 rounded-full bg-sky-100 flex items-center justify-center overflow-hidden">
             <img src={profilePicture} alt="Cynthia Tanawi" className="w-full h-full rounded-full object-cover" />
           </span>
-          <span className="font-display font-bold text-lg text-ink whitespace-nowrap">Cynthia Tanawi</span>
+          <span className="font-dm font-semibold text-[20px] text-ink whitespace-nowrap">Cynthia Tanawi</span>
         </a>
 
         <nav
@@ -34,7 +34,7 @@ export default function Header() {
               href={item.href}
               onMouseEnter={() => setHoveredIndex(i)}
               onClick={() => setSelectedIndex(i)}
-              className="relative rounded-full px-5 py-2 font-semibold text-sm"
+              className="font-dm relative rounded-full px-5 py-2 font-semibold text-sm"
             >
               {displayIndex === i && (
                 <motion.span
@@ -57,7 +57,7 @@ export default function Header() {
 
         <a
           href="#contact"
-          className="rounded-full bg-ink hover:bg-amber-600 transition-colors px-5 py-2.5 text-sm font-semibold text-white flex items-center gap-2 shrink-0"
+          className="font-dm rounded-full bg-ink hover:bg-amber-600 transition-colors px-5 py-2.5 text-sm font-semibold text-white flex items-center gap-2 shrink-0"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="3" y="5" width="18" height="14" rx="2" />
