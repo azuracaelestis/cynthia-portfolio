@@ -20,16 +20,16 @@ export default function Header() {
     <>
       <header className="absolute top-0 inset-x-0 z-40 bg-paper/80 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5 flex items-center justify-between gap-6">
-          <a href="#home" className="flex items-center gap-3 shrink-0">
-            <span className="w-11 h-11 rounded-full bg-sky-100 flex items-center justify-center overflow-hidden">
+          <a href="#home" className="group flex items-center gap-3 shrink-0">
+            <span className="w-[65px] h-[65px] rounded-full bg-sky-100 flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-110">
               <img src={profilePicture} alt="Cynthia Tanawi" className="w-full h-full rounded-full object-cover" />
             </span>
-            <span className="font-dm font-semibold text-[20px] text-ink whitespace-nowrap">Cynthia Tanawi</span>
+            <span className="font-dm font-semibold text-[20px] text-ink whitespace-nowrap transition-colors group-hover:text-about-blue">Cynthia Tanawi</span>
           </a>
 
           <a
             href="#contact"
-            className="font-dm rounded-full bg-ink hover:bg-amber-600 transition-colors px-5 py-2.5 text-sm font-semibold text-white flex items-center gap-2 shrink-0"
+            className="font-dm h-12 rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors px-6 py-3 text-sm font-semibold text-white flex items-center gap-2 shrink-0"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -41,7 +41,7 @@ export default function Header() {
       </header>
 
       <nav
-        className={`hidden md:flex fixed top-5 left-1/2 -translate-x-1/2 z-50 items-center gap-1 bg-sky-50 rounded-full p-1.5 transition-shadow duration-200 ${
+        className={`hidden md:flex fixed top-5 left-1/2 -translate-x-1/2 z-50 items-center gap-1 bg-sky-50 rounded-full h-[70px] px-4 py-4 transition-shadow duration-200 ${
           hasScrolled ? 'shadow-md' : ''
         }`}
         onMouseLeave={() => setHoveredIndex(null)}
@@ -52,7 +52,7 @@ export default function Header() {
             href={item.href}
             onMouseEnter={() => setHoveredIndex(i)}
             onClick={() => setSelectedIndex(i)}
-            className="font-dm relative rounded-full px-5 py-2 font-semibold text-sm"
+            className="font-dm relative rounded-full px-5 py-2 font-semibold text-[16px]"
           >
             {displayIndex === i && (
               <motion.span
