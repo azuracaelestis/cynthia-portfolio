@@ -29,7 +29,7 @@ export default function App() {
         <Hero />
         <DesignPractice />
         <div className="relative">
-          <div className="sticky top-0 h-[500px] mx-auto max-w-6xl rounded-b-[32px] bg-bleed-blue" aria-hidden="true" />
+          <div className="sticky top-0 h-[500px] mx-auto max-w-[1302px] rounded-b-[32px] bg-bleed-blue" aria-hidden="true" />
           <CaseStudies />
         </div>
         <AboutMe />
