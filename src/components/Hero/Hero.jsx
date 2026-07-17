@@ -40,10 +40,10 @@ export default function Hero() {
       <Decorations show={mood === 'awake'} />
 
       <div className="relative font-dm">
-        <h1 className="font-bold text-4xl sm:text-5xl lg:text-[64px] leading-[1.17] text-ink">
+        <h1 className="font-bold text-[64px] leading-[1.17] text-ink">
           I design product experiences that <em className="font-extrabold italic text-black">simplify</em> complexity
         </h1>
-        <p className="mt-6 text-lg lg:text-2xl font-light leading-[1.42] text-black max-w-md">
+        <p className="mt-6 text-[24px] font-light leading-[1.42] text-black max-w-md">
           Bridging graphic design thinking and visual product design for tech.
         </p>
         <div className="mt-12 flex flex-wrap gap-6">
@@ -51,7 +51,7 @@ export default function Hero() {
             href="#work"
             onMouseEnter={() => setIsHoveringWork(true)}
             onMouseLeave={() => setIsHoveringWork(false)}
-            className="rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-8 py-4 font-bold text-lg lg:text-xl text-ink"
+            className="h-12 flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-ink"
           >
             View Work
           </a>
@@ -59,7 +59,7 @@ export default function Hero() {
             href="/resume.pdf"
             onMouseEnter={() => setIsHoveringResume(true)}
             onMouseLeave={() => setIsHoveringResume(false)}
-            className="rounded-full border-[1.5px] border-black hover:bg-black/5 transition-colors px-8 py-4 font-semibold text-lg lg:text-xl text-ink"
+            className="h-12 flex items-center justify-center rounded-full border-[1.5px] border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
           >
             Download Resume
           </a>
