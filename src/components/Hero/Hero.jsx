@@ -49,7 +49,7 @@ export default function Hero() {
         </h1>
         <p className="mt-6 text-[24px] font-normal leading-[1.42] text-black">
           Product Designer with a visual design background. Designing and building product
-          experiences that simplify complexity, from brand systems to shipped code.
+          experiences that simplify complexity, from brand systems to shipped&nbsp;code.
         </p>
         <div className="mt-12 flex flex-wrap gap-6">
           <a
@@ -71,7 +71,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative flex justify-center lg:justify-end lg:translate-y-[180px] lg:-translate-x-[164px]">
+      <div className="relative flex justify-center lg:justify-end lg:translate-y-[180px] lg:-translate-x-[194px]">
         <ThoughtPostits show={isThinking} />
         <CharacterStage ref={frameRef} mood={mood} eyeOffset={offset} tiltDeg={tiltDeg} />
       </div>

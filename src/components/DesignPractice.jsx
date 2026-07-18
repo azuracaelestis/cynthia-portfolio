@@ -8,7 +8,7 @@ import yellowSunburst from '../assets/my design practice/element-decoration/elem
 const CARDS = [
   {
     title: 'Designing From Friction',
-    body: 'I frame projects as human stories first — a moment of real friction becomes the brief, not a feature list.',
+    body: 'I frame every project as a human story first, so a real moment of friction becomes the brief, not a feature list.',
     bg: 'bg-[#F2EFE8]',
     rotate: -4,
     offset: 'lg:translate-y-2',
@@ -16,7 +16,7 @@ const CARDS = [
   },
   {
     title: 'Welcoming Pushback',
-    body: 'I treat my first solution as a hypothesis, inviting other perspectives early, before a design is too expensive to change.',
+    body: 'My first solution is only a hypothesis, so I invite perspectives early, before a design gets too expensive to change.',
     bg: 'bg-[#E7F5FD]',
     rotate: 2,
     offset: 'lg:-translate-y-3',
@@ -24,7 +24,7 @@ const CARDS = [
   },
   {
     title: 'Choosing the Unfamiliar',
-    body: 'I treat unfamiliar tools, domains, and constraints as the interesting part of a problem — not the risky part.',
+    body: 'I treat unfamiliar tools, domains, and constraints as the interesting part of a problem, not the risky part.',
     bg: 'bg-[#FCEDBA]',
     rotate: -2,
     offset: 'lg:translate-y-4',
@@ -61,7 +61,7 @@ export default function DesignPractice() {
             My Design Practice
           </span>
           <h2 className="mt-8 font-extrabold text-[44px] text-ink">
-            Story-Driven, Collaborative, Fearless
+            Story-Driven, Collaborative, &amp; Curious
           </h2>
 
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
@@ -76,7 +76,7 @@ export default function DesignPractice() {
                 >
                   <img src={card.icon} alt="" className="h-[50px] w-auto mb-5" />
                   <h3 className="font-bold text-2xl text-ink">{card.title}</h3>
-                  <p className="mt-3 text-base leading-relaxed text-black">{card.body}</p>
+                  <p className="mt-3 text-[20px] leading-relaxed text-black">{card.body}</p>
                 </div>
               </div>
             ))}

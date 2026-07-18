@@ -21,11 +21,11 @@ const EXPERIENCE = [
 ];
 
 const DESIGN_TOOLS = [
+  { name: 'Figma', icon: figmaIcon },
+  { name: 'ChatGPT', icon: chatgptIcon },
   { name: 'Illustrator', icon: aiIcon },
   { name: 'Photoshop', icon: psIcon },
   { name: 'InDesign', icon: idIcon },
-  { name: 'Figma', icon: figmaIcon },
-  { name: 'ChatGPT', icon: chatgptIcon },
   { name: 'Lovart', icon: lovartIcon },
 ];
 
@@ -71,11 +71,11 @@ export default function AboutMe() {
 
           <div className="lg:col-start-2 lg:row-start-1">
             <h2 className="font-dm font-bold text-[44px] leading-[52px] text-white">
-              Halo, I'm Cynthia
+              Designing across cultures.
             </h2>
             <p className="mt-6 font-dm font-light text-[16px] leading-[24px] text-white">
-              I'm Indonesian, and I've called Taiwan home for the past ten years — now building toward a new
-              chapter in Vancouver.
+              Hi, I'm Cynthia. I'm Indonesian, and I've called Taiwan home for the past ten years, now building
+              toward a new chapter, drawn to Vancouver and open to the right team anywhere.
             </p>
             <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
               I work fluently across three languages (English, Chinese, and Bahasa), with a background in both
@@ -85,7 +85,7 @@ export default function AboutMe() {
               instinct runs through everything I design.
             </p>
             <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
-              Outside of work, you can find me hiking, biking, watching movies, and vibe coding throughout the
+              Outside of work, you can find me hiking, traveling, watching movies, and vibe coding throughout the
               weekends.
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function AboutMe() {
 
             <div className="mt-4">
               <h3 className="font-dm font-bold text-sm uppercase tracking-wide text-sky-200/70">
-                Vibe Coding Toolkit
+                Building Toolkit
               </h3>
               <div className="mt-3 flex gap-2 flex-wrap">
                 {VIBE_TOOLS.map((tool) => (
