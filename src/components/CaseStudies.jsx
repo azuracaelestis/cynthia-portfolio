@@ -75,7 +75,7 @@ function StudyCard({ study, index }) {
       className="sticky"
       style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
     >
-      <div className="relative rotate-[var(--r)]" style={{ '--r': `${study.rotate}deg` }}>
+      <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
         {cardContent}
       </div>
     </div>
@@ -90,7 +90,7 @@ function StudyCard({ study, index }) {
       style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
     >
       <motion.div style={{ opacity, scale, y }}>
-        <div className="relative rotate-[var(--r)]" style={{ '--r': `${study.rotate}deg` }}>
+        <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
           {cardContent}
         </div>
       </motion.div>
@@ -107,7 +107,7 @@ export default function CaseStudies() {
         <div ref={containerRef} className="relative">
           <div className="relative h-[171px]">
             <div className="sticky top-24 z-30 text-center">
-              <span className="inline-block rounded-[16px] bg-[#FACC61] text-black font-semibold text-[16px] px-6 py-3">
+              <span className="inline-block rotate-3 rounded-[16px] bg-[#FACC61] text-black font-semibold text-[16px] px-6 py-3">
                 Selected Projects
               </span>
               <h2 className="mt-8 font-dm font-extrabold text-[44px] leading-none text-ink">

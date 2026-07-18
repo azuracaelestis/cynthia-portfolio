@@ -41,14 +41,14 @@ export default function Footer() {
             href="https://linkedin.com"
             target="_blank"
             rel="noreferrer"
-            className="font-dm h-12 rounded-full border-2 border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-2"
+            className="font-dm h-12 rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-2"
           >
             <img src={linkedinIcon} alt="" className="w-4 h-4" />
             LinkedIn
           </a>
           <a
             href="/resume.pdf"
-            className="font-dm h-12 rounded-full border-2 border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-2"
+            className="font-dm h-12 rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-2"
           >
             <img src={resumeIcon} alt="" className="w-4 h-4" />
             Resume

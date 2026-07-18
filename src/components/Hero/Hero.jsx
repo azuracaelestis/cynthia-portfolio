@@ -59,7 +59,7 @@ export default function Hero() {
             href="/resume.pdf"
             onMouseEnter={() => setIsHoveringResume(true)}
             onMouseLeave={() => setIsHoveringResume(false)}
-            className="h-12 flex items-center justify-center rounded-full border-[1.5px] border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
+            className="h-12 flex items-center justify-center rounded-full border border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
           >
             Download Resume
           </a>

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import frictionIcon from '../assets/my design practice/icon/01-designing-from-friction.svg';
 import pushbackIcon from '../assets/my design practice/icon/02-welcoming-pushback.svg';
 import unfamiliarIcon from '../assets/my design practice/icon/03-choosing-the-unfamiliar.svg';
@@ -33,6 +33,8 @@ const CARDS = [
 ];
 
 export default function DesignPractice() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="relative lg:z-10 lg:-mt-[185px]">
       <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-28 pb-28 overflow-hidden">
@@ -42,18 +44,20 @@ export default function DesignPractice() {
           aria-hidden="true"
           className="pointer-events-none absolute top-10 left-10 lg:top-16 lg:left-16 w-[76px] h-[76px]"
           animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ default: { duration: 6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
+          whileHover={reduceMotion ? undefined : { rotate: 360 }}
         />
         <motion.img
           src={yellowSunburst}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-20 right-10 lg:top-24 lg:right-16 w-20 lg:w-[97px]"
+          className="pointer-events-none absolute top-20 right-10 lg:top-24 lg:right-16 w-[92px] h-[92px]"
           animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ default: { duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
+          whileHover={reduceMotion ? undefined : { rotate: 360 }}
         />
         <div className="text-center font-dm">
-          <span className="inline-block rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[16px] px-6 py-3">
+          <span className="inline-block -rotate-3 rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[16px] px-6 py-3">
             My Design Practice
           </span>
           <h2 className="mt-8 font-extrabold text-[44px] text-ink">
