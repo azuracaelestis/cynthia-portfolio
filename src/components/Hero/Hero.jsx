@@ -41,10 +41,15 @@ export default function Hero() {
 
       <div className="relative font-dm">
         <h1 className="font-bold text-[64px] leading-[1.17] text-ink">
-          I design product experiences that <em className="font-extrabold italic text-black">simplify</em> complexity
+          Hi, I'm Cynthia.
+          <br />
+          Product Designer
+          <br />
+          &amp; Storyteller.
         </h1>
-        <p className="mt-6 text-[24px] font-light leading-[1.42] text-black max-w-md">
-          Bridging graphic design thinking and visual product design for tech.
+        <p className="mt-6 text-[24px] font-normal leading-[1.42] text-black">
+          Product Designer with a visual design background. Designing and building product
+          experiences that simplify complexity, from brand systems to shipped code.
         </p>
         <div className="mt-12 flex flex-wrap gap-6">
           <a
