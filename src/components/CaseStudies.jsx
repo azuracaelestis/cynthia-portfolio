@@ -60,7 +60,7 @@ function StudyCard({ study, index }) {
 
       <a
         href="#"
-        className="absolute top-[17%] right-[9%] rounded-full bg-ink hover:bg-amber-600 transition-colors text-white text-sm font-dm font-semibold px-4 py-2 flex items-center gap-1.5"
+        className="absolute top-[17%] right-[9%] rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-sm font-dm font-semibold px-4 py-2 flex items-center gap-1.5"
       >
         View
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
