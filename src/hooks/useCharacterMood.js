@@ -6,10 +6,10 @@ export const CHARACTER_MOODS = ['sleeping', 'awake', 'thinking'];
 // channels — kept as a plain function so each channel (time-of-day, hover
 // expression, scroll-thinking) stays independently testable/tunable.
 //
-// Priority: reduced-motion (fully static) > scroll-thinking > hover-expression > time-of-day default.
-export function useCharacterMood({ isNight, isHoveringWork, isHoveringResume, isThinkingScroll, reduceMotion }) {
-  if (reduceMotion) return isNight ? 'sleeping' : 'awake';
+// Priority: reduced-motion > scroll-thinking > hover > (night AND not-yet-woken) sleep > awake.
+export function useCharacterMood({ isNight, isHoveringWork, isHoveringResume, isThinkingScroll, reduceMotion, hasWokenUp }) {
+  if (reduceMotion) return (isNight && !hasWokenUp) ? 'sleeping' : 'awake';
   if (isThinkingScroll) return 'thinking';
   if (isHoveringWork || isHoveringResume) return 'awake'; // both CTAs → 'awake' art; no distinct 3rd asset yet
-  return isNight ? 'sleeping' : 'awake';
+  return (isNight && !hasWokenUp) ? 'sleeping' : 'awake';
 }
