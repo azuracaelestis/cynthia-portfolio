@@ -20,7 +20,7 @@ export default function Footer() {
           className="pointer-events-none absolute right-[10%] top-[110px] w-24 lg:w-[174px] lg:h-[174px] z-20"
         />
 
-        <h2 className="font-dm font-extrabold text-[64px] leading-[70px] text-ink">
+        <h2 className="font-dm font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
           Are we vibing?
           <br />
           Let's Connect!

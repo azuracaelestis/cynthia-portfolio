@@ -36,13 +36,13 @@ export default function DesignPractice() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative lg:z-10 lg:-mt-[185px]">
-      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-28 pb-28 overflow-hidden">
+    <section className="relative z-10 -mt-[180px] lg:-mt-[185px]">
+      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-16 pb-16 lg:pt-28 lg:pb-28 overflow-hidden">
         <motion.img
           src={blueFlower}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-10 left-10 lg:top-16 lg:left-16 w-[76px] h-[76px]"
+          className="pointer-events-none absolute top-[72px] left-[17px] w-[39px] h-[39px] lg:top-16 lg:left-16 lg:w-[76px] lg:h-[76px]"
           animate={{ y: [0, -10, 0] }}
           transition={{ default: { duration: 6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
           whileHover={reduceMotion ? undefined : { rotate: 360 }}
@@ -51,20 +51,20 @@ export default function DesignPractice() {
           src={yellowSunburst}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-20 right-10 lg:top-24 lg:right-16 w-[92px] h-[92px]"
+          className="pointer-events-none absolute top-[192px] right-[12px] w-[38px] h-[38px] lg:top-24 lg:right-16 lg:w-[92px] lg:h-[92px]"
           animate={{ y: [0, 10, 0] }}
           transition={{ default: { duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
           whileHover={reduceMotion ? undefined : { rotate: 360 }}
         />
         <div className="text-center font-dm">
-          <span className="inline-block -rotate-3 rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[16px] px-6 py-3">
+          <span className="inline-block -rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
             My Design Practice
           </span>
-          <h2 className="mt-8 font-extrabold text-[44px] text-ink">
+          <h2 className="mt-3 lg:mt-8 font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-normal text-ink">
             Story-Driven, Collaborative, &amp; Curious
           </h2>
 
-          <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
+          <div className="mt-8 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-[20px] lg:gap-6">
             {CARDS.map((card) => (
               <div
                 key={card.title}
@@ -72,11 +72,11 @@ export default function DesignPractice() {
                 style={{ '--r': `${card.rotate}deg` }}
               >
                 <div
-                  className={`aspect-square ${card.bg} rounded-2xl p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
+                  className={`h-[300px] lg:aspect-square lg:h-auto ${card.bg} rounded-2xl px-6 py-8 lg:p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
                 >
-                  <img src={card.icon} alt="" className="h-[50px] w-auto mb-5" />
-                  <h3 className="font-bold text-2xl text-ink">{card.title}</h3>
-                  <p className="mt-3 text-[20px] leading-relaxed text-black">{card.body}</p>
+                  <img src={card.icon} alt="" className="h-[50px] w-auto mb-8 lg:mb-5" />
+                  <h3 className="font-bold text-lg md:text-xl lg:text-2xl text-ink">{card.title}</h3>
+                  <p className="mt-[18px] lg:mt-3 text-[16px] md:text-[18px] lg:text-[20px] leading-relaxed text-black">{card.body}</p>
                 </div>
               </div>
             ))}

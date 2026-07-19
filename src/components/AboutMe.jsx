@@ -70,7 +70,7 @@ export default function AboutMe() {
           </div>
 
           <div className="lg:col-start-2 lg:row-start-1">
-            <h2 className="font-dm font-bold text-[44px] leading-[52px] text-white">
+            <h2 className="font-dm font-bold text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[44px] lg:leading-[52px] text-white">
               Designing across cultures.
             </h2>
             <p className="mt-6 font-dm font-light text-[16px] leading-[24px] text-white">

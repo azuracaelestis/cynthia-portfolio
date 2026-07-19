@@ -35,28 +35,28 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative lg:z-0 mx-auto max-w-7xl px-6 lg:px-10 pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-12 items-center"
+      className="relative lg:z-0 mx-auto max-w-7xl px-6 lg:px-10 pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[84px] lg:gap-y-12 items-center"
     >
       <Decorations show={mood === 'awake'} />
 
       <div className="relative font-dm">
-        <h1 className="font-bold text-[64px] leading-[1.17] text-ink">
+        <h1 className="font-bold text-[36px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">
           Hi, I'm Cynthia.
           <br />
           Product Designer
           <br />
           &amp; Storyteller.
         </h1>
-        <p className="mt-6 text-[24px] font-normal leading-[1.42] text-black">
+        <p className="mt-6 text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
           Product Designer with a visual design background. Designing and building product
           experiences that simplify complexity, from brand systems to shipped&nbsp;code.
         </p>
-        <div className="mt-12 flex flex-wrap gap-6">
+        <div className="mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
           <a
             href="#work"
             onMouseEnter={() => setIsHoveringWork(true)}
             onMouseLeave={() => setIsHoveringWork(false)}
-            className="h-12 flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-ink"
+            className="h-12 w-full lg:w-auto flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-ink"
           >
             View Work
           </a>
@@ -64,7 +64,7 @@ export default function Hero() {
             href="/resume.pdf"
             onMouseEnter={() => setIsHoveringResume(true)}
             onMouseLeave={() => setIsHoveringResume(false)}
-            className="h-12 flex items-center justify-center rounded-full border border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
+            className="h-12 w-full lg:w-auto flex items-center justify-center rounded-full border border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
           >
             Download Resume
           </a>

@@ -22,6 +22,10 @@ const CHARACTER_SCALE = 1.08;
 // visible hem instead of in empty space below it. Each mood's art is a
 // stacked, always-mounted SVG layer crossfaded via opacity/visibility only;
 // nothing is ever added to or removed from layout.
+// Exception: the base/mobile tier (below `sm:`) is pinned to a fixed
+// 282x351 spec that doesn't match this ratio, so the art letterboxes
+// slightly (empty space on the sides) at that one tier only — deliberate,
+// not a bug.
 const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, tiltDeg }, ref) {
   const reduceMotion = useReducedMotion();
 
@@ -31,7 +35,7 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
   return (
     <motion.div
       ref={ref}
-      className="relative w-[280px] h-[397px] sm:w-[360px] sm:h-[510px] lg:w-[420px] lg:h-[596px]"
+      className="relative w-[282px] h-[351px] sm:w-[360px] sm:h-[510px] lg:w-[420px] lg:h-[596px]"
       style={{
         '--eye-x': `${eyeOffset?.x ?? 0}px`,
         '--eye-y': `${eyeOffset?.y ?? 0}px`,

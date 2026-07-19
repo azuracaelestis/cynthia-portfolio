@@ -51,10 +51,10 @@ function StudyCard({ study, index }) {
 
       <div className="absolute inset-0 flex flex-col justify-center px-10 sm:px-14 pt-[12%] pb-10 sm:pb-14">
         <div className="max-w-[440px]">
-          <h3 className="font-dm font-extrabold text-[40px] text-ink leading-tight">
+          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[40px] text-ink leading-tight">
             {study.title}
           </h3>
-          <p className="mt-4 font-dm text-xl text-ink/70">{study.body}</p>
+          <p className="mt-4 font-dm text-base md:text-lg lg:text-xl text-ink/70">{study.body}</p>
         </div>
       </div>
 
@@ -110,7 +110,7 @@ export default function CaseStudies() {
               <span className="inline-block rotate-3 rounded-[16px] bg-[#FACC61] text-black font-semibold text-[16px] px-6 py-3">
                 Selected Projects
               </span>
-              <h2 className="mt-8 font-dm font-extrabold text-[44px] leading-none text-ink">
+              <h2 className="mt-8 font-dm font-extrabold text-[28px] md:text-[36px] lg:text-[44px] leading-none text-ink">
                 Case Studies
               </h2>
             </div>
