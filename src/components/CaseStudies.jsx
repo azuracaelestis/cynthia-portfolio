@@ -3,6 +3,9 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import folderYellow from '../assets/case study/folder/folder-yellow.svg';
 import folderBlue from '../assets/case study/folder/folder-blue.svg';
 import folderBrown from '../assets/case study/folder/folder-brown.svg';
+import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile-yellow.svg';
+import folderMobileBlue from '../assets/case study/folder-mobile/folder-mobile-blue.svg';
+import folderMobileBrown from '../assets/case study/folder-mobile/folder-mobile-brown.svg';
 
 const STUDIES = [
   {
@@ -10,6 +13,7 @@ const STUDIES = [
     title: 'A companion for the whole museum visit',
     body: 'TFAM already had an app, but low ratings and buried features meant most visitors never used it. I led an end-to-end redesign that reframed the brief from...',
     folder: folderYellow,
+    folderMobile: folderMobileYellow,
     rotate: -5,
   },
   {
@@ -17,6 +21,7 @@ const STUDIES = [
     title: 'A product Update Teachers Actually Wanted to Play',
     body: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
     folder: folderBlue,
+    folderMobile: folderMobileBlue,
     rotate: 4,
   },
   {
@@ -24,6 +29,7 @@ const STUDIES = [
     title: 'Revamping the marketing homepage',
     body: "Turning a 13-year-old B2B homepage into a funnel built to sell loans directly to everyday consumers.",
     folder: folderBrown,
+    folderMobile: folderMobileBrown,
     rotate: -3,
   },
 ];
@@ -43,27 +49,28 @@ function StudyCard({ study, index }) {
 
   const cardContent = (
     <>
-      <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
+      <img src={study.folderMobile} alt="" className="lg:hidden w-full h-auto drop-shadow-2xl" />
+      <img src={study.folder} alt="" className="hidden lg:block w-full h-auto drop-shadow-2xl" />
 
-      <span className="absolute left-[calc(4%-12px)] top-[3%] inline-block text-ink text-base font-dm font-semibold">
+      <span className="absolute top-[59px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
         {study.tag}
       </span>
 
-      <div className="absolute inset-0 flex flex-col justify-center px-10 sm:px-14 pt-[12%] pb-10 sm:pb-14">
+      <div className="absolute top-[91px] left-[24px] w-[282px] lg:inset-0 lg:left-auto lg:top-auto lg:w-auto lg:flex lg:flex-col lg:justify-center lg:px-14 lg:pt-[12%] lg:pb-14">
         <div className="max-w-[440px]">
           <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[40px] text-ink leading-tight">
             {study.title}
           </h3>
-          <p className="mt-4 font-dm text-base md:text-lg lg:text-xl text-ink/70">{study.body}</p>
+          <p className="mt-4 font-dm font-light lg:font-normal text-base md:text-lg lg:text-xl text-ink/70">{study.body}</p>
         </div>
       </div>
 
       <a
         href="#"
-        className="absolute top-[17%] right-[9%] rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-sm font-dm font-semibold px-4 py-2 flex items-center gap-1.5"
+        className="absolute left-[13px] top-[487px] w-[299px] h-[45px] lg:left-auto lg:top-[17%] lg:right-[9%] lg:w-auto lg:h-auto rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-[16px] lg:text-sm font-dm font-semibold px-8 py-2 lg:px-4 lg:py-2 flex items-center justify-center gap-[10px] lg:gap-1.5"
       >
         View
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <svg className="w-[24px] h-[24px] lg:w-[14px] lg:h-[14px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </a>
@@ -107,10 +114,10 @@ export default function CaseStudies() {
         <div ref={containerRef} className="relative">
           <div className="relative h-[171px]">
             <div className="sticky top-24 z-30 text-center">
-              <span className="inline-block rotate-3 rounded-[16px] bg-[#FACC61] text-black font-semibold text-[16px] px-6 py-3">
+              <span className="inline-block rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#FACC61] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
                 Selected Projects
               </span>
-              <h2 className="mt-8 font-dm font-extrabold text-[28px] md:text-[36px] lg:text-[44px] leading-none text-ink">
+              <h2 className="mt-3 lg:mt-8 font-dm font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-none text-ink">
                 Case Studies
               </h2>
             </div>
