@@ -4,6 +4,7 @@ import { useTimeOfDay } from '../../hooks/useTimeOfDay';
 import { useIsScrolling } from '../../hooks/useIsScrolling';
 import { useCharacterMood } from '../../hooks/useCharacterMood';
 import { useEyeTracking } from '../../hooks/useEyeTracking';
+import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
 import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
@@ -18,6 +19,7 @@ export default function Hero() {
   const isHeroInView = useInView(sectionRef, { amount: 0.1 });
   const isNight = useTimeOfDay();
   const isScrolling = useIsScrolling(1800);
+  const hasWokenUp = useWakeOnInteraction();
   const [isHoveringWork, setIsHoveringWork] = useState(false);
   const [isHoveringResume, setIsHoveringResume] = useState(false);
 
@@ -28,6 +30,7 @@ export default function Hero() {
     isHoveringResume,
     isThinkingScroll: isThinking,
     reduceMotion,
+    hasWokenUp,
   });
   const { offset, tiltDeg } = useEyeTracking(frameRef, { enabled: !reduceMotion });
 
