@@ -65,9 +65,17 @@ function StudyCard({ study, index }) {
         </div>
       </div>
 
+      {study.mockupMobile && (
+        <img
+          src={study.mockupMobile}
+          alt=""
+          className="lg:hidden absolute left-1/2 -translate-x-1/2 bottom-[90px] w-[80%] h-auto"
+        />
+      )}
+
       <a
         href="#"
-        className="absolute left-[13px] top-[487px] w-[299px] h-[45px] lg:left-auto lg:top-[17%] lg:right-[9%] lg:w-auto lg:h-auto rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-[16px] lg:text-sm font-dm font-semibold px-8 py-2 lg:px-4 lg:py-2 flex items-center justify-center gap-[10px] lg:gap-1.5"
+        className="absolute left-[13px] bottom-[20px] w-[299px] h-[45px] lg:left-auto lg:bottom-auto lg:top-[17%] lg:right-[9%] lg:w-auto lg:h-auto rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-[16px] lg:text-sm font-dm font-semibold px-8 py-2 lg:px-4 lg:py-2 flex items-center justify-center gap-[10px] lg:gap-1.5"
       >
         View
         <svg className="w-[24px] h-[24px] lg:w-[14px] lg:h-[14px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -112,7 +120,7 @@ export default function CaseStudies() {
     <section id="work" className="relative z-20 -mt-[500px] pt-[120px] pb-28">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div ref={containerRef} className="relative">
-          <div className="relative h-[171px]">
+          <div className="relative h-[120px] lg:h-[171px]">
             <div className="sticky top-24 z-30 text-center">
               <span className="inline-block rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#FACC61] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
                 Selected Projects
@@ -123,7 +131,7 @@ export default function CaseStudies() {
             </div>
           </div>
 
-          <div className="relative flex flex-col gap-24">
+          <div className="relative flex flex-col gap-[220px] lg:gap-24">
             {STUDIES.map((study, i) => (
               <StudyCard key={study.tag} study={study} index={i} />
             ))}
