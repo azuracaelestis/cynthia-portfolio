@@ -5,7 +5,7 @@ import resumeIcon from '../assets/footer/icon/resume.svg';
 
 export default function Footer() {
   return (
-    <footer id="contact" className="pt-[34px] lg:pt-12">
+    <footer id="contact" className="pt-[34px] pb-[120px] lg:pt-12 lg:pb-0">
       <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-0 lg:px-10 pt-[56px] lg:pt-24 pb-12 text-center overflow-hidden">
         <img
           src={yellowSunburst}
