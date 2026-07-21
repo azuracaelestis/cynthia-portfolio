@@ -5,6 +5,8 @@ import { useIsScrolling } from '../../hooks/useIsScrolling';
 import { useCharacterMood } from '../../hooks/useCharacterMood';
 import { useEyeTracking } from '../../hooks/useEyeTracking';
 import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useVisibleAfterDelay } from '../../hooks/useVisibleAfterDelay';
 import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
@@ -24,14 +26,18 @@ export default function Hero() {
   const [isHoveringWork, setIsHoveringWork] = useState(false);
   const [isHoveringResume, setIsHoveringResume] = useState(false);
 
-  const isThinking = isScrolling && isHeroInView;
+  const isMobileViewport = useMediaQuery('(max-width: 1023px)'); // below lg
+  const isCharacterRevealed = useVisibleAfterDelay(frameRef, 1200, { amount: 0.3, once: true });
+  const mobileGateOpen = !isMobileViewport || isCharacterRevealed;
+
+  const isThinking = isScrolling && isHeroInView && mobileGateOpen;
   const mood = useCharacterMood({
     isNight,
     isHoveringWork,
     isHoveringResume,
     isThinkingScroll: isThinking,
     reduceMotion,
-    hasWokenUp,
+    hasWokenUp: hasWokenUp && mobileGateOpen,
   });
   const { offset, tiltDeg } = useEyeTracking(frameRef, { enabled: !reduceMotion });
 
