@@ -8,6 +8,7 @@ import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
 import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
+import DecorationsMobile from './DecorationsMobile';
 
 export default function Hero() {
   const sectionRef = useRef(null);
@@ -38,9 +39,10 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative lg:z-0 mx-auto max-w-7xl px-6 lg:px-10 pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[84px] lg:gap-y-12 items-center"
+      className="relative lg:z-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[170px] lg:pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[41px] lg:gap-y-12 items-center"
     >
       <Decorations show={mood === 'awake'} />
+      <DecorationsMobile />
 
       <div className="relative font-dm">
         <h1 className="font-bold text-[36px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">
@@ -50,11 +52,15 @@ export default function Hero() {
           <br />
           &amp; Storyteller.
         </h1>
-        <p className="mt-6 text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
-          Product Designer with a visual design background. Designing and building product
-          experiences that simplify complexity, from brand systems to shipped&nbsp;code.
-        </p>
-        <div className="mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
+        <div className="mt-6 flex flex-col gap-2">
+          <p className="text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
+            Product Designer with a visual design background.
+          </p>
+          <p className="text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
+            Designing and building product experiences that simplify complexity, from brand systems to shipped&nbsp;code.
+          </p>
+        </div>
+        <div className="mt-[43px] lg:mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
           <a
             href="#work"
             onMouseEnter={() => setIsHoveringWork(true)}

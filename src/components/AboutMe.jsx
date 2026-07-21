@@ -40,12 +40,12 @@ const VIBE_TOOLS = [
 export default function AboutMe() {
   return (
     <section id="about" className="py-14">
-      <div className="relative mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-6 lg:px-[117px] py-10 lg:py-[90px]">
+      <div className="relative mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-[26px] lg:px-[117px] py-[42px] lg:py-[90px]">
         <motion.img
           src={yellowSunburst}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute -top-8 right-[12%] w-20 lg:w-[115px] z-20"
+          className="pointer-events-none absolute -top-12 right-[12%] w-[66px] lg:w-[115px] z-20"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -56,11 +56,11 @@ export default function AboutMe() {
               src={blueFlower}
               alt=""
               aria-hidden="true"
-              className="pointer-events-none absolute -left-12 -top-12 lg:-left-[65px] lg:-top-[65px] w-24 lg:w-[130px] z-20"
+              className="pointer-events-none absolute -left-[16px] -top-[16px] lg:-left-[65px] lg:-top-[65px] w-[70px] lg:w-[130px] z-20"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             />
-            <div className="relative z-10 w-64 sm:w-80 lg:w-[357px] aspect-square rounded-[32px] overflow-hidden shadow-2xl">
+            <div className="relative z-10 w-full lg:w-[357px] aspect-square rounded-[22px] lg:rounded-[32px] overflow-hidden shadow-2xl">
               <img
                 src={cynthiaPhoto}
                 alt="Cynthia Tanawi"
@@ -116,9 +116,9 @@ export default function AboutMe() {
                 {DESIGN_TOOLS.map((tool) => (
                   <span
                     key={tool.name}
-                    className="w-16 h-16 rounded-lg bg-sky-50/10 flex items-center justify-center"
+                    className="w-[30px] h-[30px] rounded-[4px] lg:w-16 lg:h-16 lg:rounded-lg bg-sky-50/10 flex items-center justify-center"
                   >
-                    <img src={tool.icon} alt={tool.name} className="w-10 h-10 object-contain" />
+                    <img src={tool.icon} alt={tool.name} className="w-full h-full lg:w-10 lg:h-10 object-contain" />
                   </span>
                 ))}
               </div>
@@ -132,9 +132,9 @@ export default function AboutMe() {
                 {VIBE_TOOLS.map((tool) => (
                   <span
                     key={tool.name}
-                    className="w-16 h-16 rounded-lg bg-sky-50/10 flex items-center justify-center"
+                    className="w-[30px] h-[30px] rounded-[4px] lg:w-16 lg:h-16 lg:rounded-lg bg-sky-50/10 flex items-center justify-center"
                   >
-                    <img src={tool.icon} alt={tool.name} className="w-10 h-10 object-contain" />
+                    <img src={tool.icon} alt={tool.name} className="w-full h-full lg:w-10 lg:h-10 object-contain" />
                   </span>
                 ))}
               </div>

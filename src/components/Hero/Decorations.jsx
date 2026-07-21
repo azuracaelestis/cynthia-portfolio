@@ -12,16 +12,16 @@ import stickerPaleBloom from '../../assets/hero/decorations/sticker-345.svg';
 // is animated — putting a static value in `animate` under repeat: Infinity
 // would make Framer Motion snap it back to 0 and retween every cycle.
 const STICKERS = [
-  { src: stickerBlueBloom, className: 'top-[16%] left-[56%] w-[53px] lg:top-[22%] lg:left-[57%] lg:w-[48px]', x: 0, y: -48, duration: 6, delay: 0 },
-  { src: stickerYellowBlob, className: 'top-[19%] right-[12%] w-14 lg:top-[24%] lg:right-[14%] lg:w-[50px]', x: -34, y: 32, duration: 7, delay: 0.4 },
-  { src: stickerGear, className: 'top-[56%] left-[42%] w-[97px] lg:top-[58%] lg:left-[50%] lg:w-[78px]', x: 0, y: 80, duration: 6.5, delay: 0.8 },
-  { src: stickerPaleBloom, className: 'top-[68%] right-[9%] w-[81px] lg:top-[48%] lg:right-[8%] lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
+  { src: stickerBlueBloom, className: 'lg:top-[22%] lg:left-[57%] lg:w-[48px]', x: 0, y: -48, duration: 6, delay: 0 },
+  { src: stickerYellowBlob, className: 'lg:top-[24%] lg:right-[14%] lg:left-auto lg:w-[50px]', x: -34, y: 32, duration: 7, delay: 0.4 },
+  { src: stickerGear, className: 'hidden lg:block lg:top-[58%] lg:left-[50%] lg:w-[78px]', x: 0, y: 80, duration: 6.5, delay: 0.8 },
+  { src: stickerPaleBloom, className: 'lg:top-[48%] lg:right-[8%] lg:left-auto lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
 ];
 
 export default function Decorations({ show = true }) {
   return (
     <motion.div
-      className="pointer-events-none absolute inset-0 col-span-full row-span-full hidden sm:block lg:-translate-x-[30px]"
+      className="hidden lg:block pointer-events-none absolute inset-0 col-span-full row-span-full lg:-translate-x-[30px]"
       aria-hidden="true"
       animate={{ opacity: show ? 1 : 0 }}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
