@@ -6,7 +6,7 @@ import { useCharacterMood } from '../../hooks/useCharacterMood';
 import { useEyeTracking } from '../../hooks/useEyeTracking';
 import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { useVisibleAfterDelay } from '../../hooks/useVisibleAfterDelay';
+import { useSeenAtRest } from '../../hooks/useSeenAtRest';
 import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
@@ -27,7 +27,7 @@ export default function Hero() {
   const [isHoveringResume, setIsHoveringResume] = useState(false);
 
   const isMobileViewport = useMediaQuery('(max-width: 1023px)'); // below lg
-  const isCharacterRevealed = useVisibleAfterDelay(frameRef, 1200, { amount: 0.3, once: true });
+  const isCharacterRevealed = useSeenAtRest(frameRef, isScrolling, { amount: 0.3 });
   const mobileGateOpen = !isMobileViewport || isCharacterRevealed;
 
   const isThinking = isScrolling && isHeroInView && mobileGateOpen;
