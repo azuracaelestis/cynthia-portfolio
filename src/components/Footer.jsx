@@ -38,7 +38,7 @@ export default function Footer() {
             Email
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/cynthia-tanawi/"
             target="_blank"
             rel="noreferrer"
             className="font-dm h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
