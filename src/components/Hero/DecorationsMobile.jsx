@@ -14,7 +14,7 @@ export default function DecorationsMobile() {
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 col-span-full row-span-full lg:hidden"
+      className="pointer-events-none absolute inset-0 lg:hidden"
       aria-hidden="true"
     >
       {STICKERS.map((sticker) => (
