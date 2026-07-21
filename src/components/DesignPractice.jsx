@@ -37,12 +37,12 @@ export default function DesignPractice() {
 
   return (
     <section className="relative z-10 -mt-[180px] lg:-mt-[185px]">
-      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-16 pb-16 lg:pt-28 lg:pb-28 overflow-hidden">
+      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-16 pb-16 lg:pt-28 lg:pb-28 overflow-visible sm:overflow-hidden">
         <motion.img
           src={blueFlower}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-[72px] left-[17px] w-[39px] h-[39px] lg:top-16 lg:left-16 lg:w-[76px] lg:h-[76px]"
+          className="hidden lg:block pointer-events-none absolute top-[72px] left-[17px] w-[39px] h-[39px] lg:top-16 lg:left-16 lg:w-[76px] lg:h-[76px]"
           animate={{ y: [0, -10, 0] }}
           transition={{ default: { duration: 6, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
           whileHover={reduceMotion ? undefined : { rotate: 360 }}
@@ -51,7 +51,7 @@ export default function DesignPractice() {
           src={yellowSunburst}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute top-[192px] right-[12px] w-[38px] h-[38px] lg:top-24 lg:right-16 lg:w-[92px] lg:h-[92px]"
+          className="hidden lg:block pointer-events-none absolute top-[192px] right-[12px] w-[38px] h-[38px] lg:top-24 lg:right-16 lg:w-[92px] lg:h-[92px]"
           animate={{ y: [0, 10, 0] }}
           transition={{ default: { duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
           whileHover={reduceMotion ? undefined : { rotate: 360 }}
@@ -64,12 +64,16 @@ export default function DesignPractice() {
             Story-Driven, Collaborative, &amp; Curious
           </h2>
 
-          <div className="mt-8 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-[20px] lg:gap-6">
-            {CARDS.map((card) => (
+          <div className="mt-8 lg:mt-16 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-[28px] sm:gap-[20px] lg:gap-6">
+            {CARDS.map((card, i) => (
               <div
                 key={card.title}
-                className={`group ${card.offset} rotate-[var(--r)] transition-transform duration-300 ease-out hover:-translate-y-4 hover:rotate-0`}
-                style={{ '--r': `${card.rotate}deg` }}
+                className={`group ${card.offset} ${reduceMotion ? '' : 'sticky sm:static'} rotate-[var(--r)] transition-transform duration-300 ease-out hover:-translate-y-4 hover:rotate-0`}
+                style={{
+                  '--r': `${card.rotate}deg`,
+                  top: reduceMotion ? undefined : `calc(6rem + ${i * 1.5}rem)`,
+                  zIndex: i + 1,
+                }}
               >
                 <div
                   className={`h-[300px] lg:aspect-square lg:h-auto ${card.bg} rounded-2xl px-6 py-8 lg:p-7 flex flex-col items-center justify-center text-center shadow-md group-hover:shadow-2xl transition-shadow duration-300`}
