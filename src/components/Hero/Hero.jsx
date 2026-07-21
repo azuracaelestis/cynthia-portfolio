@@ -21,13 +21,14 @@ export default function Hero() {
   // hero is scrolling out of view, instead of cutting off immediately.
   const isHeroInView = useInView(sectionRef, { amount: 0.1 });
   const isNight = useTimeOfDay();
-  const isScrolling = useIsScrolling(1800);
+  const isScrolling = useIsScrolling(1800); // keep — thinking hold
+  const isScrollingQuick = useIsScrolling(400); // new — for the wake gate
   const hasWokenUp = useWakeOnInteraction();
   const [isHoveringWork, setIsHoveringWork] = useState(false);
   const [isHoveringResume, setIsHoveringResume] = useState(false);
 
   const isMobileViewport = useMediaQuery('(max-width: 1023px)'); // below lg
-  const isCharacterRevealed = useSeenAtRest(frameRef, isScrolling, { amount: 0.3 });
+  const isCharacterRevealed = useSeenAtRest(frameRef, isScrollingQuick, { amount: 0.6 });
   const mobileGateOpen = !isMobileViewport || isCharacterRevealed;
 
   const isThinking = isScrolling && isHeroInView && mobileGateOpen;
