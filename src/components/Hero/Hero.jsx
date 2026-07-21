@@ -39,7 +39,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative lg:z-0 mt-[48px] lg:mt-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[170px] lg:pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[120px] lg:gap-y-12 items-center"
+      className="relative lg:z-0 mt-[6px] lg:mt-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[170px] lg:pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[120px] lg:gap-y-12 items-center"
     >
       <Decorations show={mood === 'awake'} />
       <DecorationsMobile />
