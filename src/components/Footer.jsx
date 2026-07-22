@@ -28,7 +28,7 @@ export default function Footer() {
 
         <div className="mt-8 flex flex-col gap-[15px] px-[18px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-4 lg:px-0">
           <a
-            href="mailto:hello@cynthiatanawi.com"
+            href="mailto:azuracaelestis@outlook.com?subject=Let%27s%20connect&body=Hi%20Cynthia%2C%0A%0A"
             className="font-dm h-12 w-full lg:w-auto rounded-full bg-amber-400 hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
           >
             <svg className="w-6 h-6 lg:w-4 lg:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
