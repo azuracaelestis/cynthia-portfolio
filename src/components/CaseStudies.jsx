@@ -137,7 +137,7 @@ export default function CaseStudies() {
   const containerRef = useRef(null);
 
   return (
-    <section id="work" className="relative z-20 lg:-mt-[500px] pt-[120px] pb-[150px] lg:pb-28">
+    <section id="work" className="relative z-20 lg:-mt-[500px] pt-[120px] pb-[40px] lg:pb-28">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div ref={containerRef} className="relative">
           <div className="relative h-[100px] lg:h-[171px]">
