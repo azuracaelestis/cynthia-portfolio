@@ -141,7 +141,7 @@ export default function CaseStudies() {
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div ref={containerRef} className="relative">
           <div className="relative h-[100px] lg:h-[171px]">
-            <div className="sticky top-24 z-30 text-center">
+            <div className="lg:sticky top-24 z-30 text-center">
               <span className="inline-block rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#FACC61] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
                 Selected Projects
               </span>
