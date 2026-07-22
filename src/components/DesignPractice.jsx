@@ -37,7 +37,7 @@ export default function DesignPractice() {
 
   return (
     <section className="relative z-10 -mt-[180px] lg:-mt-[185px]">
-      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-6 lg:px-10 pt-16 pb-16 lg:pt-28 lg:pb-28 overflow-visible sm:overflow-hidden">
+      <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] rounded-b-[32px] lg:rounded-b-none bg-bleed-blue px-6 lg:px-10 pt-16 pb-16 lg:pt-28 lg:pb-28 overflow-visible sm:overflow-hidden">
         <motion.img
           src={blueFlower}
           alt=""
