@@ -7,7 +7,7 @@ import stickyBrown from '../../assets/hero/sticky notes/sticky-notes-brown.svg';
 // out from there on entrance and shrink back into it on exit.
 const NOTES = [
   { src: stickyBrown, rotate: -8, className: 'top-[-18%] left-[8%] w-14 sm:top-[-20%] sm:left-[26%] sm:w-24', origin: { x: 20, y: 60 }, duration: 4.6 },
-  { src: stickyBlue, rotate: 8, className: 'top-[-6%] right-[3%] w-16 sm:top-[-8%] sm:right-[6%] sm:w-28', origin: { x: -30, y: 50 }, duration: 5 },
+  { src: stickyBlue, rotate: 8, className: 'top-[-6%] right-[3%] w-16 sm:top-[-8%] sm:right-[6%] sm:w-28 lg:top-[-88px] lg:right-[-5px]', origin: { x: -30, y: 50 }, duration: 5 },
   { src: stickyYellow, rotate: -6, className: 'top-[48%] left-[6%] w-14 sm:top-[46%] sm:left-[20%] sm:w-24', origin: { x: 40, y: -50 }, duration: 5.8 },
 ];
 
