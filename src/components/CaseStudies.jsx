@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import folderYellow from '../assets/case study/folder/folder-yellow.svg';
 import folderBlue from '../assets/case study/folder/folder-blue.svg';
@@ -36,18 +36,8 @@ const STUDIES = [
 ];
 
 function StudyCard({ study, index }) {
-  const isFirst = index === 0;
-  const cardRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const isMobileViewport = useMediaQuery('(max-width: 1023px)');
-
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ['start end', 'start center'],
-  });
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [60, 0]);
 
   const cardContent = (
     <>
@@ -105,7 +95,7 @@ function StudyCard({ study, index }) {
     );
   }
 
-  const stickyCard = (
+  return (
     <div
       className="lg:sticky"
       style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
@@ -113,22 +103,6 @@ function StudyCard({ study, index }) {
       <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
         {cardContent}
       </div>
-    </div>
-  );
-
-  if (!isFirst || reduceMotion) return stickyCard;
-
-  return (
-    <div
-      ref={cardRef}
-      className="lg:sticky"
-      style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
-    >
-      <motion.div style={{ opacity, scale, y }}>
-        <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
-          {cardContent}
-        </div>
-      </motion.div>
     </div>
   );
 }
