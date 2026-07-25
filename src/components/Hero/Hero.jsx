@@ -82,7 +82,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative flex justify-center lg:justify-end lg:translate-y-[180px] lg:-translate-x-[194px]">
+      <div className="relative flex justify-center lg:justify-end lg:translate-y-[180px] lg:-translate-x-[114px]">
         <ThoughtPostits show={isThinking} />
         <CharacterStage ref={frameRef} mood={mood} eyeOffset={offset} tiltDeg={tiltDeg} />
       </div>
