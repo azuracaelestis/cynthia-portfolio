@@ -7,8 +7,8 @@ import yellowSunburst from '../assets/my design practice/element-decoration/elem
 
 const CARDS = [
   {
-    title: 'Designing From Friction',
-    body: 'I frame every project as a human story first, so a real moment of friction becomes the brief, not a feature list.',
+    title: 'Designing as Storytelling',
+    body: 'I treat every design as a story the user is already living, so the product reflects back their real problem.',
     bg: 'bg-[#F2EFE8]',
     rotate: -4,
     offset: 'lg:translate-y-2',
@@ -61,7 +61,7 @@ export default function DesignPractice() {
             My Design Practice
           </span>
           <h2 className="mt-3 lg:mt-8 font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-normal text-ink">
-            Story-Driven, Collaborative, &amp; Curious
+            Story-Driven, Collaborative, Curious
           </h2>
 
           <div className="mt-8 lg:mt-16 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-[28px] sm:gap-[20px] lg:gap-6">
