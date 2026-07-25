@@ -40,7 +40,7 @@ const VIBE_TOOLS = [
 export default function AboutMe() {
   return (
     <section id="about" className="py-14">
-      <div className="relative mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-[26px] lg:px-[117px] py-[42px] lg:py-[90px]">
+      <div className="relative mx-[6px] lg:mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-[26px] lg:px-[117px] py-[42px] lg:py-[90px]">
         <motion.img
           src={yellowSunburst}
           alt=""
@@ -71,22 +71,23 @@ export default function AboutMe() {
 
           <div className="lg:col-start-2 lg:row-start-1">
             <h2 className="font-dm font-bold text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[44px] lg:leading-[52px] text-white">
-              Designing across cultures.
+              Designing for educators.
             </h2>
             <p className="mt-6 font-dm font-light text-[16px] leading-[24px] text-white">
-              Hi, I'm Cynthia. I'm Indonesian, and I've called Taiwan home for the past ten years, now building
-              toward a new chapter, drawn to Vancouver and open to the right team anywhere.
+              Hi, I'm Cynthia. I'm a product designer with a foundation in brand design, visual craft, and
+              pedagogy in language learning. I'm originally from Indonesia, based in Taipei, Taiwan for the
+              past ten years, and now looking for a new opportunity in Vancouver — open to the right team
+              anywhere.
             </p>
             <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
-              I work fluently across three languages (English, Chinese, and Bahasa), with a background in both
-              design and language teaching, and I bring that same instinct to my design practice: making
-              complex things clear for specific people. Before any of that, though, I was a storyteller; I grew
-              up writing novels in my first language, and I still publish fiction on the side. That narrative
-              instinct runs through everything I design.
+              Beyond the craft itself, education and technology are what I care about most. I believe design
+              has the power to transform how people learn — and I'm always excited to explore what design,
+              technology, and education together can do to open that door wider for the people usually left
+              out of it.
             </p>
             <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
-              Outside of work, you can find me hiking, traveling, watching movies, and vibe coding throughout the
-              weekends.
+              When I'm not designing, I love travelling, challenging myself with mountain hikes, and exploring
+              new AI tools to build a design playground.
             </p>
           </div>
 

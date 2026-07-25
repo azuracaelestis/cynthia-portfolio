@@ -46,27 +46,22 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative lg:z-0 mt-[6px] lg:mt-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[170px] lg:pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[120px] lg:gap-y-12 items-center"
+      className="relative lg:z-0 mt-[6px] lg:mt-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[250px] lg:pt-36 pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[120px] lg:gap-y-12 items-center"
     >
       <Decorations show={mood === 'awake'} />
       <DecorationsMobile />
 
       <div className="relative font-dm">
-        <h1 className="font-bold text-[36px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">
+        <h1 className="font-bold text-[40px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">
           Hi, I'm Cynthia.
           <br />
           Product Designer
           <br />
           &amp; Storyteller.
         </h1>
-        <div className="mt-6 flex flex-col gap-2">
-          <p className="text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
-            Product Designer with a visual design background.
-          </p>
-          <p className="text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
-            Designing and building product experiences that simplify complexity, from brand systems to shipped&nbsp;code.
-          </p>
-        </div>
+        <p className="mt-6 text-[16px] md:text-[20px] lg:text-[24px] font-normal leading-[1.42] text-black">
+          Product Designer with a visual design background. Designing and building product experiences that simplify complexity, from brand systems to shipped&nbsp;code.
+        </p>
         <div className="mt-[43px] lg:mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
           <a
             href="#work"
