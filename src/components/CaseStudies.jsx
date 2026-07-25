@@ -58,12 +58,12 @@ function StudyCard({ study, index }) {
         {study.tag}
       </span>
 
-      <div className="absolute top-[91px] left-[24px] w-[282px] lg:inset-0 lg:left-auto lg:top-auto lg:w-auto lg:flex lg:flex-col lg:justify-center lg:px-14 lg:pt-[12%] lg:pb-14">
+      <div className="absolute top-[91px] left-[24px] right-[24px] lg:inset-0 lg:left-auto lg:top-auto lg:w-auto lg:flex lg:flex-col lg:justify-center lg:px-14 lg:pt-[12%] lg:pb-14">
         <div className="max-w-[440px]">
           <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[40px] text-ink leading-tight">
             {study.title}
           </h3>
-          <p className="mt-4 font-dm font-light lg:font-normal text-base md:text-lg lg:text-xl text-ink/70">{study.body}</p>
+          <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-xl text-black lg:text-ink/70">{study.body}</p>
         </div>
       </div>
 
