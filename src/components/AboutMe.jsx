@@ -40,7 +40,7 @@ const VIBE_TOOLS = [
 export default function AboutMe() {
   return (
     <section id="about" className="py-14">
-      <div className="relative mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-[26px] lg:px-[117px] py-[42px] lg:py-[90px]">
+      <div className="relative mx-[6px] lg:mx-auto max-w-[1302px] rounded-[32px] bg-about-blue px-[26px] lg:px-[117px] py-[42px] lg:py-[90px]">
         <motion.img
           src={yellowSunburst}
           alt=""
