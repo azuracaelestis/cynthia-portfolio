@@ -102,7 +102,7 @@ function StudyCard({ study, index }) {
   return (
     <div
       className="lg:sticky"
-      style={{ top: `calc(13rem + ${index * 1.75}rem)`, zIndex: index + 1 }}
+      style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 1.75}rem)`, zIndex: index + 1 }}
     >
       <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
         {cardContent}
