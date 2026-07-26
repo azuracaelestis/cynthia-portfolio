@@ -80,7 +80,7 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
               key={i}
               className={`absolute ${z.className} font-dm font-bold text-sky-600 pointer-events-none select-none`}
               initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, transition: { duration: 0.3, delay: 0 } }}
               animate={
                 reduceMotion
                   ? { opacity: 1 }
