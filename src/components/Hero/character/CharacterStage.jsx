@@ -15,6 +15,12 @@ const ART_BY_MOOD = {
 // identically without reopening the frame-consistency fix.
 const CHARACTER_SCALE = 1.08;
 
+const ZZZ = [
+  { className: 'top-[38%] right-[18%] text-lg', delay: 0 },
+  { className: 'top-[24%] right-[10%] text-3xl', delay: 0.6 },
+  { className: 'top-[8%] right-[2%] text-5xl', delay: 1.2 },
+];
+
 // Fixed frame — identical across every mood, never resizes. Height matches
 // the shared viewBox's aspect ratio (821/579 ≈ 1.418) so the inline SVGs
 // (preserveAspectRatio="xMidYMid meet") fill the frame with no dead padding
@@ -68,23 +74,27 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
 
       {/* zzz sleep indicator */}
       <AnimatePresence>
-        {mood === 'sleeping' && (
-          <motion.div
-            className="absolute top-6 right-6 font-display font-bold text-sky-600 pointer-events-none"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: -6 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+        {mood === 'sleeping' &&
+          ZZZ.map((z, i) => (
             <motion.span
-              className="block text-2xl"
-              animate={reduceMotion ? undefined : { y: [-4, -14, -4], opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              key={i}
+              className={`absolute ${z.className} font-dm font-bold text-sky-600 pointer-events-none select-none`}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              animate={
+                reduceMotion
+                  ? { opacity: 1 }
+                  : { opacity: [0, 1, 0], y: [0, -14, -24], scale: [0.8, 1.1, 1.1] }
+              }
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 1.8, delay: z.delay, repeat: Infinity, ease: 'easeInOut' }
+              }
             >
-              Z z z
+              Z
             </motion.span>
-          </motion.div>
-        )}
+          ))}
       </AnimatePresence>
     </motion.div>
   );
