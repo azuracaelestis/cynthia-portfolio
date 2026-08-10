@@ -12,6 +12,8 @@ import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-
 import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
 import flyingBook from '../assets/case study/folder-thumnail/classroom quest/flying_book.svg';
 import panicBubble from '../assets/case study/folder-thumnail/classroom quest/panic_bubble.svg';
+import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
+import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
 
 const STUDIES = [
   {
@@ -28,6 +30,8 @@ const STUDIES = [
     body: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
     folder: folderBlue,
     folderMobile: folderMobileBlue,
+    folderHover: folderBlueHover,
+    arrowRight,
     rotate: 4,
     thumbnail: {
       mockup: classroomQuestMockup,
@@ -54,7 +58,19 @@ function StudyCard({ study, index }) {
   const cardContent = (
     <>
       <img src={study.folderMobile} alt="" className="lg:hidden w-full h-auto drop-shadow-2xl" />
-      <img src={study.folder} alt="" className="hidden lg:block w-full h-auto drop-shadow-2xl" />
+      <div className="hidden lg:block relative">
+        <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
+        {study.folderHover && (
+          <motion.img
+            src={study.folderHover}
+            alt=""
+            initial="rest"
+            variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
+            transition={{ duration: reduceMotion ? 0 : 0.3 }}
+            className="absolute inset-0 w-full h-full drop-shadow-2xl"
+          />
+        )}
+      </div>
 
       <span className="absolute top-[59px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
         {study.tag}
@@ -66,6 +82,16 @@ function StudyCard({ study, index }) {
             {study.title}
           </h3>
           <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
+          {study.arrowRight && (
+            <motion.img
+              src={study.arrowRight}
+              alt=""
+              initial="rest"
+              variants={{ rest: { opacity: 0, x: -16 }, hover: { opacity: 1, x: 0 } }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: 'easeOut' }}
+              className="hidden lg:block mt-4 w-8"
+            />
+          )}
         </div>
       </div>
 
@@ -78,9 +104,31 @@ function StudyCard({ study, index }) {
               className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
             />
             <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
-            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12" />
+            <motion.img
+              src={study.thumbnail.birdLeft}
+              alt=""
+              initial="rest"
+              variants={{ rest: { rotate: 12, scale: 1, y: 0 }, hover: { rotate: -12, scale: 1.1, y: reduceMotion ? 0 : [0, -10, 0] } }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { rotate: { duration: 0.4 }, scale: { duration: 0.4 }, y: { duration: 0.5, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' } }
+              }
+              className="absolute top-[30%] -left-[5%] w-[27%]"
+            />
             <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[8%] w-[9%]" />
-            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[2%] w-[25%] -rotate-[45deg]" />
+            <motion.img
+              src={study.thumbnail.birdRight}
+              alt=""
+              initial="rest"
+              variants={{ rest: { rotate: -45, scale: 1, y: 0 }, hover: { rotate: 45, scale: 1.1, y: reduceMotion ? 0 : [0, -10, 0] } }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { rotate: { duration: 0.4 }, scale: { duration: 0.4 }, y: { duration: 0.5, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' } }
+              }
+              className="absolute top-[36%] -right-[2%] w-[25%]"
+            />
           </div>
         </div>
       ) : (
@@ -123,9 +171,9 @@ function StudyCard({ study, index }) {
       className="lg:sticky"
       style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
-      <div className="relative transition-transform duration-200 ease-out hover:-translate-y-2">
+      <motion.div initial="rest" whileHover="hover" className="relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
-      </div>
+      </motion.div>
     </div>
   );
 }
