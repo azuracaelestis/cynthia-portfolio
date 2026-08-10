@@ -165,7 +165,7 @@ export default function CaseStudies() {
             </div>
           </div>
 
-          <div className="relative flex flex-col gap-12 lg:gap-24">
+          <div className="relative flex flex-col gap-12 lg:gap-[126px]">
             {STUDIES.map((study, i) => (
               <StudyCard key={study.tag} study={study} index={i} />
             ))}
