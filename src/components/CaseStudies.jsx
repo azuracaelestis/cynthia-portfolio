@@ -12,8 +12,8 @@ import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-
 import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
 import flyingBook from '../assets/case study/folder-thumnail/classroom quest/flying_book.svg';
 import panicBubble from '../assets/case study/folder-thumnail/classroom quest/panic_bubble.svg';
-import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
 import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
+import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
 
 const STUDIES = [
   {
@@ -31,7 +31,6 @@ const STUDIES = [
     folder: folderBlue,
     folderMobile: folderMobileBlue,
     folderHover: folderBlueHover,
-    arrowRight,
     rotate: 4,
     thumbnail: {
       mockup: classroomQuestMockup,
@@ -61,13 +60,10 @@ function StudyCard({ study, index }) {
       <div className="hidden lg:block relative">
         <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
         {study.folderHover && (
-          <motion.img
+          <img
             src={study.folderHover}
             alt=""
-            initial="rest"
-            variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
-            transition={{ duration: reduceMotion ? 0 : 0.3 }}
-            className="absolute inset-0 w-full h-full drop-shadow-2xl"
+            className="absolute inset-0 w-full h-full drop-shadow-2xl opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
           />
         )}
       </div>
@@ -77,21 +73,16 @@ function StudyCard({ study, index }) {
       </span>
 
       <div className="absolute top-[91px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
-        <div className="max-w-[440px]">
-          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[48px] text-[#000000] leading-tight">
+        <div className="max-w-[440px] translate-y-[40px]">
+          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
           </h3>
           <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
-          {study.arrowRight && (
-            <motion.img
-              src={study.arrowRight}
-              alt=""
-              initial="rest"
-              variants={{ rest: { opacity: 0, x: -16 }, hover: { opacity: 1, x: 0 } }}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: 'easeOut' }}
-              className="hidden lg:block mt-4 w-8"
-            />
-          )}
+          <img
+            src={arrowRight}
+            alt=""
+            className="mt-6 w-[60px] h-[60px] opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
+          />
         </div>
       </div>
 
@@ -104,31 +95,9 @@ function StudyCard({ study, index }) {
               className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
             />
             <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
-            <motion.img
-              src={study.thumbnail.birdLeft}
-              alt=""
-              initial="rest"
-              variants={{ rest: { rotate: 12, scale: 1, y: 0 }, hover: { rotate: -12, scale: 1.1, y: reduceMotion ? 0 : [0, -10, 0] } }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { rotate: { duration: 0.4 }, scale: { duration: 0.4 }, y: { duration: 0.5, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' } }
-              }
-              className="absolute top-[30%] -left-[5%] w-[27%]"
-            />
-            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[8%] w-[9%]" />
-            <motion.img
-              src={study.thumbnail.birdRight}
-              alt=""
-              initial="rest"
-              variants={{ rest: { rotate: -45, scale: 1, y: 0 }, hover: { rotate: 45, scale: 1.1, y: reduceMotion ? 0 : [0, -10, 0] } }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { rotate: { duration: 0.4 }, scale: { duration: 0.4 }, y: { duration: 0.5, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' } }
-              }
-              className="absolute top-[36%] -right-[2%] w-[25%]"
-            />
+            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-rotate-12" />
+            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
+            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:rotate-[30deg]" />
           </div>
         </div>
       ) : (
@@ -171,9 +140,9 @@ function StudyCard({ study, index }) {
       className="lg:sticky"
       style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
-      <motion.div initial="rest" whileHover="hover" className="relative transition-transform duration-200 ease-out hover:-translate-y-2">
+      <div className="group relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
-      </motion.div>
+      </div>
     </div>
   );
 }
