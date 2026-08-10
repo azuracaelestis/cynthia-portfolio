@@ -95,9 +95,9 @@ function StudyCard({ study, index }) {
               className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
             />
             <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
-            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-rotate-12" />
+            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-translate-x-8 group-hover:-translate-y-3 group-hover:rotate-2" />
             <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
-            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:rotate-[30deg]" />
+            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:translate-x-8 group-hover:-translate-y-3 group-hover:-rotate-[38deg]" />
           </div>
         </div>
       ) : (
