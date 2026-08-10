@@ -79,8 +79,8 @@ function StudyCard({ study, index }) {
             />
             <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
             <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12" />
-            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
-            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[20deg]" />
+            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[8%] w-[9%]" />
+            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[2%] w-[25%] -rotate-[45deg]" />
           </div>
         </div>
       ) : (
