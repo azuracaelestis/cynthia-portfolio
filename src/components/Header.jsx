@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import profilePicture from '../assets/hero/profile-picture/cynthia-profile-picture.svg';
 import { useHasScrolled } from '../hooks/useHasScrolled';
 import { useActiveSection } from '../hooks/useActiveSection';
@@ -13,28 +14,32 @@ const NAV_ITEMS = [
 const SECTION_IDS = NAV_ITEMS.map((item) => item.href.slice(1));
 
 export default function Header() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const displayIndex = hoveredIndex ?? selectedIndex;
+  const effectiveSelectedIndex = isHome ? selectedIndex : null;
+  const displayIndex = hoveredIndex ?? effectiveSelectedIndex;
   const isHovering = hoveredIndex !== null;
   const hasScrolled = useHasScrolled();
   const activeId = useActiveSection(SECTION_IDS);
 
   useEffect(() => {
+    if (!isHome) return;
     const idx = NAV_ITEMS.findIndex((item) => item.href === `#${activeId}`);
     if (idx !== -1) setSelectedIndex(idx);
-  }, [activeId]);
+  }, [activeId, isHome]);
 
   return (
     <>
       <header className="absolute top-0 inset-x-0 z-40 bg-paper/80 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5 flex items-center justify-between gap-6">
-          <a href="#home" className="group flex items-center gap-3 shrink-0">
+          <Link to="/" className="group flex items-center gap-3 shrink-0">
             <span className="w-8 h-8 lg:w-[65px] lg:h-[65px] rounded-full bg-sky-100 flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-110">
               <img src={profilePicture} alt="Cynthia Tanawi" className="w-full h-full rounded-full object-cover" />
             </span>
             <span className="font-dm font-semibold text-[16px] lg:text-[20px] text-ink whitespace-nowrap transition-colors group-hover:text-about-blue">Cynthia Tanawi</span>
-          </a>
+          </Link>
 
           <a
             href="mailto:azuracaelestis@outlook.com?subject=Let%27s%20connect&body=Hi%20Cynthia%2C%0A%0A"
@@ -55,57 +60,65 @@ export default function Header() {
         }`}
         onMouseLeave={() => setHoveredIndex(null)}
       >
-        {NAV_ITEMS.map((item, i) => (
-          <a
-            key={item.label}
-            href={item.href}
-            onMouseEnter={() => setHoveredIndex(i)}
-            onClick={() => setSelectedIndex(i)}
-            className="font-dm relative rounded-full px-5 py-2 font-semibold text-[16px]"
-          >
-            {displayIndex === i && (
-              <motion.span
-                layoutId="nav-highlight"
-                className="absolute inset-0 rounded-full"
-                animate={{ backgroundColor: isHovering ? '#B0DDF8' : '#1A87D5' }}
-                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-              />
-            )}
-            <span
-              className={`relative z-10 transition-colors ${
-                displayIndex === i ? (isHovering ? 'text-ink' : 'text-white') : 'text-black'
-              }`}
+        {NAV_ITEMS.map((item, i) => {
+          const ItemTag = isHome ? 'a' : Link;
+          const itemLinkProps = isHome ? { href: item.href } : { to: `/${item.href}` };
+          return (
+            <ItemTag
+              key={item.label}
+              {...itemLinkProps}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onClick={() => setSelectedIndex(i)}
+              className="font-dm relative rounded-full px-5 py-2 font-semibold text-[16px]"
             >
-              {item.label}
-            </span>
-          </a>
-        ))}
+              {displayIndex === i && (
+                <motion.span
+                  layoutId="nav-highlight"
+                  className="absolute inset-0 rounded-full"
+                  animate={{ backgroundColor: isHovering ? '#B0DDF8' : '#1A87D5' }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span
+                className={`relative z-10 transition-colors ${
+                  displayIndex === i ? (isHovering ? 'text-ink' : 'text-white') : 'text-black'
+                }`}
+              >
+                {item.label}
+              </span>
+            </ItemTag>
+          );
+        })}
       </nav>
 
       <nav
         aria-label="Mobile"
         className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-sky-50 rounded-full px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-md"
       >
-        {NAV_ITEMS.map((item, i) => (
-          <a
-            key={item.label}
-            href={item.href}
-            onClick={() => setSelectedIndex(i)}
-            aria-current={selectedIndex === i ? 'page' : undefined}
-            className="font-dm relative min-h-[44px] flex items-center justify-center rounded-full px-4 font-semibold text-[14px]"
-          >
-            {selectedIndex === i && (
-              <motion.span
-                layoutId="mobile-nav-highlight"
-                className="absolute inset-0 rounded-full bg-[#1A87D5]"
-                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-              />
-            )}
-            <span className={`relative z-10 transition-colors ${selectedIndex === i ? 'text-white' : 'text-ink'}`}>
-              {item.label}
-            </span>
-          </a>
-        ))}
+        {NAV_ITEMS.map((item, i) => {
+          const ItemTag = isHome ? 'a' : Link;
+          const itemLinkProps = isHome ? { href: item.href } : { to: `/${item.href}` };
+          return (
+            <ItemTag
+              key={item.label}
+              {...itemLinkProps}
+              onClick={() => setSelectedIndex(i)}
+              aria-current={effectiveSelectedIndex === i ? 'page' : undefined}
+              className="font-dm relative min-h-[44px] flex items-center justify-center rounded-full px-4 font-semibold text-[14px]"
+            >
+              {effectiveSelectedIndex === i && (
+                <motion.span
+                  layoutId="mobile-nav-highlight"
+                  className="absolute inset-0 rounded-full bg-[#1A87D5]"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className={`relative z-10 transition-colors ${effectiveSelectedIndex === i ? 'text-white' : 'text-ink'}`}>
+                {item.label}
+              </span>
+            </ItemTag>
+          );
+        })}
       </nav>
     </>
   );

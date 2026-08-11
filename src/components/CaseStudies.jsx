@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import folderYellow from '../assets/case study/folder/folder-yellow.svg';
@@ -32,6 +33,7 @@ const STUDIES = [
     folderMobile: folderMobileBlue,
     folderHover: folderBlueHover,
     rotate: 4,
+    link: '/work/classroom-quest',
     thumbnail: {
       mockup: classroomQuestMockup,
       birdLeft: cyanBird,
@@ -53,6 +55,8 @@ const STUDIES = [
 function StudyCard({ study, index }) {
   const reduceMotion = useReducedMotion();
   const isMobileViewport = useMediaQuery('(max-width: 1023px)');
+  const Wrapper = study.link ? Link : 'div';
+  const wrapperProps = study.link ? { to: study.link } : {};
 
   const cardContent = (
     <>
@@ -119,7 +123,11 @@ function StudyCard({ study, index }) {
 
   if (isMobileViewport) {
     if (reduceMotion) {
-      return <div className="relative">{cardContent}</div>;
+      return (
+        <Wrapper {...wrapperProps} className="block relative">
+          {cardContent}
+        </Wrapper>
+      );
     }
     return (
       <motion.div
@@ -128,9 +136,9 @@ function StudyCard({ study, index }) {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <div className="relative transition-transform duration-200 ease-out hover:-translate-y-2">
+        <Wrapper {...wrapperProps} className="block relative transition-transform duration-200 ease-out hover:-translate-y-2">
           {cardContent}
-        </div>
+        </Wrapper>
       </motion.div>
     );
   }
@@ -140,9 +148,9 @@ function StudyCard({ study, index }) {
       className="lg:sticky"
       style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
-      <div className="group relative transition-transform duration-200 ease-out hover:-translate-y-2">
+      <Wrapper {...wrapperProps} className="group block relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
-      </div>
+      </Wrapper>
     </div>
   );
 }
