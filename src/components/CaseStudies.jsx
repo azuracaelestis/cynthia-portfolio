@@ -7,6 +7,13 @@ import folderBrown from '../assets/case study/folder/folder-brown.svg';
 import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile-yellow.svg';
 import folderMobileBlue from '../assets/case study/folder-mobile/folder-mobile-blue.svg';
 import folderMobileBrown from '../assets/case study/folder-mobile/folder-mobile-brown.svg';
+import classroomQuestMockup from '../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
+import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-bird.svg';
+import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
+import flyingBook from '../assets/case study/folder-thumnail/classroom quest/flying_book.svg';
+import panicBubble from '../assets/case study/folder-thumnail/classroom quest/panic_bubble.svg';
+import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
+import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
 
 const STUDIES = [
   {
@@ -23,7 +30,15 @@ const STUDIES = [
     body: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
     folder: folderBlue,
     folderMobile: folderMobileBlue,
+    folderHover: folderBlueHover,
     rotate: 4,
+    thumbnail: {
+      mockup: classroomQuestMockup,
+      birdLeft: cyanBird,
+      birdRight: purpleBlueBird,
+      book: flyingBook,
+      bubble: panicBubble,
+    },
   },
   {
     tag: 'Asia Money Fintech',
@@ -42,24 +57,54 @@ function StudyCard({ study, index }) {
   const cardContent = (
     <>
       <img src={study.folderMobile} alt="" className="lg:hidden w-full h-auto drop-shadow-2xl" />
-      <img src={study.folder} alt="" className="hidden lg:block w-full h-auto drop-shadow-2xl" />
+      <div className="hidden lg:block relative">
+        <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
+        {study.folderHover && (
+          <img
+            src={study.folderHover}
+            alt=""
+            className="absolute inset-0 w-full h-full drop-shadow-2xl opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          />
+        )}
+      </div>
 
       <span className="absolute top-[59px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
         {study.tag}
       </span>
 
       <div className="absolute top-[91px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
-        <div className="max-w-[440px]">
-          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[48px] text-[#000000] leading-tight">
+        <div className="max-w-[440px] translate-y-[40px]">
+          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
           </h3>
           <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
+          <img
+            src={arrowRight}
+            alt=""
+            className="mt-6 w-[60px] h-[60px] opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
+          />
         </div>
       </div>
 
-      <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-dm text-sm">
-        Image placeholder
-      </div>
+      {study.thumbnail ? (
+        <div className="hidden lg:block absolute top-[28%] bottom-[10%] right-[6%] w-[42%]">
+          <div className="relative h-full flex items-center justify-center">
+            <img
+              src={study.thumbnail.mockup}
+              alt=""
+              className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
+            />
+            <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
+            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-translate-x-8 group-hover:-translate-y-3 group-hover:rotate-2" />
+            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
+            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:translate-x-8 group-hover:-translate-y-3 group-hover:-rotate-[38deg]" />
+          </div>
+        </div>
+      ) : (
+        <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-dm text-sm">
+          Image placeholder
+        </div>
+      )}
 
       {study.mockupMobile && (
         <img
@@ -69,15 +114,6 @@ function StudyCard({ study, index }) {
         />
       )}
 
-      <a
-        href="#"
-        className="absolute left-1/2 -translate-x-1/2 bottom-[20px] w-[299px] h-[45px] lg:left-auto lg:translate-x-0 lg:bottom-auto lg:top-[17%] lg:right-[9%] lg:w-auto lg:h-auto rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors text-white text-[16px] lg:text-sm font-dm font-semibold px-8 py-2 lg:px-4 lg:py-2 flex items-center justify-center gap-[10px] lg:gap-1.5"
-      >
-        View
-        <svg className="w-[24px] h-[24px] lg:w-[14px] lg:h-[14px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <path d="M7 17 17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
     </>
   );
 
@@ -102,9 +138,9 @@ function StudyCard({ study, index }) {
   return (
     <div
       className="lg:sticky"
-      style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 1.75}rem)`, zIndex: index + 1 }}
+      style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
-      <div className="relative rotate-[var(--r)] transition-transform duration-200 ease-out hover:-translate-y-2 hover:rotate-0" style={{ '--r': `${study.rotate}deg` }}>
+      <div className="group relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
       </div>
     </div>
@@ -129,10 +165,11 @@ export default function CaseStudies() {
             </div>
           </div>
 
-          <div className="relative flex flex-col gap-12 lg:gap-24">
+          <div className="relative flex flex-col gap-12 lg:gap-[126px]">
             {STUDIES.map((study, i) => (
               <StudyCard key={study.tag} study={study} index={i} />
             ))}
+            <div aria-hidden="true" className="hidden lg:block h-[80vh]" />
           </div>
         </div>
       </div>
