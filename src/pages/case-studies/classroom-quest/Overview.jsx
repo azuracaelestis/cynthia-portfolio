@@ -7,7 +7,7 @@ import mobilePreview from '../../../assets/case study/case-study-classroom-quest
 export default function Overview() {
   return (
     <div id="overview" className="scroll-mt-28 bg-gradient-to-b from-white to-bleed-blue">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-16 lg:pb-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-16 lg:pb-0">
         <span className="font-dm font-bold text-[16px] lg:text-[24px] text-black">ViewSonic Education</span>
         <h1 className="mt-3 font-dm font-bold text-[28px] md:text-[36px] lg:text-[48px] lg:leading-[60px] text-black">
           A Product Update Teachers Wanted to Play
