@@ -1,7 +1,7 @@
 import cyanBird from '../../../assets/case study/case-study-classroom-quest/header/cyan-bird.svg';
 import purpleBlueBird from '../../../assets/case study/case-study-classroom-quest/header/purple-blue_bird.svg';
 import panicBubble from '../../../assets/case study/case-study-classroom-quest/header/panic_bubble.svg';
-import classroomQuestMockup from '../../../assets/case study/case-study-classroom-quest/header/Classroom Quest.jpg';
+import classroomQuestMockup from '../../../assets/case study/case-study-classroom-quest/header/Classroom Quest2.jpg';
 import mobilePreview from '../../../assets/case study/case-study-classroom-quest/header/header-mobile-preview.png';
 
 export default function Overview() {
