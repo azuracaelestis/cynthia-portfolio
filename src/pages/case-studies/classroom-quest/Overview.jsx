@@ -55,7 +55,7 @@ export default function Overview() {
           <img src={panicBubble} alt="" className="hidden lg:block absolute left-[8%] top-[18%] w-[12%] -rotate-[16deg]" />
           <img src={cyanBird} alt="" className="hidden lg:block absolute -left-[7%] top-[32%] w-[32%] -rotate-[16deg]" />
           <img src={purpleBlueBird} alt="" className="hidden lg:block absolute left-[74%] top-[14%] w-[24%] -rotate-[6deg]" />
-          <img src={mobilePreview} alt="" className="hidden lg:block absolute left-[87%] top-[24%] w-[32%]" />
+          <img src={mobilePreview} alt="" className="hidden lg:block absolute left-[87%] top-[33%] w-[32%]" />
         </div>
       </div>
     </div>
