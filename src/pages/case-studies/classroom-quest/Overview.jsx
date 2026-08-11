@@ -42,20 +42,20 @@ export default function Overview() {
           </div>
         </div>
 
-        <div className="relative mt-12 lg:mt-16 lg:max-w-[80%] lg:mx-auto">
+        <div className="relative mt-12 lg:mt-16 lg:max-w-[72%] lg:mx-auto">
           <img
             src={classroomQuestMockup}
             alt="Classroom Quest homepage mockup"
             className="relative w-full h-auto rounded-t-[16px]"
           />
 
-          {/* Decorations — desktop only, matching the homepage thumbnail treatment */}
-          <div className="hidden lg:block absolute -left-[9%] top-[14%] w-[22%]">
-            <img src={panicBubble} alt="" className="absolute -top-[30%] left-0 w-[32%] -rotate-[16deg]" />
-            <img src={cyanBird} alt="" className="w-full -rotate-[16deg]" />
-          </div>
-          <img src={purpleBlueBird} alt="" className="hidden lg:block absolute left-[82%] top-[10%] w-[24%] -rotate-[6deg]" />
-          <img src={mobilePreview} alt="" className="hidden lg:block absolute left-[87%] top-[40%] w-[32%]" />
+          {/* Decorations — desktop only. Each sized/positioned as a direct
+              percentage of this wrapper (= mockup width), pulled from the
+              Figma frame (node 37:37) via MCP — not nested/guessed. */}
+          <img src={panicBubble} alt="" className="hidden lg:block absolute left-[8%] top-[18%] w-[12%] -rotate-[16deg]" />
+          <img src={cyanBird} alt="" className="hidden lg:block absolute -left-[7%] top-[32%] w-[32%] -rotate-[16deg]" />
+          <img src={purpleBlueBird} alt="" className="hidden lg:block absolute left-[74%] top-[14%] w-[24%] -rotate-[6deg]" />
+          <img src={mobilePreview} alt="" className="hidden lg:block absolute left-[87%] top-[24%] w-[32%]" />
         </div>
       </div>
     </div>
