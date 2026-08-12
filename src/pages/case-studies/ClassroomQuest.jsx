@@ -3,7 +3,20 @@ import CaseStudyLayout from '../../components/case-study/CaseStudyLayout';
 import Section from '../../components/case-study/Section';
 import ImagePlaceholder from '../../components/case-study/ImagePlaceholder';
 import Overview from './classroom-quest/Overview';
+import Context from './classroom-quest/Context';
+import Problem from './classroom-quest/Problem';
+import Hypothesis from './classroom-quest/Hypothesis';
+import Experience from './classroom-quest/Experience';
+import Exploration from './classroom-quest/Exploration';
 import classroomQuestMockup from '../../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
+
+const CUSTOM_SECTIONS = {
+  context: Context,
+  problem: Problem,
+  hypothesis: Hypothesis,
+  'the-experience': Experience,
+  exploration: Exploration,
+};
 
 const SECTIONS = [
   { id: 'overview', label: 'Overview' },
@@ -38,11 +51,15 @@ export default function ClassroomQuest() {
       <Overview />
 
       <CaseStudyLayout sections={SECTIONS}>
-        {SECTIONS.filter((section) => section.id !== 'overview').map((section) => (
-          <Section key={section.id} id={section.id} title={section.label}>
-            <ImagePlaceholder className="h-64 lg:h-96" />
-          </Section>
-        ))}
+        {SECTIONS.filter((section) => section.id !== 'overview').map((section) => {
+          const Custom = CUSTOM_SECTIONS[section.id];
+          if (Custom) return <Custom key={section.id} />;
+          return (
+            <Section key={section.id} id={section.id} title={section.label}>
+              <ImagePlaceholder className="h-64 lg:h-96" />
+            </Section>
+          );
+        })}
       </CaseStudyLayout>
     </>
   );
