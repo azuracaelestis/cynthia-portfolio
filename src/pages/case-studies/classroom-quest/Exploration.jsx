@@ -5,7 +5,7 @@ import Section from '../../../components/case-study/Section';
 
 const commentVariants = {
   hidden: { opacity: 0, scale: 0.6, transition: { duration: 0.2 } },
-  visible: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 350, damping: 15, delay: 0.5 } },
+  visible: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 350, damping: 15 } },
 };
 
 const commentVariantsReduced = {
@@ -38,7 +38,7 @@ export default function Exploration() {
           initial="hidden"
           whileInView="visible"
           variants={reduceMotion ? commentVariantsReduced : commentVariants}
-          viewport={{ amount: 0.4 }}
+          viewport={{ amount: 0 }}
         />
       </div>
     </Section>
