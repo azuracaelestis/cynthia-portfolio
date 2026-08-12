@@ -42,7 +42,7 @@ export default function Overview() {
           </div>
         </div>
 
-        <div className="relative mt-12 lg:mt-16 lg:max-w-[72%] lg:mx-auto">
+        <div className="relative mt-12 lg:mt-[94px] lg:max-w-[72%] lg:mx-auto">
           <img
             src={classroomQuestMockup}
             alt="Classroom Quest homepage mockup"
