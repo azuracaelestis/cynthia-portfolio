@@ -34,7 +34,7 @@ export default function Exploration() {
         <motion.img
           src={commentJanice}
           alt="Design review comment from Janice L: The subheadline outside the display fixes the overflow for German and Spanish. Looks locked-in to me."
-          className="absolute left-[64.4%] top-[4.4%] w-[29.7%]"
+          className="absolute left-[64.4%] top-[4.4%] w-[32.7%]"
           initial="hidden"
           whileInView="visible"
           variants={reduceMotion ? commentVariantsReduced : commentVariants}
