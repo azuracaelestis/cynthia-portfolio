@@ -27,7 +27,7 @@ export default function Experience() {
         <img
           src={userFlow}
           alt="User flow diagram: Start the Journey leads through Opening Scenario, Choose Your Companion, five Mission Scenarios (each a choice of three answers), to the Result Page, which branches to the Product page, Download page, or Retake the quest (looping back to Start the Journey)."
-          className="lg:ml-[160px] lg:w-[calc(100%-160px)] w-full h-auto"
+          className="lg:mx-[160px] lg:w-[calc(100%-320px)] w-full h-auto"
         />
         {ANNOTATIONS.map((note) => (
           <p
