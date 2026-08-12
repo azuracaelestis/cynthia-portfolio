@@ -1,4 +1,5 @@
 import cyanBird from '../../../assets/case study/case-study-classroom-quest/header/cyan-bird.svg';
+import redBird from '../../../assets/case study/case-study-classroom-quest/header/red-bird.svg';
 import purpleBlueBird from '../../../assets/case study/case-study-classroom-quest/header/purple-blue_bird.svg';
 import panicBubble from '../../../assets/case study/case-study-classroom-quest/header/panic_bubble.svg';
 import classroomQuestMockup from '../../../assets/case study/case-study-classroom-quest/header/Classroom Quest2.jpg';
@@ -56,6 +57,7 @@ export default function Overview() {
           <img src={cyanBird} alt="" className="hidden lg:block absolute -left-[7%] top-[calc(32%-45px)] w-[28.88%] -rotate-[16deg]" />
           <img src={purpleBlueBird} alt="" className="hidden lg:block absolute left-[calc(74%+10px)] top-[14%] w-[24%] -rotate-[6deg]" />
           <img src={mobilePreview} alt="" className="hidden lg:block absolute left-[87%] top-[33%] w-[32%]" />
+          <img src={redBird} alt="" className="hidden lg:block absolute left-[calc(65.7%-20px)] top-[calc(63.9%-50px)] w-[29.26%]" />
         </div>
       </div>
     </div>
