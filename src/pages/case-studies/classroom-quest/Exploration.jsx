@@ -4,6 +4,9 @@ import commentJanice from '../../../assets/case study/case-study-classroom-quest
 import chooseYourCompanion from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/choose-your-companion.png';
 import selectedArrow from '../../../assets/case study/case-study-classroom-quest/exploration/selected-arrow.svg';
 import commentJoy from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/companion-comment-joy.svg';
+import missionScenario from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario.png';
+import commentJaniceMission from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-comment-janice.svg';
+import missionScenarioArrow from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-arrow.svg';
 import Section from '../../../components/case-study/Section';
 
 const commentVariants = {
@@ -59,28 +62,64 @@ export default function Exploration() {
             alt="Choose Your Companion character cards: default state (a single card, 'Turns ideas into classroom magic') and hover state (the same card with an 'I'm Ready' button revealed), alongside the full 4-character grid in its default state and its selected state with the red creature card highlighted."
             className="relative w-full h-auto"
           />
-          <p className="hidden lg:block absolute left-[1%] top-[3%] font-caveat font-bold text-[16px] text-about-blue">
+          <p className="hidden lg:block absolute left-[1%] top-[calc(3%-30px)] font-caveat font-bold text-[19.36px] text-about-blue">
             Default state
           </p>
-          <p className="hidden lg:block absolute left-[1%] top-[36%] font-caveat font-bold text-[16px] text-about-blue">
+          <p className="hidden lg:block absolute left-[1%] top-[calc(36%+15px)] font-caveat font-bold text-[19.36px] text-about-blue">
             Hover state
           </p>
-          <p className="hidden lg:block absolute left-[1%] top-[76%] font-caveat font-bold text-[20px] text-about-blue">
+          <p className="hidden lg:block absolute left-[1%] top-[calc(76%+90px)] font-caveat font-bold text-[22px] text-about-blue">
             Mobile-first design
           </p>
-          <p className="hidden lg:block absolute left-[43.5%] top-[3%] font-caveat font-bold text-[20px] text-about-blue">
+          <p className="hidden lg:block absolute left-[43.5%] top-[calc(3%-30px)] font-caveat font-bold text-[22px] text-about-blue">
             First iteration.
           </p>
-          <img src={selectedArrow} alt="" className="hidden lg:block absolute left-[46%] top-[74%] w-[5%] h-auto" />
-          <p className="hidden lg:block absolute left-[52%] top-[75%] font-caveat font-bold text-[24px] text-about-blue">
+          <img src={selectedArrow} alt="" className="hidden lg:block absolute left-[46%] top-[calc(74%+80px)] w-[4.5%] h-auto" />
+          <p className="hidden lg:block absolute left-[52%] top-[calc(75%+100px)] font-caveat font-bold text-[26.4px] text-about-blue">
             Selected
           </p>
-          <img
+          <motion.img
             src={commentJoy}
             alt="Design review comment from Joy Wu: Nice, the desktop version follows the mobile logic now. The CTA on the selected card reads much clearer than one button under the whole grid."
-            className="hidden lg:block absolute left-[67%] top-[73%] w-[27%]"
+            className="hidden lg:block absolute left-[67%] top-[calc(73%+100px)] w-[29.7%]"
+            initial="hidden"
+            whileInView="visible"
+            variants={reduceMotion ? commentVariantsReduced : commentVariants}
+            viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
           />
         </div>
+      </div>
+
+      <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Mission Scenarios</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+        Each scene dropped teachers into a real classroom moment and asked them to respond. I explored framing the
+        whole thing as a game &quot;mission console&quot; with decorative window UI, but pared it back to a clean chat
+        layout, so the only thing to tap is the choice itself, and nothing competes for attention with the decision.
+      </p>
+      <div className="relative w-full aspect-[874/460] rounded-2xl bg-bleed-blue flex items-center justify-center">
+        <img
+          src={missionScenario}
+          alt="Mission Scenario mobile screen, 'The Kingdom of Snooze': a chat-style story sequence ending in a highlighted spellbook choice, 'Load a quick bell-ringer worksheet on the board to awaken their focus,' alongside a zoomed-in detail of the same dialogue and choice list."
+          className="w-[92%] h-auto"
+        />
+        <motion.img
+          src={missionScenarioArrow}
+          alt=""
+          className="absolute left-[58%] top-[12%] w-[6%] h-auto"
+          initial="hidden"
+          whileInView="visible"
+          variants={reduceMotion ? commentVariantsReduced : commentVariants}
+          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
+        />
+        <motion.img
+          src={commentJaniceMission}
+          alt="Design review comment from Janice L: The window chrome looks cool but I keep trying to click the toolbar. Can we simplify so the choices are the obvious thing to tap?"
+          className="absolute left-[63%] top-[3%] w-[26%]"
+          initial="hidden"
+          whileInView="visible"
+          variants={reduceMotion ? commentVariantsReduced : commentVariants}
+          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
+        />
       </div>
     </Section>
   );
