@@ -4,7 +4,7 @@ import commentJanice from '../../../assets/case study/case-study-classroom-quest
 import chooseYourCompanion from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/choose-your-companion.png';
 import selectedArrow from '../../../assets/case study/case-study-classroom-quest/exploration/selected-arrow.svg';
 import commentJoy from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/companion-comment-joy.svg';
-import missionScenario from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario.png';
+import missionScenario from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario2.png';
 import commentJaniceMission from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-comment-janice.svg';
 import missionScenarioArrow from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-arrow.svg';
 import Section from '../../../components/case-study/Section';
