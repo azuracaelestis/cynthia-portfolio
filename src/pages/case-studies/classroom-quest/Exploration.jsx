@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import landingPage from '../../../assets/case study/case-study-classroom-quest/exploration/landing page.png';
+import landingPage from '../../../assets/case study/case-study-classroom-quest/exploration/Landing page_large.jpg';
 import commentJanice from '../../../assets/case study/case-study-classroom-quest/exploration/landing page-comment-janice.svg';
 import Section from '../../../components/case-study/Section';
 
@@ -38,7 +38,7 @@ export default function Exploration() {
           initial="hidden"
           whileInView="visible"
           variants={reduceMotion ? commentVariantsReduced : commentVariants}
-          viewport={{ amount: 0 }}
+          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
         />
       </div>
     </Section>
