@@ -36,7 +36,6 @@ export default function Experience() {
 
   return (
     <Section id="the-experience" eyebrow="THE EXPERIENCE" title="A five-minute quest, built to feel effortless.">
-      <p className="font-dm font-bold text-[20px] text-black mb-6">User Flow</p>
       <div className="relative">
         <img
           src={userFlow}

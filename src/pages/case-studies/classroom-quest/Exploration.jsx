@@ -25,9 +25,15 @@ export default function Exploration() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section id="exploration" eyebrow="EXPLORATION" title="Built inside constraints, not around them.">
+    <Section
+      id="exploration"
+      eyebrow="EXPLORATION"
+      title="Built inside constraints, not around them."
+      eyebrowClassName="mb-4"
+      titleClassName="mb-8"
+    >
       <p className="font-dm font-bold text-[20px] text-black mb-4">Landing Page</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-8">
         This was the first thing teachers saw. The CTA sends them to play, with a myViewBoard download card tied to
         the campaign&apos;s main KPI. The catch was the copy set inside the interactive display — it couldn&apos;t
         stretch, so longer languages like German and Spanish overflowed. I anchored the visual to a fixed safe zone

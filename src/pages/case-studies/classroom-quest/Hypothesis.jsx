@@ -12,7 +12,7 @@ export default function Hypothesis() {
     <Section id="hypothesis" eyebrow="HYPOTHESIS" title="We bet a game could sell without selling.">
       <div className="flex flex-col gap-12">
         <div className="flex flex-col gap-5">
-          <p className="font-dm font-bold text-[20px] text-black">What We Knew</p>
+          <p className="font-dm font-bold text-[16px] text-black">What We Knew</p>
           <p className="font-dm text-[16px] text-black leading-[23px]">
             In 2024 we&apos;d built a personality quiz,{' '}
             <a
@@ -38,7 +38,7 @@ export default function Hypothesis() {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <p className="font-dm font-bold text-[20px] text-black">Our Strategy</p>
+          <p className="font-dm font-bold text-[16px] text-black">Our Strategy</p>
           <p className="font-dm font-extrabold text-[28px] lg:text-[32px] text-black leading-tight">
             Don&apos;t demo the tool. Make them need it.
           </p>
