@@ -7,6 +7,8 @@ import commentJoy from '../../../assets/case study/case-study-classroom-quest/ex
 import missionScenario from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario2.png';
 import commentJaniceMission from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-comment-janice.svg';
 import missionScenarioArrow from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario-arrow.svg';
+import resultPage from '../../../assets/case study/case-study-classroom-quest/exploration/result page/result-page.png';
+import commentSamResult from '../../../assets/case study/case-study-classroom-quest/exploration/result page/result-page-comment-sam.svg';
 import Section from '../../../components/case-study/Section';
 
 const commentVariants = {
@@ -81,7 +83,7 @@ export default function Exploration() {
           <motion.img
             src={commentJoy}
             alt="Design review comment from Joy Wu: Nice, the desktop version follows the mobile logic now. The CTA on the selected card reads much clearer than one button under the whole grid."
-            className="hidden lg:block absolute left-[67%] top-[calc(73%+100px)] w-[29.7%]"
+            className="hidden lg:block absolute left-[calc(67%-10px)] top-[calc(73%+100px)] w-[32.67%]"
             initial="hidden"
             whileInView="visible"
             variants={reduceMotion ? commentVariantsReduced : commentVariants}
@@ -114,7 +116,30 @@ export default function Exploration() {
         <motion.img
           src={commentJaniceMission}
           alt="Design review comment from Janice L: The window chrome looks cool but I keep trying to click the toolbar. Can we simplify so the choices are the obvious thing to tap?"
-          className="absolute left-[63%] top-[3%] w-[26%]"
+          className="absolute left-[calc(63%-500px)] top-[calc(3%+32px)] w-[33.8%]"
+          initial="hidden"
+          whileInView="visible"
+          variants={reduceMotion ? commentVariantsReduced : commentVariants}
+          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
+        />
+      </div>
+
+      <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Result Page</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+        The teacher&apos;s choices resolving into the myViewBoard 3.0 features that matched their approach. Last
+        year&apos;s version was a wall of research text; this one had to sell features, so I built it as a bento grid
+        styled like an RPG character card, letting each tool read as an earned reward instead of a spec sheet.
+      </p>
+      <div className="relative w-full aspect-[3560/2548] rounded-2xl flex items-center justify-center">
+        <img
+          src={resultPage}
+          alt="Result Page, 'The Day Nothing Caught Fire': a story recap, an 'Igniter of Curiosity' character result, a 'You've Leveled Up!' attributes panel, and 'New Skills Unlocked' myViewBoard 3.0 feature cards, styled as an RPG bento grid."
+          className="w-[92%] h-auto"
+        />
+        <motion.img
+          src={commentSamResult}
+          alt="Design review comment from Sam Perinskie: Love the leveled-up framing here. Makes the features feel like a reward."
+          className="absolute left-[calc(2%-20px)] top-[calc(3%+42px)] w-[34.85%]"
           initial="hidden"
           whileInView="visible"
           variants={reduceMotion ? commentVariantsReduced : commentVariants}
