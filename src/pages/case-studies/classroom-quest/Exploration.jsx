@@ -57,38 +57,36 @@ export default function Exploration() {
         so I designed the CTA to surface on the selected card instead, then carried that same logic up to desktop.
       </p>
       <div className="relative w-full">
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-full">
-          <img
-            src={chooseYourCompanion}
-            alt="Choose Your Companion character cards: default state (a single card, 'Turns ideas into classroom magic') and hover state (the same card with an 'I'm Ready' button revealed), alongside the full 4-character grid in its default state and its selected state with the red creature card highlighted."
-            className="relative w-full h-auto"
-          />
-          <p className="hidden lg:block absolute left-[1%] top-[calc(3%-30px)] font-caveat font-bold text-[19.36px] text-about-blue">
-            Default state
-          </p>
-          <p className="hidden lg:block absolute left-[1%] top-[calc(36%+15px)] font-caveat font-bold text-[19.36px] text-about-blue">
-            Hover state
-          </p>
-          <p className="hidden lg:block absolute left-[1%] top-[calc(76%+90px)] font-caveat font-bold text-[22px] text-about-blue">
-            Mobile-first design
-          </p>
-          <p className="hidden lg:block absolute left-[43.5%] top-[calc(3%-30px)] font-caveat font-bold text-[22px] text-about-blue">
-            First iteration.
-          </p>
-          <img src={selectedArrow} alt="" className="hidden lg:block absolute left-[46%] top-[calc(74%+80px)] w-[4.5%] h-auto" />
-          <p className="hidden lg:block absolute left-[52%] top-[calc(75%+100px)] font-caveat font-bold text-[26.4px] text-about-blue">
-            Selected
-          </p>
-          <motion.img
-            src={commentJoy}
-            alt="Design review comment from Joy Wu: Nice, the desktop version follows the mobile logic now. The CTA on the selected card reads much clearer than one button under the whole grid."
-            className="hidden lg:block absolute left-[calc(67%-10px)] top-[calc(73%+100px)] w-[32.67%]"
-            initial="hidden"
-            whileInView="visible"
-            variants={reduceMotion ? commentVariantsReduced : commentVariants}
-            viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
-          />
-        </div>
+        <img
+          src={chooseYourCompanion}
+          alt="Choose Your Companion character cards: default state (a single card, 'Turns ideas into classroom magic') and hover state (the same card with an 'I'm Ready' button revealed), alongside the full 4-character grid in its default state and its selected state with the red creature card highlighted."
+          className="relative w-full h-auto"
+        />
+        <p className="hidden lg:block absolute left-[1%] top-[3%] font-caveat font-bold text-[19.36px] text-about-blue">
+          Default state
+        </p>
+        <p className="hidden lg:block absolute left-[1%] top-[calc(36%+15px)] font-caveat font-bold text-[19.36px] text-about-blue">
+          Hover state
+        </p>
+        <p className="hidden lg:block absolute left-[1%] top-[calc(76%+58px)] font-caveat font-bold text-[22px] text-about-blue">
+          Mobile-first design
+        </p>
+        <p className="hidden lg:block absolute left-[43.5%] top-[3%] font-caveat font-bold text-[22px] text-about-blue">
+          First iteration.
+        </p>
+        <img src={selectedArrow} alt="" className="hidden lg:block absolute left-[46%] top-[calc(74%+60px)] w-[4.5%] h-auto" />
+        <p className="hidden lg:block absolute left-[52%] top-[calc(75%+75px)] font-caveat font-bold text-[26.4px] text-about-blue">
+          Selected
+        </p>
+        <motion.img
+          src={commentJoy}
+          alt="Design review comment from Joy Wu: Nice, the desktop version follows the mobile logic now. The CTA on the selected card reads much clearer than one button under the whole grid."
+          className="hidden lg:block absolute left-[calc(67%-10px)] top-[calc(73%+67px)] w-[32.67%]"
+          initial="hidden"
+          whileInView="visible"
+          variants={reduceMotion ? commentVariantsReduced : commentVariants}
+          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
+        />
       </div>
 
       <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Mission Scenarios</p>
