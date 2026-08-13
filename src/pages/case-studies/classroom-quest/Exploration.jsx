@@ -98,21 +98,18 @@ export default function Exploration() {
         whole thing as a game &quot;mission console&quot; with decorative window UI, but pared it back to a clean chat
         layout, so the only thing to tap is the choice itself, and nothing competes for attention with the decision.
       </p>
-      <div className="relative w-full aspect-[874/460] rounded-2xl bg-bleed-blue flex items-center justify-center">
+      <div className="relative w-full aspect-[874/460] rounded-2xl flex items-center justify-center">
         <img
           src={missionScenario}
           alt="Mission Scenario mobile screen, 'The Kingdom of Snooze': a chat-style story sequence ending in a highlighted spellbook choice, 'Load a quick bell-ringer worksheet on the board to awaken their focus,' alongside a zoomed-in detail of the same dialogue and choice list."
           className="w-[92%] h-auto"
         />
-        <motion.img
-          src={missionScenarioArrow}
-          alt=""
-          className="absolute left-[58%] top-[12%] w-[6%] h-auto"
-          initial="hidden"
-          whileInView="visible"
-          variants={reduceMotion ? commentVariantsReduced : commentVariants}
-          viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
-        />
+        <img src={missionScenarioArrow} alt="" className="absolute left-[58%] top-[calc(12%+270px)] w-[6%] h-auto" />
+        <p className="absolute left-[calc(65%+10px)] top-[calc(12%+313px)] font-caveat font-bold text-[20px] text-about-blue leading-tight">
+          Stripped to a chat thread.
+          <br />
+          One clear choice, nothing else to tap.
+        </p>
         <motion.img
           src={commentJaniceMission}
           alt="Design review comment from Janice L: The window chrome looks cool but I keep trying to click the toolbar. Can we simplify so the choices are the obvious thing to tap?"

@@ -8,6 +8,7 @@ import Problem from './classroom-quest/Problem';
 import Hypothesis from './classroom-quest/Hypothesis';
 import Experience from './classroom-quest/Experience';
 import Exploration from './classroom-quest/Exploration';
+import Design from './classroom-quest/Design';
 import classroomQuestMockup from '../../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
 
 const CUSTOM_SECTIONS = {
@@ -16,6 +17,7 @@ const CUSTOM_SECTIONS = {
   hypothesis: Hypothesis,
   'the-experience': Experience,
   exploration: Exploration,
+  design: Design,
 };
 
 const SECTIONS = [
