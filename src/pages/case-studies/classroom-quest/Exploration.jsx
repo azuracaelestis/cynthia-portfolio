@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import landingPage from '../../../assets/case study/case-study-classroom-quest/exploration/Landing page_large.jpg';
 import commentJanice from '../../../assets/case study/case-study-classroom-quest/exploration/landing page-comment-janice.svg';
-import chooseYourCompanion from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/choose-your-companion.png';
+import chooseYourCompanion from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/choose-your-companion2.png';
 import selectedArrow from '../../../assets/case study/case-study-classroom-quest/exploration/selected-arrow.svg';
 import commentJoy from '../../../assets/case study/case-study-classroom-quest/exploration/choose your companion/companion-comment-joy.svg';
 import missionScenario from '../../../assets/case study/case-study-classroom-quest/exploration/mission scenario/mission-scenario2.png';
@@ -57,7 +57,6 @@ export default function Exploration() {
         so I designed the CTA to surface on the selected card instead, then carried that same logic up to desktop.
       </p>
       <div className="relative w-full">
-        <div className="rounded-2xl bg-case-study-yellow-light overflow-hidden lg:w-[55.54vw] lg:min-h-[37.02vw] lg:ml-auto" />
         <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-full">
           <img
             src={chooseYourCompanion}
