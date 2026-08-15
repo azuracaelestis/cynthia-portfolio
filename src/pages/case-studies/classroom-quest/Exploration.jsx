@@ -56,7 +56,7 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Choose Your Companion</p>
+      <p className="font-dm font-bold text-[20px] text-black mt-[140px] mb-4">Choose Your Companion</p>
       <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
         This was where teachers picked their guide: one of four returning Teaching Superpower characters, chosen
         through interactive flash cards. On a 9:16 mobile screen, a button under the grid would fall below the fold,
