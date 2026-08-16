@@ -16,7 +16,10 @@ export default function Problem() {
     <Section id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew.">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {CARDS.map((card) => (
-          <div key={card.title} className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col items-start gap-4">
+          <div
+            key={card.title}
+            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col items-start gap-4 transition-transform duration-200 ease-out hover:-translate-y-2 hover:shadow-[0px_12px_24px_rgba(0,0,0,0.15)]"
+          >
             <img src={card.icon} alt="" className="h-[52px] w-auto" />
             <div>
               <p className="font-dm font-bold text-[20px] text-black">{card.title}</p>

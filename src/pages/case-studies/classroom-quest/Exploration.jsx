@@ -32,8 +32,8 @@ export default function Exploration() {
       eyebrowClassName="mb-4"
       titleClassName="mb-8"
     >
-      <p className="font-dm font-bold text-[20px] text-black mb-4">Landing Page</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-8">
+      <p className="font-dm font-bold text-[20px] text-black mb-[1.11vw]">Landing Page</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
         This was the first thing teachers saw. The CTA sends them to play, with a myViewBoard download card tied to
         the campaign&apos;s main KPI. The catch was the copy set inside the interactive display — it couldn&apos;t
         stretch, so longer languages like German and Spanish overflowed. I anchored the visual to a fixed safe zone
@@ -56,8 +56,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[140px] mb-4">Choose Your Companion</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Choose Your Companion</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
         This was where teachers picked their guide: one of four returning Teaching Superpower characters, chosen
         through interactive flash cards. On a 9:16 mobile screen, a button under the grid would fall below the fold,
         so I designed the CTA to surface on the selected card instead, then carried that same logic up to desktop.
@@ -95,8 +95,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Mission Scenarios</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Mission Scenarios</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
         Each scene dropped teachers into a real classroom moment and asked them to respond. I explored framing the
         whole thing as a game &quot;mission console&quot; with decorative window UI, but pared it back to a clean chat
         layout, so the only thing to tap is the choice itself, and nothing competes for attention with the decision.
@@ -124,8 +124,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[80px] mb-4">Result Page</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-6">
+      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Result Page</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
         The teacher&apos;s choices resolving into the myViewBoard 3.0 features that matched their approach. Last
         year&apos;s version was a wall of research text; this one had to sell features, so I built it as a bento grid
         styled like an RPG character card, letting each tool read as an earned reward instead of a spec sheet.

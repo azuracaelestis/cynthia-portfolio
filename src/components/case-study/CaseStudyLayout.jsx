@@ -1,9 +1,21 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import { useActiveSection } from '../../hooks/useActiveSection';
+
+const sidebarVariants = {
+  hidden: { opacity: 0, x: -120, scale: 0.9 },
+  visible: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+const sidebarVariantsReduced = {
+  hidden: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0 } },
+  visible: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0 } },
+};
 
 // sections: [{ id: 'overview', label: 'Overview' }, ...]
 export default function CaseStudyLayout({ sections, children }) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className="bg-case-study-cream">
@@ -26,20 +38,26 @@ export default function CaseStudyLayout({ sections, children }) {
         <div className="lg:grid lg:grid-cols-[250px_1fr] lg:gap-[34px]">
           {/* Desktop: sticky sidebar */}
           <nav aria-label="On this page" className="hidden lg:block">
-            <div className="sticky top-32 -translate-x-[40px] scale-90 origin-top-left bg-white rounded-2xl shadow-[0px_0px_12.5px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-4">
+            <motion.div
+              className="sticky top-32 origin-top-left bg-white rounded-2xl shadow-[0px_0px_12.5px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-4"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={reduceMotion ? sidebarVariantsReduced : sidebarVariants}
+            >
               <p className="font-dm font-bold text-[14px] text-case-study-blue">ON THIS PAGE</p>
               <ul className="flex flex-col gap-[10px]">
                 {sections.map((s) => (
                   <li key={s.id}>
                     <a
                       href={`#${s.id}`}
-                      className={`flex items-center gap-4 rounded-lg px-3 py-1 font-dm font-bold text-[16px] text-black transition-colors ${
+                      className={`group flex items-center gap-4 rounded-lg px-3 py-1 font-dm font-bold text-[16px] text-black transition-colors ${
                         activeId === s.id ? 'bg-case-study-highlight' : ''
                       }`}
                     >
                       <span
-                        className={`shrink-0 size-1.5 rounded-full ${
-                          activeId === s.id ? 'bg-case-study-blue' : 'bg-case-study-cream'
+                        className={`shrink-0 size-1.5 rounded-full transition-colors ${
+                          activeId === s.id ? 'bg-case-study-blue' : 'bg-case-study-cream group-hover:bg-case-study-blue'
                         }`}
                       />
                       {s.label}
@@ -47,7 +65,7 @@ export default function CaseStudyLayout({ sections, children }) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           </nav>
 
           <div className="min-w-0">{children}</div>

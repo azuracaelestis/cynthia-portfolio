@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import profilePicture from '../assets/hero/profile-picture/cynthia-profile-picture.svg';
 import { useHasScrolled } from '../hooks/useHasScrolled';
@@ -23,12 +23,32 @@ export default function Header() {
   const isHovering = hoveredIndex !== null;
   const hasScrolled = useHasScrolled();
   const activeId = useActiveSection(SECTION_IDS);
+  const reduceMotion = useReducedMotion();
+  const [navHidden, setNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (!isHome) return;
     const idx = NAV_ITEMS.findIndex((item) => item.href === `#${activeId}`);
     if (idx !== -1) setSelectedIndex(idx);
   }, [activeId, isHome]);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    function handleScroll() {
+      const y = window.scrollY;
+      if (y > lastScrollY.current && y > 80) {
+        setNavHidden(true);
+      } else if (y < lastScrollY.current) {
+        setNavHidden(false);
+      }
+      lastScrollY.current = y;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
@@ -54,11 +74,15 @@ export default function Header() {
         </div>
       </header>
 
-      <nav
-        className={`hidden md:flex fixed top-5 left-1/2 -translate-x-1/2 z-50 items-center gap-1 bg-sky-50 rounded-full h-[70px] px-4 py-4 transition-shadow duration-200 ${
+      <motion.nav
+        className={`hidden md:flex fixed top-5 left-1/2 z-50 items-center gap-1 bg-sky-50 rounded-full h-[70px] px-4 py-4 transition-shadow duration-200 ${
           hasScrolled ? 'shadow-md' : ''
         }`}
         onMouseLeave={() => setHoveredIndex(null)}
+        animate={{ y: navHidden ? '-150%' : '0%', opacity: navHidden ? 0 : 1 }}
+        initial={false}
+        transition={{ duration: reduceMotion ? 0 : 0.3, ease: 'easeInOut' }}
+        style={{ x: '-50%' }}
       >
         {NAV_ITEMS.map((item, i) => {
           const ItemTag = isHome ? 'a' : Link;
@@ -89,7 +113,7 @@ export default function Header() {
             </ItemTag>
           );
         })}
-      </nav>
+      </motion.nav>
 
       <nav
         aria-label="Mobile"

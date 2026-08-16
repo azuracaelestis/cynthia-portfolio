@@ -79,6 +79,15 @@ body {
   overflow-x: clip;
 }
 
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Hero character eye-tracking + head-tilt channels: driven purely by the
    --eye-x/--eye-y/--head-tilt custom properties set on the CharacterStage
    frame (see useEyeTracking.js), so the tracking hook only ever writes CSS
