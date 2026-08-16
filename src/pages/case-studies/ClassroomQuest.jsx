@@ -7,8 +7,10 @@ import Context from './classroom-quest/Context';
 import Problem from './classroom-quest/Problem';
 import Hypothesis from './classroom-quest/Hypothesis';
 import Experience from './classroom-quest/Experience';
+import CharacterSystem from './classroom-quest/CharacterSystem';
 import Exploration from './classroom-quest/Exploration';
 import Design from './classroom-quest/Design';
+import ImpactReflection from './classroom-quest/ImpactReflection';
 import classroomQuestMockup from '../../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
 
 const CUSTOM_SECTIONS = {
@@ -16,8 +18,10 @@ const CUSTOM_SECTIONS = {
   problem: Problem,
   hypothesis: Hypothesis,
   'the-experience': Experience,
+  'character-system': CharacterSystem,
   exploration: Exploration,
   design: Design,
+  'impact-reflection': ImpactReflection,
 };
 
 const SECTIONS = [
