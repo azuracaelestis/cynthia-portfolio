@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import lowAwareness from '../../../assets/case study/case-study-classroom-quest/problem/low-awareness.svg';
 import narrowReach from '../../../assets/case study/case-study-classroom-quest/problem/narrow-reach.svg';
 import optInUpdate from '../../../assets/case study/case-study-classroom-quest/problem/opt-in-update.svg';
@@ -11,13 +12,30 @@ const CARDS = [
   { icon: noHardSell, title: 'No Hard Sell', body: 'Teachers tune out pitches, and pressure deepens resistance. Interest had to pull them, not push.' },
 ];
 
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const STAGGER_STEP = 0.06;
+
 export default function Problem() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <Section id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew.">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {CARDS.map((card) => (
-          <div
+        {CARDS.map((card, i) => (
+          <motion.div
             key={card.title}
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={reduceMotion ? revealVariantsReduced : revealVariants}
+            transition={{
+              ...(reduceMotion ? revealTransitionReduced : revealTransition),
+              delay: reduceMotion ? 0 : i * STAGGER_STEP,
+            }}
             className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col items-start gap-4 transition-transform duration-200 ease-out hover:-translate-y-2 hover:shadow-[0px_12px_24px_rgba(0,0,0,0.15)]"
           >
             <img src={card.icon} alt="" className="h-[52px] w-auto" />
@@ -25,7 +43,7 @@ export default function Problem() {
               <p className="font-dm font-bold text-[20px] text-black">{card.title}</p>
               <p className="mt-2 font-dm text-[16px] text-black leading-[23px]">{card.body}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Section>

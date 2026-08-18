@@ -1,11 +1,41 @@
+import { motion, useReducedMotion } from 'framer-motion';
+
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+
 export default function Section({ id, eyebrow, title, children, eyebrowClassName = 'mb-3', titleClassName = 'mb-6' }) {
+  const reduceMotion = useReducedMotion();
+  const variants = reduceMotion ? revealVariantsReduced : revealVariants;
+  const transition = reduceMotion ? revealTransitionReduced : revealTransition;
+
   return (
-    <section id={id} className="scroll-mt-28 pt-12 lg:pt-[90px] first:pt-0">
+    <section id={id} className="scroll-mt-28 pt-12 lg:pt-[180px] first:pt-0">
       {eyebrow && (
-        <p className={`font-dm font-bold text-[16px] text-case-study-blue ${eyebrowClassName}`}>{eyebrow}</p>
+        <motion.p
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={variants}
+          transition={transition}
+          className={`font-dm font-bold text-[16px] text-case-study-blue ${eyebrowClassName}`}
+        >
+          {eyebrow}
+        </motion.p>
       )}
       {title && (
-        <h2 className={`font-dm font-extrabold text-[28px] lg:text-[36px] text-ink leading-tight ${titleClassName}`}>{title}</h2>
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={variants}
+          transition={transition}
+          className={`font-dm font-extrabold text-[28px] lg:text-[36px] text-ink leading-tight ${titleClassName}`}
+        >
+          {title}
+        </motion.h2>
       )}
       {children}
     </section>

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import landingPageDesign from '../../../assets/case study/case-study-classroom-quest/design/landing-page-design.png';
-import chooseYourCompanionDesign from '../../../assets/case study/case-study-classroom-quest/design/choose-your-companion-design.png';
+import chooseCompanion from '../../../assets/case study/case-study-classroom-quest/design/choose-companion.mp4';
 import missionScenarioDesign from '../../../assets/case study/case-study-classroom-quest/design/mission-scenario-design.mp4';
-import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
+import resultPageDesign from '../../../assets/case study/case-study-classroom-quest/design/result-page.mp4';
 import Section from '../../../components/case-study/Section';
 
 function PlayIcon() {
@@ -23,7 +23,7 @@ function PauseIcon() {
   );
 }
 
-export default function Design() {
+function AutoplayVideo({ src, ariaLabel }) {
   const reduceMotion = useReducedMotion();
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -55,40 +55,63 @@ export default function Design() {
   }
 
   return (
-    <Section id="design" eyebrow="DESIGN" title="Here's what teachers actually played.">
-      <div className="flex flex-col gap-6">
-        <img
-          src={landingPageDesign}
-          alt="Landing Page, desktop and mobile: 'Welcome to the Classroom Quest' hero banner with an 'Embark on Your Quest' CTA, illustrated classroom-hero characters, and intro copy."
-          className="w-full h-auto rounded-2xl"
-        />
-        <img
-          src={chooseYourCompanionDesign}
-          alt="Choose Your Companion, desktop and mobile: a 'Choose Your Avatar for Today's Quest' screen with four character cards and an 'I'm Ready' CTA on the selected card."
-          className="w-full h-auto rounded-2xl"
-        />
-        <div className="relative">
-          <video
-            ref={videoRef}
-            src={missionScenarioDesign}
-            aria-label="Mission Scenario, desktop and mobile: a walkthrough of the chat-style story sequence ending in a highlighted choice."
+    <div className="relative">
+      <video
+        ref={videoRef}
+        src={src}
+        aria-label={ariaLabel}
+        className="w-full h-auto rounded-2xl"
+        muted
+        loop
+        playsInline
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+      <button
+        type="button"
+        onClick={togglePlay}
+        aria-label={isPlaying ? 'Pause video' : 'Play video'}
+        className="absolute left-4 bottom-4 w-14 h-14 rounded-full bg-ink/60 backdrop-blur-sm ring-2 ring-white/70 flex items-center justify-center text-white transition-transform hover:scale-105"
+      >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+    </div>
+  );
+}
+
+export default function Design() {
+  return (
+    <Section id="design" eyebrow="DESIGN" eyebrowClassName="mb-4">
+      <div className="flex flex-col gap-[90px]">
+        <div>
+          <p className="font-dm font-bold text-[20px] text-black mb-4">Landing Page</p>
+          <img
+            src={landingPageDesign}
+            alt="Landing Page, desktop and mobile: 'Welcome to the Classroom Quest' hero banner with an 'Embark on Your Quest' CTA, illustrated classroom-hero characters, and intro copy."
             className="w-full h-auto rounded-2xl"
-            muted
-            loop
-            playsInline
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
           />
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={isPlaying ? 'Pause video' : 'Play video'}
-            className="absolute left-4 bottom-4 w-14 h-14 rounded-full bg-ink/60 backdrop-blur-sm ring-2 ring-white/70 flex items-center justify-center text-white transition-transform hover:scale-105"
-          >
-            {isPlaying ? <PauseIcon /> : <PlayIcon />}
-          </button>
         </div>
-        <ImagePlaceholder className="h-64 lg:h-96" />
+        <div>
+          <p className="font-dm font-bold text-[20px] text-black mb-4">Choose Your Companion</p>
+          <AutoplayVideo
+            src={chooseCompanion}
+            ariaLabel="Choose Your Companion, desktop and mobile: a walkthrough of the 'Choose Your Avatar for Today's Quest' screen with four character cards and an 'I'm Ready' CTA on the selected card."
+          />
+        </div>
+        <div>
+          <p className="font-dm font-bold text-[20px] text-black mb-4">Mission Scenario</p>
+          <AutoplayVideo
+            src={missionScenarioDesign}
+            ariaLabel="Mission Scenario, desktop and mobile: a walkthrough of the chat-style story sequence ending in a highlighted choice."
+          />
+        </div>
+        <div>
+          <p className="font-dm font-bold text-[20px] text-black mb-4">Result Page</p>
+          <AutoplayVideo
+            src={resultPageDesign}
+            ariaLabel="Result Page, desktop and mobile: a walkthrough of 'The Day Nothing Caught Fire' story recap, the 'Igniter of Curiosity' character result, and the 'You've Leveled Up!' attributes panel."
+          />
+        </div>
       </div>
     </Section>
   );

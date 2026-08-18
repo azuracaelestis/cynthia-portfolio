@@ -14,6 +14,12 @@ const commentVariantsReduced = {
   visible: { opacity: 1, transition: { duration: 0 } },
 };
 
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+
 const ANNOTATIONS = [
   {
     text: 'Building the context & story environment',
@@ -37,10 +43,15 @@ export default function Experience() {
   return (
     <Section id="the-experience" eyebrow="THE EXPERIENCE" title="A five-minute quest, built to feel effortless.">
       <div className="relative">
-        <img
+        <motion.img
           src={userFlow}
           alt="User flow diagram: Start the Journey leads through Opening Scenario, Choose Your Companion, five Mission Scenarios (each a choice of three answers), to the Result Page, which branches to the Product page, Download page, or Retake the quest (looping back to Start the Journey)."
           className="lg:mx-[160px] lg:w-[calc(100%-320px)] w-full h-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
         {ANNOTATIONS.map((note) => (
           <motion.p
