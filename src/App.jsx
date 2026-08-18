@@ -3,24 +3,33 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import { useScrollToTopOnNavigate } from './hooks/useScrollToTopOnNavigate';
 
 const ClassroomQuest = lazy(() => import('./pages/case-studies/ClassroomQuest'));
+
+function AppLayout() {
+  useScrollToTopOnNavigate();
+
+  return (
+    <div className="min-h-screen bg-paper">
+      <Header />
+      <main>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/work/classroom-quest" element={<ClassroomQuest />} />
+          </Routes>
+        </Suspense>
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-paper">
-        <Header />
-        <main>
-          <Suspense fallback={null}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/work/classroom-quest" element={<ClassroomQuest />} />
-            </Routes>
-          </Suspense>
-        </main>
-        <Footer />
-      </div>
+      <AppLayout />
     </BrowserRouter>
   );
 }
