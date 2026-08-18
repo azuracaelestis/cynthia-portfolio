@@ -85,7 +85,7 @@ export default function Overview() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, margin: '0px 0px -60% 0px' }}
           className="relative mt-12 lg:mt-[94px] lg:max-w-[72%] lg:mx-auto"
         >
           <motion.img

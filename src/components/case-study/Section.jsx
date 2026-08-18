@@ -12,7 +12,7 @@ export default function Section({ id, eyebrow, title, children, eyebrowClassName
   const transition = reduceMotion ? revealTransitionReduced : revealTransition;
 
   return (
-    <section id={id} className="scroll-mt-28 pt-12 lg:pt-[180px] first:pt-0">
+    <section id={id} className="scroll-mt-28 pt-12 lg:pt-[120px] first:pt-0">
       {eyebrow && (
         <motion.p
           initial="hidden"

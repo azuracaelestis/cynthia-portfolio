@@ -21,6 +21,18 @@ const commentVariantsReduced = {
   visible: { opacity: 1, transition: { duration: 0 } },
 };
 
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+
+// Landing Page image rests at a baked-in translate-y-[60px]; fold that into
+// the reveal variant instead of a static Tailwind class, since Framer's
+// inline transform would otherwise silently override it.
+const landingPageRevealVariants = { hidden: { opacity: 0, y: 68 }, visible: { opacity: 1, y: 60 } };
+const landingPageRevealVariantsReduced = { hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 60 } };
+
 export default function Exploration() {
   const reduceMotion = useReducedMotion();
 
@@ -40,10 +52,15 @@ export default function Exploration() {
         and moved the subheadline outside the display, giving translations room to grow.
       </p>
       <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center">
-        <img
+        <motion.img
           src={landingPage}
           alt="Classroom Quest landing page: a hero banner inviting teachers to 'Embark on Your Quest', illustrated classroom-hero characters, and a myViewBoard feature callout below."
-          className="w-[78%] h-auto rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] translate-y-[60px]"
+          className="w-[78%] h-auto rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? landingPageRevealVariantsReduced : landingPageRevealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
         <motion.img
           src={commentJanice}
@@ -63,10 +80,15 @@ export default function Exploration() {
         so I designed the CTA to surface on the selected card instead, then carried that same logic up to desktop.
       </p>
       <div className="relative w-full">
-        <img
+        <motion.img
           src={chooseYourCompanion}
           alt="Choose Your Companion character cards: default state (a single card, 'Turns ideas into classroom magic') and hover state (the same card with an 'I'm Ready' button revealed), alongside the full 4-character grid in its default state and its selected state with the red creature card highlighted."
           className="relative w-full h-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
         <p className="hidden lg:block absolute left-[1%] top-[3%] font-caveat font-bold text-[19.36px] text-about-blue">
           Default state
@@ -102,10 +124,15 @@ export default function Exploration() {
         layout, so the only thing to tap is the choice itself, and nothing competes for attention with the decision.
       </p>
       <div className="relative w-full aspect-[874/460] rounded-2xl flex items-center justify-center">
-        <img
+        <motion.img
           src={missionScenario}
           alt="Mission Scenario mobile screen, 'The Kingdom of Snooze': a chat-style story sequence ending in a highlighted spellbook choice, 'Load a quick bell-ringer worksheet on the board to awaken their focus,' alongside a zoomed-in detail of the same dialogue and choice list."
           className="w-[92%] h-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
         <img src={missionScenarioArrow} alt="" className="absolute left-[58%] top-[calc(12%+270px)] w-[6%] h-auto" />
         <p className="absolute left-[calc(65%+10px)] top-[calc(12%+313px)] font-caveat font-bold text-[20px] text-about-blue leading-tight">
@@ -131,10 +158,15 @@ export default function Exploration() {
         styled like an RPG character card, letting each tool read as an earned reward instead of a spec sheet.
       </p>
       <div className="relative w-full aspect-[3560/2548] rounded-2xl flex items-center justify-center">
-        <img
+        <motion.img
           src={resultPage}
           alt="Result Page, 'The Day Nothing Caught Fire': a story recap, an 'Igniter of Curiosity' character result, a 'You've Leveled Up!' attributes panel, and 'New Skills Unlocked' myViewBoard 3.0 feature cards, styled as an RPG bento grid."
           className="w-[92%] h-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
         <motion.img
           src={commentSamResult}

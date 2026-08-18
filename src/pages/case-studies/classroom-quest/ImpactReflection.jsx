@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 
 const LESSONS = [
@@ -16,6 +16,13 @@ const LESSONS = [
     body: "Five weeks to define, ideate, prototype, iterate, and deploy left fewer rounds of iteration than I'd have wanted on any single piece. Leading here meant making scoping calls fast, on incomplete information, and trusting the ones that mattered most would hold up.",
   },
 ];
+
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const STAGGER_STEP = 0.06;
 
 function ChevronIcon({ direction = 'right' }) {
   return (
@@ -140,14 +147,22 @@ export default function ImpactReflection() {
             onClickCapture={handleClickCapture}
             className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mx-6 px-6 lg:mx-0 lg:px-0 lg:cursor-grab lg:active:cursor-grabbing touch-pan-x select-none"
           >
-            {LESSONS.map((lesson) => (
-              <div
+            {LESSONS.map((lesson, i) => (
+              <motion.div
                 key={lesson.title}
-                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[236px] lg:w-[24.31vw] lg:h-[16.39vw]"
+                initial="hidden"
+                whileInView="visible"
+                viewport={revealViewport}
+                variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                transition={{
+                  ...(reduceMotion ? revealTransitionReduced : revealTransition),
+                  delay: reduceMotion ? 0 : i * STAGGER_STEP,
+                }}
+                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-center gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[236px] lg:w-[24.31vw] lg:h-[16.39vw]"
               >
                 <p className="font-dm font-bold text-[16px] text-black">{lesson.title}</p>
                 <p className="font-dm text-[16px] text-black leading-[23px]">{lesson.body}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
           <button
