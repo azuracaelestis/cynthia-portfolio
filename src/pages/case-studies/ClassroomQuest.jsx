@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import CaseStudyLayout from '../../components/case-study/CaseStudyLayout';
+import MoreCaseStudies from '../../components/case-study/MoreCaseStudies';
 import Section from '../../components/case-study/Section';
 import ImagePlaceholder from '../../components/case-study/ImagePlaceholder';
 import Overview from './classroom-quest/Overview';
@@ -67,6 +68,8 @@ export default function ClassroomQuest() {
           );
         })}
       </CaseStudyLayout>
+
+      <MoreCaseStudies currentId="classroom-quest" />
     </>
   );
 }

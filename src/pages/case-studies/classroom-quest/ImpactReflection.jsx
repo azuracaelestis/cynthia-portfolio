@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import viewboardTextDesktop from '../../../assets/case study/case-study-classroom-quest/reflection/viewboard_text_desktop2.svg';
 import Section from '../../../components/case-study/Section';
 
 const LESSONS = [
   {
     title: 'Engineering',
-    body: 'I scoped the build with the dev team early, prioritizing the interactions that carried the experience over a chatbot format with no precedent, on a hard timeline.',
+    body: 'I worked with the dev team early to plan the build. The chatbot format was new, and time was tight, so I focused on the interactions that mattered most for the experience and kept the rest simple.',
   },
   {
     title: 'Localization',
-    body: "Some languages, like Arabic, needed extra support: text that reads right to left, and text that's longer than English. Since this came in late, I used Canva as a quick, simple tool so our local partners in each country could adjust the layout themselves.",
+    body: "Some languages, like Arabic, needed extra care: the text reads right to left, and it's often longer than English. This need came in late, so I used Canva, a quick and simple tool, letting our local partners in each country adjust the layout themselves.",
   },
   {
     title: 'Time Constrains',
-    body: "Five weeks to define, ideate, prototype, iterate, and deploy left fewer rounds of iteration than I'd have wanted on any single piece. Leading here meant making scoping calls fast, on incomplete information, and trusting the ones that mattered most would hold up.",
+    body: 'We had five weeks to define, ideate, prototype, iterate, and deploy. That left less time to refine any single piece than I would have liked. Leading through this meant making fast decisions with incomplete information, and trusting that the most important ones would hold up.',
   },
 ];
 
@@ -113,17 +114,21 @@ export default function ImpactReflection() {
         <div className="flex flex-col gap-4">
           <p className="font-dm font-bold text-[20px] text-black">Status</p>
           <p className="font-dm text-[16px] text-black leading-[23px]">
-            The experience was designed, built, and ready to ship on schedule. Before launch, myViewBoard 3.0 failed
-            its usability testing. Widespread bug reports led the product team to pull it back for fixes, and the
-            Classroom Quest campaign was put on hold indefinitely.
+            The game was designed, built, and put online. It&apos;s live on ViewSonic&apos;s website today. What
+            never happened was the marketing push around it. Before that could start, myViewBoard 3.0 failed its
+            usability testing, so the product team pulled it back to fix it. Because of that, the whole promotion
+            plan, including the exhibition event this was built for, was put on hold too. The game is out there, but
+            almost no one has been told about it. So there&apos;s no real data on how many people played it or
+            downloaded the update.
           </p>
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-dm font-bold text-[20px] text-black">What I&apos;d have measured</p>
           <p className="font-dm text-[16px] text-black leading-[23px]">
-            Completion rate through all five scenes, click-through from the Result Page to the download page, and
-            time spent per scenario: the numbers that would show whether &quot;feel the problem, then reveal the
-            tool&quot; actually changed behavior, not just attention.
+            If it had launched, I&apos;d have tracked three things: how many teachers finished all five scenes, how
+            many clicked from the Result Page to the download page, and how long they spent on each scenario.
+            Together, these would show whether the &quot;feel the problem, then reveal the tool&quot; idea actually
+            got people to act, not just pay attention.
           </p>
         </div>
       </div>
@@ -188,6 +193,31 @@ export default function ImpactReflection() {
             <ChevronIcon direction="right" />
           </button>
         </div>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-4">
+        <p className="font-dm font-extrabold text-[28px] lg:text-[32px] text-black leading-tight">Play it yourself</p>
+        <p className="font-dm text-[16px] text-black leading-[23px]">
+          This is the real game — it&apos;s live, but no one ever got to hear about it. Try it yourself.
+        </p>
+      </div>
+
+      <div className="relative mt-8 lg:max-w-[94%] lg:mx-auto">
+        <img
+          src={viewboardTextDesktop}
+          alt="myViewBoard 3.0 browser mockup showing the Classroom Quest game live on the ViewSonic Education website."
+          className="w-full h-auto rounded-2xl"
+        />
+
+        <a
+          href="https://www.viewsonic.com/education/classroomquest"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute z-10 flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-transform duration-300 ease-out hover:scale-105 font-dm font-bold text-ink text-[10px] sm:text-sm md:text-base lg:text-lg"
+          style={{ left: '39.62%', top: '63.79%', width: '20.76%', height: '8.62%' }}
+        >
+          Embark on Your Quest
+        </a>
       </div>
     </Section>
   );

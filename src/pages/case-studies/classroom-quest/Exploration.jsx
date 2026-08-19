@@ -46,10 +46,11 @@ export default function Exploration() {
     >
       <p className="font-dm font-bold text-[20px] text-black mb-[1.11vw]">Landing Page</p>
       <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
-        This was the first thing teachers saw. The CTA sends them to play, with a myViewBoard download card tied to
-        the campaign&apos;s main KPI. The catch was the copy set inside the interactive display — it couldn&apos;t
-        stretch, so longer languages like German and Spanish overflowed. I anchored the visual to a fixed safe zone
-        and moved the subheadline outside the display, giving translations room to grow.
+        This was the first thing teachers saw. A button invites them to play, and below it sits a myViewBoard
+        download card, tied to the campaign&apos;s main goal. The problem was the text inside the interactive
+        display: it couldn&apos;t stretch, so longer languages like German and Spanish spilled outside the frame. To
+        fix this, I locked the visual to a fixed safe zone and moved the subheadline outside the display, giving
+        longer translations room to grow.
       </p>
       <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center">
         <motion.img
@@ -75,9 +76,10 @@ export default function Exploration() {
 
       <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Choose Your Companion</p>
       <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
-        This was where teachers picked their guide: one of four returning Teaching Superpower characters, chosen
-        through interactive flash cards. On a 9:16 mobile screen, a button under the grid would fall below the fold,
-        so I designed the CTA to surface on the selected card instead, then carried that same logic up to desktop.
+        This was where teachers picked their guide: one of four characters from last year&apos;s Teaching Superpower
+        quiz, chosen by tapping flash cards. On a mobile screen, a button under the cards would end up too low to
+        see. So I made the button appear on the card itself once it&apos;s picked, and used the same idea on desktop
+        too.
       </p>
       <div className="relative w-full">
         <motion.img
@@ -119,9 +121,9 @@ export default function Exploration() {
 
       <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Mission Scenarios</p>
       <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
-        Each scene dropped teachers into a real classroom moment and asked them to respond. I explored framing the
-        whole thing as a game &quot;mission console&quot; with decorative window UI, but pared it back to a clean chat
-        layout, so the only thing to tap is the choice itself, and nothing competes for attention with the decision.
+        Each scene put teachers into a real classroom moment and asked them to choose what to do. At first, I tried
+        making it look like a game console, with a window-style design. But I simplified it into a clean chat
+        layout, so the only thing to tap is the choice itself, with nothing else competing for attention.
       </p>
       <div className="relative w-full aspect-[874/460] rounded-2xl flex items-center justify-center">
         <motion.img
@@ -153,9 +155,10 @@ export default function Exploration() {
 
       <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Result Page</p>
       <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
-        The teacher&apos;s choices resolving into the myViewBoard 3.0 features that matched their approach. Last
-        year&apos;s version was a wall of research text; this one had to sell features, so I built it as a bento grid
-        styled like an RPG character card, letting each tool read as an earned reward instead of a spec sheet.
+        Here, the teacher&apos;s choices turned into myViewBoard 3.0 features that matched their style. Last
+        year&apos;s version was full of research text. This time, the page had to sell features, so I built it as a
+        grid of cards, styled like a game character card. Each tool feels like a reward you earned, not just a list
+        of specs.
       </p>
       <div className="relative w-full aspect-[3560/2548] rounded-2xl flex items-center justify-center">
         <motion.img

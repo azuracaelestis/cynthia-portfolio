@@ -45,10 +45,11 @@ export default function CharacterSystem() {
   return (
     <Section id="character-system" eyebrow="CHARACTER SYSTEM" title="Same characters, rebuilt for a new format.">
       <p className="font-dm text-[16px] text-black leading-[23px] mb-8">
-        Last year&apos;s 3D-rendered GIFs looked great on a laptop but fell apart at the exhibition venue — heavy
-        files that loaded slowly on venue Wi-Fi. So before touching the character designs, I set one rule: 2D MP4
-        only, full quality at a fraction of the weight. Every character below was rebuilt from 3D to 2D under that
-        constraint, without losing who they were.
+        Last year, we used 3D-rendered GIFs. They looked great on a laptop, but they broke down at the event. The
+        files were too heavy, so they loaded slowly on the venue&apos;s Wi-Fi. Because of this, I set one rule before
+        starting the character designs: use 2D MP4 only. This kept the quality high, while making the files much
+        smaller. Every character below was rebuilt from 3D to 2D under this rule, without losing what made them who
+        they are.
       </p>
       <div className="grid grid-cols-3 gap-6 mb-4">
         {COLUMNS.map((label) => (
