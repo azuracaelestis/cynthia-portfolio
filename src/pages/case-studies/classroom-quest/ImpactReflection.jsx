@@ -109,7 +109,7 @@ export default function ImpactReflection() {
   };
 
   return (
-    <Section id="impact-reflection" eyebrow="IMPACT & REFLECTION">
+    <Section id="impact-reflection" eyebrow="IMPACT & REFLECTION" title="The direct hand-off">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <p className="font-dm font-bold text-[20px] text-black">Status</p>
@@ -213,8 +213,7 @@ export default function ImpactReflection() {
           href="https://www.viewsonic.com/education/classroomquest"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute z-10 flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-transform duration-300 ease-out hover:scale-105 font-dm font-bold text-ink text-[10px] sm:text-sm md:text-base lg:text-lg"
-          style={{ left: '39.62%', top: '63.79%', width: '20.76%', height: '8.62%' }}
+          className="absolute left-[50%] top-[68.1%] z-10 flex w-[20.76%] h-[8.62%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-case-study-violet hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out hover:scale-105 font-dm font-bold text-white text-[10px] sm:text-sm md:text-base lg:w-[311px] lg:h-[54px] lg:text-[16px]"
         >
           Embark on Your Quest
         </a>

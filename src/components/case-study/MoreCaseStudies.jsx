@@ -1,109 +1,147 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { motion, useAnimation, useReducedMotion } from 'framer-motion';
 import { CASE_STUDIES } from '../../data/caseStudies';
 
-function ArrowIcon() {
+const EASE_IN = [0.4, 0, 1, 1];
+const EASE_OUT = [0, 0, 0.2, 1];
+
+function RefreshIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M4.16667 10H15.8333" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M10 4.16667L15.8333 10L10 15.8333"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 2v6h-6" />
+      <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+      <path d="M3 22v-6h6" />
+      <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
     </svg>
   );
 }
 
 export default function MoreCaseStudies({ currentId }) {
   const pool = CASE_STUDIES.filter((study) => study.id !== currentId);
-  const [index, setIndex] = useState(0);
+  const [studyIndex, setStudyIndex] = useState(0);
   const reduceMotion = useReducedMotion();
+  const controls = useAnimation();
+  const indexRef = useRef(0);
+  const tokenRef = useRef(0);
+  indexRef.current = studyIndex;
 
   if (pool.length === 0) return null;
-  const study = pool[index % pool.length];
-  const stackPeeks = pool.filter((s) => s.id !== study.id).slice(0, 2);
+  const study = pool[studyIndex % pool.length];
+  const otherStudies = CASE_STUDIES.filter((s) => s.id !== study.id);
+  const PEEK_COUNT = 2;
+  const stackPeeks =
+    otherStudies.length > 0
+      ? Array.from({ length: PEEK_COUNT }, (_, i) => otherStudies[i % otherStudies.length])
+      : [];
+  const Wrapper = study.link ? Link : 'div';
+  const wrapperProps = study.link ? { to: study.link } : {};
+
+  async function handleShuffle() {
+    const myToken = ++tokenRef.current;
+    const nextIndex = (indexRef.current + 1) % pool.length;
+
+    if (reduceMotion) {
+      await controls.start({ opacity: 0, transition: { duration: 0.15 } });
+      if (tokenRef.current !== myToken) return;
+      indexRef.current = nextIndex;
+      setStudyIndex(nextIndex);
+      controls.set({ opacity: 0 });
+      controls.start({ opacity: 1, transition: { duration: 0.15 } });
+      return;
+    }
+
+    await controls.start({ scale: 0.82, y: -16, opacity: 0, transition: { duration: 0.4, ease: EASE_IN } });
+    if (tokenRef.current !== myToken) return;
+    indexRef.current = nextIndex;
+    setStudyIndex(nextIndex);
+    controls.set({ scale: 0.88, y: 12, opacity: 0 });
+    controls.start({ scale: 1, y: 0, opacity: 1, transition: { duration: 0.4, ease: EASE_OUT } });
+  }
 
   return (
-    <section className="bg-case-study-cream px-6 lg:px-10 pt-20 pb-24">
-      <div className="mx-auto max-w-2xl">
-        <h2 className="font-dm font-extrabold text-[32px] lg:text-[40px] text-ink text-center mb-10">
+    <section className="bg-case-study-cream pt-20 pb-24">
+      <div className="mx-[6px] lg:mx-auto max-w-[1302px] rounded-[32px] bg-white px-6 lg:px-12 py-12 lg:py-[90px] flex flex-col items-center gap-8">
+        <h2 className="font-dm font-bold text-[32px] lg:text-[48px] text-ink text-center leading-tight">
           More case studies
         </h2>
 
-        <div className="relative">
-          {stackPeeks.map((peek, i) => (
-            <img
-              key={peek.id}
-              src={peek.folder}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-x-0 w-full h-auto drop-shadow-xl"
-              style={{
-                top: `-${(i + 1) * 10}px`,
-                transform: `rotate(${peek.rotate}deg)`,
-                zIndex: -1 - i,
-                opacity: 0.8 - i * 0.2,
-              }}
-            />
-          ))}
+        <div className="relative w-full lg:max-w-[900px] mt-[60px]">
+          {stackPeeks.map((peek, i) => {
+            const depth = PEEK_COUNT - i;
+            return (
+              <img
+                key={`${peek.id}-${i}`}
+                src={peek.folder}
+                alt=""
+                aria-hidden="true"
+                className="absolute w-full h-auto drop-shadow-lg"
+                style={{
+                  top: `-${depth * 14}px`,
+                  left: `${depth * 10}px`,
+                  right: `${depth * 10}px`,
+                  width: `calc(100% - ${depth * 20}px)`,
+                  opacity: 1 - depth * 0.1,
+                  zIndex: i + 1,
+                }}
+              />
+            );
+          })}
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={study.id}
-              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -12 }}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: 'easeOut' }}
-              className="relative"
+          <motion.div
+            className="relative z-10"
+            initial={{ opacity: 1, scale: 1, y: 0 }}
+            animate={controls}
+          >
+            <Wrapper
+              {...wrapperProps}
+              className={`group relative block w-full transition-transform duration-200 ease-out ${
+                study.link ? 'hover:-translate-y-1' : 'cursor-default'
+              }`}
             >
               <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
 
-              <span className="absolute top-[3%] left-[calc(4%-12px)] text-ink text-[16px] font-dm font-semibold">
+              <span className="absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[12px] lg:text-[14px] font-dm font-bold">
                 {study.tag}
               </span>
 
-              <div className="absolute inset-y-0 left-0 w-[48%] flex flex-col justify-center pl-14 pr-6">
-                <h3 className="font-dm font-extrabold text-[24px] lg:text-[28px] text-[#000000] leading-tight">
+              <div className="absolute top-[calc(24%+24px)] left-[5.3%] w-[42%]">
+                {!study.link && (
+                  <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-dm font-semibold px-3 py-1">
+                    Coming soon
+                  </span>
+                )}
+                <h3 className="font-dm font-bold text-[18px] sm:text-[24px] lg:text-[32px] text-ink leading-tight">
                   {study.title}
                 </h3>
-                <p className="mt-4 font-dm font-light text-[16px] text-black">{study.body}</p>
+                <p className="mt-3 lg:mt-4 font-dm font-light text-[13px] sm:text-[16px] lg:text-[18px] text-ink/80 leading-snug">
+                  {study.body}
+                </p>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </Wrapper>
+          </motion.div>
         </div>
 
-        <div className="mt-6 flex flex-col items-center gap-4">
-          {study.link ? (
-            <Link
-              to={study.link}
-              className="inline-flex items-center gap-2 h-12 rounded-full bg-ink text-white font-dm font-bold px-6 hover:bg-ink/90 transition-colors"
-            >
-              Read case study
-              <ArrowIcon />
-            </Link>
-          ) : (
-            <span
-              aria-disabled="true"
-              className="inline-flex items-center gap-2 h-12 rounded-full bg-ink/10 text-ink/40 font-dm font-bold px-6 cursor-not-allowed"
-            >
-              Coming soon
-            </span>
-          )}
-
-          {pool.length > 1 && (
-            <button
-              type="button"
-              onClick={() => setIndex((i) => (i + 1) % pool.length)}
-              className="h-11 rounded-full bg-ink text-white font-dm font-semibold px-6 hover:bg-ink/90 transition-colors"
-            >
-              Shuffle
-            </button>
-          )}
-        </div>
+        {pool.length > 1 && (
+          <button
+            type="button"
+            onClick={handleShuffle}
+            className="flex items-center gap-[10px] rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 lg:px-12 lg:py-4 font-dm font-bold text-[16px] lg:text-[20px] text-ink"
+          >
+            Shuffle
+            <RefreshIcon />
+          </button>
+        )}
       </div>
     </section>
   );
