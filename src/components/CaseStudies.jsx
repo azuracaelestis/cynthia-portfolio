@@ -99,7 +99,7 @@ function StudyCard({ study, index }) {
   return (
     <div
       className="lg:sticky"
-      style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
+      style={{ top: `calc(clamp(7rem, 18vh, 13rem) - 64px + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
       <Wrapper {...wrapperProps} className="group block relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
@@ -116,7 +116,7 @@ export default function CaseStudies() {
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div ref={containerRef} className="relative">
           <div className="relative h-[100px] lg:h-[171px]">
-            <div className="lg:sticky top-24 z-30 text-center">
+            <div className="lg:sticky lg:top-8 z-30 text-center">
               <span className="inline-block rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#FACC61] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
                 Selected Projects
               </span>
