@@ -1,58 +1,15 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import folderYellow from '../assets/case study/folder/folder-yellow.svg';
-import folderBlue from '../assets/case study/folder/folder-blue.svg';
-import folderBrown from '../assets/case study/folder/folder-brown.svg';
-import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile-yellow.svg';
-import folderMobileBlue from '../assets/case study/folder-mobile/folder-mobile-blue.svg';
-import folderMobileBrown from '../assets/case study/folder-mobile/folder-mobile-brown.svg';
-import classroomQuestMockup from '../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
-import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-bird.svg';
-import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
-import flyingBook from '../assets/case study/folder-thumnail/classroom quest/flying_book.svg';
-import panicBubble from '../assets/case study/folder-thumnail/classroom quest/panic_bubble.svg';
+import { CASE_STUDIES as STUDIES } from '../data/caseStudies';
 import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
-import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
-
-const STUDIES = [
-  {
-    tag: 'Taipei Fine Art Museum',
-    title: 'A companion for the whole museum visit',
-    body: 'TFAM already had an app, but low ratings and buried features meant most visitors never used it. I led an end-to-end redesign that reframed the brief from...',
-    folder: folderYellow,
-    folderMobile: folderMobileYellow,
-    rotate: -5,
-  },
-  {
-    tag: 'ViewSonic Education',
-    title: 'A product Update Teachers Actually Wanted to Play',
-    body: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
-    folder: folderBlue,
-    folderMobile: folderMobileBlue,
-    folderHover: folderBlueHover,
-    rotate: 4,
-    thumbnail: {
-      mockup: classroomQuestMockup,
-      birdLeft: cyanBird,
-      birdRight: purpleBlueBird,
-      book: flyingBook,
-      bubble: panicBubble,
-    },
-  },
-  {
-    tag: 'Asia Money Fintech',
-    title: 'Revamping the marketing homepage',
-    body: "Turning a 13-year-old B2B homepage into a funnel built to sell loans directly to everyday consumers.",
-    folder: folderBrown,
-    folderMobile: folderMobileBrown,
-    rotate: -3,
-  },
-];
 
 function StudyCard({ study, index }) {
   const reduceMotion = useReducedMotion();
   const isMobileViewport = useMediaQuery('(max-width: 1023px)');
+  const Wrapper = study.link ? Link : 'div';
+  const wrapperProps = study.link ? { to: study.link } : {};
 
   const cardContent = (
     <>
@@ -119,7 +76,11 @@ function StudyCard({ study, index }) {
 
   if (isMobileViewport) {
     if (reduceMotion) {
-      return <div className="relative">{cardContent}</div>;
+      return (
+        <Wrapper {...wrapperProps} className="block relative">
+          {cardContent}
+        </Wrapper>
+      );
     }
     return (
       <motion.div
@@ -128,9 +89,9 @@ function StudyCard({ study, index }) {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <div className="relative transition-transform duration-200 ease-out hover:-translate-y-2">
+        <Wrapper {...wrapperProps} className="block relative transition-transform duration-200 ease-out hover:-translate-y-2">
           {cardContent}
-        </div>
+        </Wrapper>
       </motion.div>
     );
   }
@@ -140,9 +101,9 @@ function StudyCard({ study, index }) {
       className="lg:sticky"
       style={{ top: `calc(clamp(7rem, 18vh, 13rem) + ${index * 4.5}rem)`, zIndex: index + 1 }}
     >
-      <div className="group relative transition-transform duration-200 ease-out hover:-translate-y-2">
+      <Wrapper {...wrapperProps} className="group block relative transition-transform duration-200 ease-out hover:-translate-y-2">
         {cardContent}
-      </div>
+      </Wrapper>
     </div>
   );
 }

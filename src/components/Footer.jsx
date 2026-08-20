@@ -1,29 +1,54 @@
+import { useLocation } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import yellowSunburst from '../assets/footer/element10.svg';
 import blueFlower from '../assets/footer/element9.svg';
 import linkedinIcon from '../assets/footer/icon/linkedin.svg';
 import resumeIcon from '../assets/footer/icon/resume.svg';
 
 export default function Footer() {
+  const location = useLocation();
+  const isCaseStudy = location.pathname.startsWith('/work/');
+  const reduceMotion = useReducedMotion();
+
   return (
-    <footer id="contact" className="mx-[6px] lg:mx-0 rounded-t-[32px] bg-bleed-blue pt-[34px] pb-[120px] lg:rounded-t-none lg:bg-transparent lg:pt-12 lg:pb-0">
+    <footer
+      id="contact"
+      className={`mx-[6px] lg:mx-0 rounded-t-[32px] bg-bleed-blue pt-[34px] pb-[120px] lg:rounded-t-none lg:pt-12 lg:pb-0 ${
+        isCaseStudy ? 'lg:bg-case-study-cream' : 'lg:bg-transparent'
+      }`}
+    >
       <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-0 lg:px-10 pt-[56px] lg:pt-24 pb-12 text-center overflow-hidden">
-        <img
+        <motion.img
           src={yellowSunburst}
           alt=""
           aria-hidden="true"
-          className="hidden lg:block pointer-events-none absolute lg:left-[12%] lg:top-[220px] lg:w-[134px] lg:h-[134px] z-20"
+          className="hidden lg:block pointer-events-none absolute lg:left-[10%] lg:top-[238px] lg:w-[107px] lg:h-[107px] z-20"
+          animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
+          transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <img
+        <motion.img
           src={blueFlower}
           alt=""
           aria-hidden="true"
-          className="hidden lg:block pointer-events-none absolute lg:right-[10%] lg:top-[110px] lg:w-[174px] lg:h-[174px] z-20"
+          className="hidden lg:block pointer-events-none absolute lg:right-[8%] lg:top-[240px] lg:w-[174px] lg:h-[174px] z-20"
+          animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
+          transition={reduceMotion ? undefined : { duration: 7, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
         />
 
         <h2 className="font-dm font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
-          Are we vibing?
-          <br />
-          Let's Connect!
+          {isCaseStudy ? (
+            <>
+              Still here? That's a good sign.
+              <br />
+              Let's chat!
+            </>
+          ) : (
+            <>
+              Are we vibing?
+              <br />
+              Let's Connect!
+            </>
+          )}
         </h2>
 
         <div className="mt-8 flex flex-col gap-[15px] px-[18px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-4 lg:px-0">
