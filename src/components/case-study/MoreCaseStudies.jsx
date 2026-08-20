@@ -5,6 +5,10 @@ import { CASE_STUDIES } from '../../data/caseStudies';
 
 const EASE_IN = [0.4, 0, 1, 1];
 const EASE_OUT = [0, 0, 0.2, 1];
+// Scales down each study's shared `rotate` value for this stack only — the
+// full angle (used by the homepage's tilted cards) reads as too much tilt
+// at this smaller card size.
+const TILT_SCALE = 0.5;
 
 function RefreshIcon() {
   return (
@@ -93,6 +97,7 @@ export default function MoreCaseStudies({ currentId }) {
                   width: `calc(100% - ${depth * 20}px)`,
                   opacity: 1 - depth * 0.1,
                   zIndex: i + 1,
+                  transform: `rotate(${peek.rotate * TILT_SCALE}deg)`,
                 }}
               />
             );
@@ -105,9 +110,10 @@ export default function MoreCaseStudies({ currentId }) {
           >
             <Wrapper
               {...wrapperProps}
-              className={`group relative block w-full transition-transform duration-200 ease-out ${
-                study.link ? 'hover:-translate-y-1' : 'cursor-default'
+              className={`group relative block w-full rotate-[var(--r)] transition-transform duration-200 ease-out ${
+                study.link ? 'hover:-translate-y-1 hover:rotate-0' : 'cursor-default'
               }`}
+              style={{ '--r': `${study.rotate * TILT_SCALE}deg` }}
             >
               <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
 
