@@ -36,9 +36,19 @@ export default function Footer() {
         />
 
         <h2 className="font-dm font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
-          Still here? That's a good sign.
-          <br />
-          Let's chat!
+          {isCaseStudy ? (
+            <>
+              Still here? That's a good sign.
+              <br />
+              Let's chat!
+            </>
+          ) : (
+            <>
+              Are we vibing?
+              <br />
+              Let's Connect!
+            </>
+          )}
         </h2>
 
         <div className="mt-8 flex flex-col gap-[15px] px-[18px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-4 lg:px-0">

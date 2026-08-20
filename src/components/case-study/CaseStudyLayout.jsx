@@ -1,14 +1,47 @@
+import { useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useActiveSection } from '../../hooks/useActiveSection';
+import { useNavScrollPhase } from '../../hooks/useNavScrollPhase';
 
-const sidebarVariants = {
-  hidden: { opacity: 0, x: -120, scale: 0.9 },
-  visible: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0.5, ease: 'easeOut' } },
+const EASE_OUT = [0, 0, 0.2, 1];
+const EASE_IN = [0.4, 0, 1, 1];
+
+// Resting x-position once in view (shifted 15px left of the column edge for
+// extra breathing room from the content), with the same ±40px slide distance
+// preserved on either side of it.
+const REST_X = -15;
+
+// The nav's phase relative to the tracked content: 'before' (right, hidden),
+// 'visible' (in place), 'after' (left, hidden). Transitioning INTO 'visible'
+// is always the entrance (ease-out); transitioning OUT of it, in either
+// direction, is always the exit (ease-in) — matching how the motion reads to
+// the reader as one system running forward or in reverse.
+const navVariants = {
+  before: {
+    x: REST_X + 40,
+    opacity: 0,
+    transition: { duration: 0.35, ease: EASE_IN },
+    transitionEnd: { visibility: 'hidden', pointerEvents: 'none' },
+  },
+  visible: {
+    x: REST_X,
+    opacity: 1,
+    visibility: 'visible',
+    pointerEvents: 'auto',
+    transition: { duration: 0.35, ease: EASE_OUT },
+  },
+  after: {
+    x: REST_X - 40,
+    opacity: 0,
+    transition: { duration: 0.35, ease: EASE_IN },
+    transitionEnd: { visibility: 'hidden', pointerEvents: 'none' },
+  },
 };
 
-const sidebarVariantsReduced = {
-  hidden: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0 } },
-  visible: { opacity: 1, x: -40, scale: 0.9, transition: { duration: 0 } },
+const navVariantsReduced = {
+  before: { opacity: 0, transition: { duration: 0.15 }, transitionEnd: { visibility: 'hidden', pointerEvents: 'none' } },
+  visible: { opacity: 1, visibility: 'visible', pointerEvents: 'auto', transition: { duration: 0.15 } },
+  after: { opacity: 0, transition: { duration: 0.15 }, transitionEnd: { visibility: 'hidden', pointerEvents: 'none' } },
 };
 
 // sections: [{ id: 'overview', label: 'Overview' }, ...]
@@ -16,6 +49,9 @@ export default function CaseStudyLayout({ sections, children }) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
   const reduceMotion = useReducedMotion();
+  const startSentinelRef = useRef(null);
+  const endSentinelRef = useRef(null);
+  const navPhase = useNavScrollPhase(startSentinelRef, endSentinelRef);
 
   return (
     <div className="bg-case-study-cream">
@@ -35,15 +71,16 @@ export default function CaseStudyLayout({ sections, children }) {
           ))}
         </nav>
 
+        <div ref={startSentinelRef} aria-hidden="true" className="h-px" />
+
         <div className="lg:grid lg:grid-cols-[250px_1fr] lg:gap-[34px]">
           {/* Desktop: sticky sidebar */}
           <nav aria-label="On this page" className="hidden lg:block">
             <motion.div
               className="sticky top-32 origin-top-left bg-white rounded-2xl shadow-[0px_0px_12.5px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-4"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={reduceMotion ? sidebarVariantsReduced : sidebarVariants}
+              initial="before"
+              animate={navPhase}
+              variants={reduceMotion ? navVariantsReduced : navVariants}
             >
               <p className="font-dm font-bold text-[14px] text-case-study-blue">ON THIS PAGE</p>
               <ul className="flex flex-col gap-[10px]">
@@ -68,7 +105,10 @@ export default function CaseStudyLayout({ sections, children }) {
             </motion.div>
           </nav>
 
-          <div className="min-w-0">{children}</div>
+          <div className="min-w-0">
+            {children}
+            <div ref={endSentinelRef} aria-hidden="true" className="h-px" />
+          </div>
         </div>
       </div>
     </div>
