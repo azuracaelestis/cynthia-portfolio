@@ -92,26 +92,26 @@ export default function Exploration() {
           variants={reduceMotion ? revealVariantsReduced : revealVariants}
           transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
-        <p className="hidden lg:block absolute left-[1%] top-[3%] font-caveat font-bold text-[19.36px] text-about-blue">
+        <p className="absolute left-[1%] top-[calc(3%-20px)] lg:top-[3%] font-caveat font-bold text-[14px] lg:text-[19.36px] text-about-blue">
           Default state
         </p>
-        <p className="hidden lg:block absolute left-[1%] top-[calc(36%+15px)] font-caveat font-bold text-[19.36px] text-about-blue">
+        <p className="absolute left-[1%] top-[calc(36%-5px)] lg:top-[calc(36%+15px)] font-caveat font-bold text-[14px] lg:text-[19.36px] text-about-blue">
           Hover state
         </p>
-        <p className="hidden lg:block absolute left-[1%] top-[calc(76%+58px)] font-caveat font-bold text-[22px] text-about-blue">
+        <p className="absolute left-[1%] top-[calc(76%+58px)] font-caveat font-bold text-[14px] lg:text-[22px] text-about-blue">
           Mobile-first design
         </p>
-        <p className="hidden lg:block absolute left-[43.5%] top-[3%] font-caveat font-bold text-[22px] text-about-blue">
+        <p className="absolute left-[43.5%] top-[calc(3%-20px)] lg:top-[3%] font-caveat font-bold text-[14px] lg:text-[22px] text-about-blue">
           First iteration.
         </p>
-        <img src={selectedArrow} alt="" className="hidden lg:block absolute left-[46%] top-[calc(74%+60px)] w-[4.5%] h-auto" />
-        <p className="hidden lg:block absolute left-[52%] top-[calc(75%+75px)] font-caveat font-bold text-[26.4px] text-about-blue">
+        <img src={selectedArrow} alt="" className="absolute left-[46%] top-[calc(74%+60px)] w-[4.5%] h-auto" />
+        <p className="absolute left-[52%] top-[calc(75%+75px)] font-caveat font-bold text-[14px] lg:text-[26.4px] text-about-blue">
           Selected
         </p>
         <motion.img
           src={commentJoy}
           alt="Design review comment from Joy Wu: Nice, the desktop version follows the mobile logic now. The CTA on the selected card reads much clearer than one button under the whole grid."
-          className="hidden lg:block absolute left-[calc(67%-10px)] top-[calc(73%+67px)] w-[32.67%]"
+          className="absolute left-[calc(67%-10px)] top-[calc(73%+67px)] w-[32.67%]"
           initial="hidden"
           whileInView="visible"
           variants={reduceMotion ? commentVariantsReduced : commentVariants}

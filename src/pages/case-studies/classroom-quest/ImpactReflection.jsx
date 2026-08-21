@@ -53,6 +53,7 @@ export default function ImpactReflection() {
   const dragState = useRef({ isDown: false, dragged: false, startX: 0, startScrollLeft: 0 });
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const el = scrollerRef.current;
@@ -61,6 +62,9 @@ export default function ImpactReflection() {
     const update = () => {
       setCanScrollLeft(el.scrollLeft > 1);
       setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const progress = maxScroll > 0 ? el.scrollLeft / maxScroll : 0;
+      setActiveIndex(Math.round(progress * (LESSONS.length - 1)));
     };
     update();
     el.addEventListener('scroll', update, { passive: true });
@@ -70,6 +74,13 @@ export default function ImpactReflection() {
       window.removeEventListener('resize', update);
     };
   }, []);
+
+  const scrollToIndex = (index) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    el.scrollTo({ left: (index / (LESSONS.length - 1)) * maxScroll, behavior: reduceMotion ? 'auto' : 'smooth' });
+  };
 
   const handlePointerDown = (e) => {
     if (e.pointerType === 'touch') return;
@@ -150,7 +161,7 @@ export default function ImpactReflection() {
             onPointerLeave={endDrag}
             onPointerCancel={endDrag}
             onClickCapture={handleClickCapture}
-            className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mx-6 px-6 lg:mx-0 lg:px-0 lg:cursor-grab lg:active:cursor-grabbing touch-pan-x select-none"
+            className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mr-6 pr-6 lg:mx-0 lg:px-0 lg:cursor-grab lg:active:cursor-grabbing touch-pan-x select-none"
           >
             {LESSONS.map((lesson, i) => (
               <motion.div
@@ -163,11 +174,24 @@ export default function ImpactReflection() {
                   ...(reduceMotion ? revealTransitionReduced : revealTransition),
                   delay: reduceMotion ? 0 : i * STAGGER_STEP,
                 }}
-                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-center gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[236px] lg:w-[24.31vw] lg:h-[16.39vw]"
+                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-start lg:justify-center gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[284px] lg:w-[24.31vw] lg:h-[16.39vw]"
               >
                 <p className="font-dm font-bold text-[16px] text-black">{lesson.title}</p>
                 <p className="font-dm text-[16px] text-black leading-[23px]">{lesson.body}</p>
               </motion.div>
+            ))}
+          </div>
+          <div className="lg:hidden flex justify-center items-center gap-2 mt-4">
+            {LESSONS.map((lesson, i) => (
+              <button
+                key={lesson.title}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                aria-label={`Go to lesson ${i + 1}`}
+                className={`rounded-full transition-all ${
+                  activeIndex === i ? 'w-5 h-2 bg-case-study-blue' : 'w-2 h-2 bg-case-study-blue/30'
+                }`}
+              />
             ))}
           </div>
           <button
