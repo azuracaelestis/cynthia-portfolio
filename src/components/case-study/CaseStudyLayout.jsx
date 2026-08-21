@@ -56,21 +56,6 @@ export default function CaseStudyLayout({ sections, children }) {
   return (
     <div className="bg-case-study-cream">
       <div className="mx-auto max-w-6xl px-6 lg:px-10 pt-12 lg:pt-16 pb-28">
-        {/* Mobile: horizontal jump-to row */}
-        <nav aria-label="On this page" className="lg:hidden -mx-6 px-6 mb-8 flex gap-2 overflow-x-auto pb-2">
-          {sections.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 font-dm text-sm font-semibold transition-colors ${
-                activeId === s.id ? 'bg-[#1A87D5] text-white' : 'bg-sky-50 text-ink'
-              }`}
-            >
-              {s.label}
-            </a>
-          ))}
-        </nav>
-
         <div ref={startSentinelRef} aria-hidden="true" className="h-px" />
 
         <div className="lg:grid lg:grid-cols-[250px_1fr] lg:gap-[34px]">

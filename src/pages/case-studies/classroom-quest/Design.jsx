@@ -82,9 +82,9 @@ function AutoplayVideo({ src, ariaLabel }) {
 export default function Design() {
   return (
     <Section id="design" eyebrow="DESIGN" eyebrowClassName="mb-4">
-      <div className="flex flex-col gap-[90px]">
+      <div className="flex flex-col gap-12 lg:gap-[90px]">
         <div>
-          <p className="font-dm font-bold text-[20px] text-black mb-4">Landing Page</p>
+          <p className="font-dm font-bold text-[20px] text-black mb-8 lg:mb-4">Landing Page</p>
           <img
             src={landingPageDesign}
             alt="Landing Page, desktop and mobile: 'Welcome to the Classroom Quest' hero banner with an 'Embark on Your Quest' CTA, illustrated classroom-hero characters, and intro copy."
@@ -92,21 +92,21 @@ export default function Design() {
           />
         </div>
         <div>
-          <p className="font-dm font-bold text-[20px] text-black mb-4">Choose Your Companion</p>
+          <p className="font-dm font-bold text-[20px] text-black mb-8 lg:mb-4">Choose Your Companion</p>
           <AutoplayVideo
             src={chooseCompanion}
             ariaLabel="Choose Your Companion, desktop and mobile: a walkthrough of the 'Choose Your Avatar for Today's Quest' screen with four character cards and an 'I'm Ready' CTA on the selected card."
           />
         </div>
         <div>
-          <p className="font-dm font-bold text-[20px] text-black mb-4">Mission Scenario</p>
+          <p className="font-dm font-bold text-[20px] text-black mb-8 lg:mb-4">Mission Scenario</p>
           <AutoplayVideo
             src={missionScenarioDesign}
             ariaLabel="Mission Scenario, desktop and mobile: a walkthrough of the chat-style story sequence ending in a highlighted choice."
           />
         </div>
         <div>
-          <p className="font-dm font-bold text-[20px] text-black mb-4">Result Page</p>
+          <p className="font-dm font-bold text-[20px] text-black mb-8 lg:mb-4">Result Page</p>
           <AutoplayVideo
             src={resultPageDesign}
             ariaLabel="Result Page, desktop and mobile: a walkthrough of 'The Day Nothing Caught Fire' story recap, the 'Igniter of Curiosity' character result, and the 'You've Leveled Up!' attributes panel."

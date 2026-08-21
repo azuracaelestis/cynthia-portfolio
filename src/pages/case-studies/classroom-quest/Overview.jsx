@@ -35,7 +35,7 @@ export default function Overview() {
 
   return (
     <div id="overview" className="scroll-mt-28 bg-gradient-to-b from-white to-bleed-blue">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-16 lg:pb-0">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-0">
         <motion.span
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
@@ -48,12 +48,12 @@ export default function Overview() {
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
           transition={textDelay(0.08, 0.04)}
-          className="mt-3 font-dm font-bold text-[28px] md:text-[36px] lg:text-[48px] lg:leading-[60px] text-black"
+          className="mt-4 lg:mt-3 font-dm font-bold text-[36px] lg:text-[48px] lg:leading-[60px] text-black"
         >
           A Product Update Teachers Wanted to Play
         </motion.h1>
 
-        <div className="mt-8 flex flex-col gap-6 lg:mt-12 lg:flex-row lg:justify-between lg:gap-x-8">
+        <div className="mt-6 flex flex-col gap-6 lg:mt-12 lg:flex-row lg:justify-between lg:gap-x-8">
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.18, 0.08)}>
             <p className="font-dm font-extrabold text-[20px] text-black">Overview</p>
             <p className="mt-2 font-dm text-[16px] text-black lg:max-w-[390px]">
@@ -86,7 +86,7 @@ export default function Overview() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '0px 0px -60% 0px' }}
-          className="relative mt-12 lg:mt-[94px] lg:max-w-[72%] lg:mx-auto"
+          className="relative mt-8 lg:mt-[94px] lg:max-w-[72%] lg:mx-auto"
         >
           <motion.img
             variants={reduceMotion ? heroVariantsReduced : heroVariants}
@@ -96,9 +96,11 @@ export default function Overview() {
             className="relative w-full h-auto rounded-t-[16px]"
           />
 
-          {/* Decorations — desktop only. Each sized/positioned as a direct
-              percentage of this wrapper (= mockup width), pulled from the
-              Figma frame (node 37:37) via MCP — not nested/guessed. */}
+          {/* Decorations. Each sized/positioned as a direct percentage of
+              this wrapper (= mockup width), pulled from the Figma frame
+              (node 37:37) via MCP — not nested/guessed. panicBubble and
+              mobilePreview stay desktop-only; the three birds are shown at
+              every breakpoint. */}
           <motion.img
             variants={reduceMotion ? heroRotatedVariantsReduced(-16) : heroRotatedVariants(-16)}
             transition={heroDelay(0.0, 0.0)}
@@ -111,14 +113,14 @@ export default function Overview() {
             transition={heroDelay(0.0, 0.0)}
             src={cyanBird}
             alt=""
-            className="hidden lg:block absolute -left-[7%] top-[calc(32%-45px)] w-[28.88%]"
+            className="absolute -left-[7%] top-[calc(32%-45px)] w-[28.88%]"
           />
           <motion.img
             variants={reduceMotion ? heroRotatedVariantsReduced(-6) : heroRotatedVariants(-6)}
             transition={heroDelay(0.12, 0.04)}
             src={purpleBlueBird}
             alt=""
-            className="hidden lg:block absolute left-[calc(74%+10px)] top-[14%] w-[24%]"
+            className="absolute left-[calc(74%+10px)] top-[14%] w-[24%]"
           />
           <motion.img
             variants={reduceMotion ? heroVariantsReduced : heroVariants}
@@ -132,7 +134,7 @@ export default function Overview() {
             transition={heroDelay(0.24, 0.08)}
             src={redBird}
             alt=""
-            className="hidden lg:block absolute left-[calc(65.7%-20px)] top-[calc(63.9%-50px)] w-[29.26%]"
+            className="absolute left-[calc(65.7%-20px)] top-[calc(63.9%-50px)] w-[29.26%]"
           />
         </motion.div>
       </div>

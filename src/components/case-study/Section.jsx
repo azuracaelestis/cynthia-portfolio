@@ -6,13 +6,20 @@ const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
 const revealTransitionReduced = { duration: 0 };
 const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
 
-export default function Section({ id, eyebrow, title, children, eyebrowClassName = 'mb-3', titleClassName = 'mb-6' }) {
+export default function Section({
+  id,
+  eyebrow,
+  title,
+  children,
+  eyebrowClassName = 'mb-4 lg:mb-3',
+  titleClassName = 'mb-6',
+}) {
   const reduceMotion = useReducedMotion();
   const variants = reduceMotion ? revealVariantsReduced : revealVariants;
   const transition = reduceMotion ? revealTransitionReduced : revealTransition;
 
   return (
-    <section id={id} className="scroll-mt-28 pt-12 lg:pt-[120px] first:pt-0">
+    <section id={id} className="scroll-mt-28 pt-24 lg:pt-[120px] first:pt-0">
       {eyebrow && (
         <motion.p
           initial="hidden"

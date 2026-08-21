@@ -51,14 +51,14 @@ export default function CharacterSystem() {
         smaller. Every character below was rebuilt from 3D to 2D under this rule, without losing what made them who
         they are.
       </p>
-      <div className="grid grid-cols-3 gap-6 mb-4">
+      <div className="grid grid-cols-3 gap-6 mb-5 lg:mb-4">
         {COLUMNS.map((label) => (
           <p key={label} className="font-caveat font-bold text-[20px] text-about-blue text-center">
             {label}
           </p>
         ))}
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-5 lg:gap-2">
         {ROWS.map((row) => (
           <div key={row.alt} className="grid grid-cols-3 gap-6 items-center">
             <motion.div
@@ -67,7 +67,7 @@ export default function CharacterSystem() {
               viewport={revealViewport}
               variants={variants}
               transition={transitionAt(0)}
-              className="flex items-center justify-center h-[200px]"
+              className="flex items-center justify-center h-[130px] lg:h-[200px]"
             >
               <img
                 src={row.original}
@@ -81,7 +81,7 @@ export default function CharacterSystem() {
               viewport={revealViewport}
               variants={variants}
               transition={transitionAt(1)}
-              className="flex items-center justify-center h-[200px]"
+              className="flex items-center justify-center h-[130px] lg:h-[200px]"
             >
               <img
                 src={row.render3d}
@@ -96,7 +96,7 @@ export default function CharacterSystem() {
               viewport={revealViewport}
               variants={variants}
               transition={transitionAt(2)}
-              className="flex items-center justify-center h-[200px]"
+              className="flex items-center justify-center h-[130px] lg:h-[200px]"
             >
               <img
                 src={row.motion2d}

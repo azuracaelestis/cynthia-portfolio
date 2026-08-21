@@ -41,7 +41,12 @@ export default function Experience() {
   const variants = reduceMotion ? commentVariantsReduced : commentVariants;
 
   return (
-    <Section id="the-experience" eyebrow="THE EXPERIENCE" title="A five-minute quest, built to feel effortless.">
+    <Section
+      id="the-experience"
+      eyebrow="THE EXPERIENCE"
+      title="A five-minute quest, built to feel effortless."
+      titleClassName="mb-8 lg:mb-6"
+    >
       <div className="relative">
         <motion.img
           src={userFlow}

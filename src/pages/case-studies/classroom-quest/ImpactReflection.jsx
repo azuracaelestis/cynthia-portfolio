@@ -133,7 +133,7 @@ export default function ImpactReflection() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 mt-8">
+      <div className="flex flex-col gap-6 mt-12 lg:mt-8">
         <div className="flex flex-col gap-4">
           <p className="font-dm font-bold text-[20px] text-black">Reflection</p>
           <p className="font-dm text-[16px] text-black leading-[23px]">
@@ -195,7 +195,7 @@ export default function ImpactReflection() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col gap-4">
+      <div className="mt-12 lg:mt-8 flex flex-col gap-4">
         <p className="font-dm font-extrabold text-[28px] lg:text-[32px] text-black leading-tight">Play it yourself</p>
         <p className="font-dm text-[16px] text-black leading-[23px]">
           This is the real game — it&apos;s live, but no one ever got to hear about it. Try it yourself.

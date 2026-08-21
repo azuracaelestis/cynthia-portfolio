@@ -42,17 +42,17 @@ export default function Exploration() {
       eyebrow="EXPLORATION"
       title="Built inside constraints, not around them."
       eyebrowClassName="mb-4"
-      titleClassName="mb-8"
+      titleClassName="mb-6 lg:mb-8"
     >
       <p className="font-dm font-bold text-[20px] text-black mb-[1.11vw]">Landing Page</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
         This was the first thing teachers saw. A button invites them to play, and below it sits a myViewBoard
         download card, tied to the campaign&apos;s main goal. The problem was the text inside the interactive
         display: it couldn&apos;t stretch, so longer languages like German and Spanish spilled outside the frame. To
         fix this, I locked the visual to a fixed safe zone and moved the subheadline outside the display, giving
         longer translations room to grow.
       </p>
-      <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center">
+      <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center mb-[calc(18%+64px)] lg:mb-0">
         <motion.img
           src={landingPage}
           alt="Classroom Quest landing page: a hero banner inviting teachers to 'Embark on Your Quest', illustrated classroom-hero characters, and a myViewBoard feature callout below."
@@ -74,8 +74,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Choose Your Companion</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
+      <p className="font-dm font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Choose Your Companion</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
         This was where teachers picked their guide: one of four characters from last year&apos;s Teaching Superpower
         quiz, chosen by tapping flash cards. On a mobile screen, a button under the cards would end up too low to
         see. So I made the button appear on the card itself once it&apos;s picked, and used the same idea on desktop
@@ -119,8 +119,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Mission Scenarios</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
+      <p className="font-dm font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Mission Scenarios</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
         Each scene put teachers into a real classroom moment and asked them to choose what to do. At first, I tried
         making it look like a game console, with a window-style design. But I simplified it into a clean chat
         layout, so the only thing to tap is the choice itself, with nothing else competing for attention.
@@ -136,8 +136,12 @@ export default function Exploration() {
           variants={reduceMotion ? revealVariantsReduced : revealVariants}
           transition={reduceMotion ? revealTransitionReduced : revealTransition}
         />
-        <img src={missionScenarioArrow} alt="" className="absolute left-[58%] top-[calc(12%+270px)] w-[6%] h-auto" />
-        <p className="absolute left-[calc(65%+10px)] top-[calc(12%+313px)] font-caveat font-bold text-[20px] text-about-blue leading-tight">
+        <img
+          src={missionScenarioArrow}
+          alt=""
+          className="hidden lg:block absolute left-[58%] top-[calc(12%+270px)] w-[6%] h-auto"
+        />
+        <p className="hidden lg:block absolute left-[calc(65%+10px)] top-[calc(12%+313px)] font-caveat font-bold text-[20px] text-about-blue leading-tight">
           Stripped to a chat thread.
           <br />
           One clear choice, nothing else to tap.
@@ -153,8 +157,8 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-dm font-bold text-[20px] text-black mt-[6.94vw] mb-[1.11vw]">Result Page</p>
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-[2.22vw]">
+      <p className="font-dm font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Result Page</p>
+      <p className="font-dm text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
         Here, the teacher&apos;s choices turned into myViewBoard 3.0 features that matched their style. Last
         year&apos;s version was full of research text. This time, the page had to sell features, so I built it as a
         grid of cards, styled like a game character card. Each tool feels like a reward you earned, not just a list
