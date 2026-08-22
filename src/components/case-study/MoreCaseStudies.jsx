@@ -117,20 +117,20 @@ export default function MoreCaseStudies({ currentId }) {
             >
               <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
 
-              <span className="absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[12px] lg:text-[14px] font-dm font-bold">
+              <span className="hidden lg:block absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[14px] font-dm font-bold">
                 {study.tag}
               </span>
 
-              <div className="absolute top-[calc(24%+24px)] left-[5.3%] w-[42%]">
+              <div className="absolute top-[calc(24%+4px)] left-[calc(5.3%+94px)] lg:top-[calc(24%+24px)] lg:left-[5.3%] w-[42%]">
                 {!study.link && (
                   <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-dm font-semibold px-3 py-1">
                     Coming soon
                   </span>
                 )}
-                <h3 className="font-dm font-bold text-[18px] sm:text-[24px] lg:text-[32px] text-ink leading-tight">
+                <h3 className="font-dm font-bold text-[18px] lg:text-[32px] text-ink leading-tight">
                   {study.title}
                 </h3>
-                <p className="mt-3 lg:mt-4 font-dm font-light text-[13px] sm:text-[16px] lg:text-[18px] text-ink/80 leading-snug">
+                <p className="hidden lg:block mt-4 font-dm font-light text-[18px] text-ink/80 leading-snug">
                   {study.body}
                 </p>
               </div>

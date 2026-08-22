@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import originalCyan from '../../../assets/case study/case-study-classroom-quest/character system/personality test_bird-13.png';
 import originalRed from '../../../assets/case study/case-study-classroom-quest/character system/personality test_bird-15.png';
 import render3dCyan from '../../../assets/case study/case-study-classroom-quest/character system/inspiration_without_costume.png';
@@ -24,6 +25,7 @@ const ROWS = [
     motion2d: motion2dRed,
     alt: 'red creature character',
     render3dMaxHeight: 140,
+    render3dMaxHeightMobile: 115,
   },
 ];
 
@@ -36,6 +38,7 @@ const STAGGER_STEP = 0.06;
 
 export default function CharacterSystem() {
   const reduceMotion = useReducedMotion();
+  const isMobileViewport = useMediaQuery('(max-width: 1023px)');
   const variants = reduceMotion ? revealVariantsReduced : revealVariants;
   const transitionAt = (i) => ({
     ...(reduceMotion ? revealTransitionReduced : revealTransition),
@@ -58,7 +61,7 @@ export default function CharacterSystem() {
           </p>
         ))}
       </div>
-      <div className="flex flex-col gap-5 lg:gap-2">
+      <div className="flex flex-col gap-[8px] lg:gap-2">
         {ROWS.map((row) => (
           <div key={row.alt} className="grid grid-cols-3 gap-6 items-center">
             <motion.div
@@ -87,7 +90,12 @@ export default function CharacterSystem() {
                 src={row.render3d}
                 alt={`${row.alt}, 3D render`}
                 className="max-w-full w-auto h-auto"
-                style={{ maxHeight: row.render3dMaxHeight ?? 200 }}
+                style={{
+                  maxHeight:
+                    isMobileViewport && row.render3dMaxHeightMobile
+                      ? row.render3dMaxHeightMobile
+                      : row.render3dMaxHeight ?? 200,
+                }}
               />
             </motion.div>
             <motion.div

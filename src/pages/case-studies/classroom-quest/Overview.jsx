@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import cyanBird from '../../../assets/case study/case-study-classroom-quest/header/cyan-bird.svg';
 import redBird from '../../../assets/case study/case-study-classroom-quest/header/red-bird.svg';
 import purpleBlueBird from '../../../assets/case study/case-study-classroom-quest/header/purple-blue_bird.svg';
@@ -28,10 +29,18 @@ const heroRotatedVariantsReduced = (deg) => ({
 
 export default function Overview() {
   const reduceMotion = useReducedMotion();
+  const isMobileViewport = useMediaQuery('(max-width: 1023px)');
   const enterProps = { initial: 'hidden', animate: 'visible' };
 
   const textDelay = (real, reduced) => withDelay(reduceMotion ? reducedTransition : textTransition, reduceMotion ? reduced : real);
   const heroDelay = (real, reduced) => withDelay(reduceMotion ? reducedTransition : heroTransition, reduceMotion ? reduced : real);
+
+  // Mobile: mockup image reveals first, then the birds follow. Desktop keeps its
+  // original interleaved stagger untouched.
+  const mockupDelay = isMobileViewport ? heroDelay(0.0, 0.0) : heroDelay(0.36, 0.12);
+  const cyanBirdDelay = isMobileViewport ? heroDelay(0.24, 0.08) : heroDelay(0.0, 0.0);
+  const purpleBlueBirdDelay = isMobileViewport ? heroDelay(0.36, 0.12) : heroDelay(0.12, 0.04);
+  const redBirdDelay = isMobileViewport ? heroDelay(0.48, 0.16) : heroDelay(0.24, 0.08);
 
   return (
     <div id="overview" className="scroll-mt-28 bg-gradient-to-b from-white to-bleed-blue">
@@ -48,9 +57,9 @@ export default function Overview() {
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
           transition={textDelay(0.08, 0.04)}
-          className="mt-4 lg:mt-3 font-dm font-bold text-[36px] lg:text-[48px] lg:leading-[60px] text-black"
+          className="mt-4 lg:mt-3 font-dm font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-black"
         >
-          A Product Update Teachers Wanted to Play
+          A Product Update<br className="lg:hidden" /> Teachers Wanted<br className="lg:hidden" /> to Play
         </motion.h1>
 
         <div className="mt-6 flex flex-col gap-6 lg:mt-12 lg:flex-row lg:justify-between lg:gap-x-8">
@@ -90,7 +99,7 @@ export default function Overview() {
         >
           <motion.img
             variants={reduceMotion ? heroVariantsReduced : heroVariants}
-            transition={heroDelay(0.36, 0.12)}
+            transition={mockupDelay}
             src={classroomQuestMockup}
             alt="Classroom Quest homepage mockup"
             className="relative w-full h-auto rounded-t-[16px]"
@@ -110,14 +119,14 @@ export default function Overview() {
           />
           <motion.img
             variants={reduceMotion ? heroRotatedVariantsReduced(-16) : heroRotatedVariants(-16)}
-            transition={heroDelay(0.0, 0.0)}
+            transition={cyanBirdDelay}
             src={cyanBird}
             alt=""
             className="absolute -left-[7%] top-[calc(32%-45px)] w-[28.88%]"
           />
           <motion.img
             variants={reduceMotion ? heroRotatedVariantsReduced(-6) : heroRotatedVariants(-6)}
-            transition={heroDelay(0.12, 0.04)}
+            transition={purpleBlueBirdDelay}
             src={purpleBlueBird}
             alt=""
             className="absolute left-[calc(74%+10px)] top-[14%] w-[24%]"
@@ -131,10 +140,10 @@ export default function Overview() {
           />
           <motion.img
             variants={reduceMotion ? heroVariantsReduced : heroVariants}
-            transition={heroDelay(0.24, 0.08)}
+            transition={redBirdDelay}
             src={redBird}
             alt=""
-            className="absolute left-[calc(65.7%-20px)] top-[calc(63.9%-50px)] w-[29.26%]"
+            className="absolute left-[calc(65.7%-20px)] top-[calc(63.9%+2px)] lg:top-[calc(63.9%-50px)] w-[29.26%]"
           />
         </motion.div>
       </div>

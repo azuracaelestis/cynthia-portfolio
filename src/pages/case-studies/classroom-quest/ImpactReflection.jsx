@@ -226,7 +226,7 @@ export default function ImpactReflection() {
         </p>
       </div>
 
-      <div className="relative mt-8 lg:max-w-[94%] lg:mx-auto">
+      <div className="relative mt-8 scale-110 lg:scale-100 lg:max-w-[94%] lg:mx-auto">
         <img
           src={viewboardTextDesktop}
           alt="myViewBoard 3.0 browser mockup showing the Classroom Quest game live on the ViewSonic Education website."
@@ -237,7 +237,7 @@ export default function ImpactReflection() {
           href="https://www.viewsonic.com/education/classroomquest"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute left-[50%] top-[68.1%] z-10 flex w-[20.76%] h-[8.62%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-case-study-violet hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out hover:scale-105 font-dm font-bold text-white text-[10px] sm:text-sm md:text-base lg:w-[311px] lg:h-[54px] lg:text-[16px]"
+          className="absolute left-[50%] top-[68.1%] z-10 flex w-auto h-auto whitespace-nowrap px-6 py-3 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-case-study-violet hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out hover:scale-105 font-dm font-bold text-white text-[10px] sm:text-sm md:text-base lg:w-[311px] lg:h-[54px] lg:px-0 lg:py-0 lg:text-[16px]"
         >
           Embark on Your Quest
         </a>

@@ -8,7 +8,7 @@ import Section from '../../../components/case-study/Section';
 
 function PlayIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path d="M6 4.5v11l9-5.5-9-5.5z" />
     </svg>
   );
@@ -16,7 +16,7 @@ function PlayIcon() {
 
 function PauseIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <rect x="5" y="4" width="3.5" height="12" rx="1" />
       <rect x="11.5" y="4" width="3.5" height="12" rx="1" />
     </svg>
@@ -71,7 +71,7 @@ function AutoplayVideo({ src, ariaLabel }) {
         type="button"
         onClick={togglePlay}
         aria-label={isPlaying ? 'Pause video' : 'Play video'}
-        className="absolute left-4 bottom-4 w-14 h-14 rounded-full bg-ink/60 backdrop-blur-sm ring-2 ring-white/70 flex items-center justify-center text-white transition-transform hover:scale-105"
+        className="absolute left-4 bottom-4 w-[45px] h-[45px] rounded-full bg-ink/60 backdrop-blur-sm ring-2 ring-white/70 flex items-center justify-center text-white transition-transform hover:scale-105"
       >
         {isPlaying ? <PauseIcon /> : <PlayIcon />}
       </button>
