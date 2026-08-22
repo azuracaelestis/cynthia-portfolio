@@ -86,10 +86,17 @@ function StudyCard({ study, index }) {
               transition={{ duration: 0.3, ease: 'easeOut' }}
             />
           </div>
-          <span className="mt-10 w-full flex items-center justify-center rounded-full bg-ink text-white font-dm font-bold text-[16px] h-[45px]">
-            Read Case Study
-          </span>
         </div>
+      )}
+
+      {study.thumbnail ? (
+        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink text-white font-dm font-bold text-[16px] h-[45px]">
+          Read Case Study
+        </span>
+      ) : (
+        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink/30 text-white font-dm font-bold text-[16px] h-[45px]">
+          Coming Soon
+        </span>
       )}
 
       {study.mockupMobile && (
