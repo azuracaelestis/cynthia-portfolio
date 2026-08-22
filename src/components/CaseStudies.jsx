@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { CASE_STUDIES as STUDIES } from '../data/caseStudies';
-import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
 
 function StudyCard({ study, index }) {
   const reduceMotion = useReducedMotion();
@@ -35,11 +34,6 @@ function StudyCard({ study, index }) {
             {study.title}
           </h3>
           <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
-          <img
-            src={arrowRight}
-            alt=""
-            className="mt-6 w-[60px] h-[60px] opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
-          />
         </div>
       </div>
 
@@ -60,6 +54,41 @@ function StudyCard({ study, index }) {
       ) : (
         <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-dm text-sm">
           Image placeholder
+        </div>
+      )}
+
+      {study.thumbnail && (
+        <div className="lg:hidden absolute left-[5%] right-[5%] top-[calc(54%-24px)] flex flex-col items-center">
+          <div className="relative w-[80%]">
+            <img
+              src={study.thumbnail.mockup}
+              alt=""
+              className="w-full h-auto rounded-xl object-contain drop-shadow-lg"
+            />
+            <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
+            <motion.img
+              src={study.thumbnail.birdLeft}
+              alt=""
+              className="absolute top-[30%] -left-[5%] w-[27%]"
+              initial={{ x: 0, y: 0, rotate: 12 }}
+              whileInView={reduceMotion ? undefined : { x: -32, y: -12, rotate: 2 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            />
+            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
+            <motion.img
+              src={study.thumbnail.birdRight}
+              alt=""
+              className="absolute top-[36%] -right-[6%] w-[25%]"
+              initial={{ x: 0, y: 0, rotate: -30 }}
+              whileInView={reduceMotion ? undefined : { x: 32, y: -12, rotate: -38 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            />
+          </div>
+          <span className="mt-10 w-full flex items-center justify-center rounded-full bg-ink text-white font-dm font-bold text-[16px] h-[45px]">
+            Read Case Study
+          </span>
         </div>
       )}
 
