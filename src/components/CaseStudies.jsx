@@ -24,11 +24,11 @@ function StudyCard({ study, index }) {
         )}
       </div>
 
-      <span className="absolute top-[59px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
+      <span className="absolute top-[51px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
         {study.tag}
       </span>
 
-      <div className="absolute top-[59px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
+      <div className="absolute top-[51px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
         <div className="max-w-[440px] translate-y-[40px]">
           <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
