@@ -174,7 +174,7 @@ export default function ImpactReflection() {
                   ...(reduceMotion ? revealTransitionReduced : revealTransition),
                   delay: reduceMotion ? 0 : i * STAGGER_STEP,
                 }}
-                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-start lg:justify-center gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[284px] lg:w-[24.31vw] lg:h-[16.39vw]"
+                className="shrink-0 snap-start bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-start gap-2 overflow-y-auto w-[85vw] max-w-[350px] h-[284px] lg:w-[24.31vw] lg:h-[calc(16.39vw+42px)]"
               >
                 <p className="font-dm font-bold text-[16px] text-black">{lesson.title}</p>
                 <p className="font-dm text-[16px] text-black leading-[23px]">{lesson.body}</p>

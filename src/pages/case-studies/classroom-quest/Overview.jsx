@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import cyanBird from '../../../assets/case study/case-study-classroom-quest/header/cyan-bird.svg';
 import redBird from '../../../assets/case study/case-study-classroom-quest/header/red-bird.svg';
 import purpleBlueBird from '../../../assets/case study/case-study-classroom-quest/header/purple-blue_bird.svg';
@@ -29,22 +28,21 @@ const heroRotatedVariantsReduced = (deg) => ({
 
 export default function Overview() {
   const reduceMotion = useReducedMotion();
-  const isMobileViewport = useMediaQuery('(max-width: 1023px)');
   const enterProps = { initial: 'hidden', animate: 'visible' };
 
   const textDelay = (real, reduced) => withDelay(reduceMotion ? reducedTransition : textTransition, reduceMotion ? reduced : real);
   const heroDelay = (real, reduced) => withDelay(reduceMotion ? reducedTransition : heroTransition, reduceMotion ? reduced : real);
 
-  // Mobile: mockup image reveals first, then the birds follow. Desktop keeps its
-  // original interleaved stagger untouched.
-  const mockupDelay = isMobileViewport ? heroDelay(0.0, 0.0) : heroDelay(0.36, 0.12);
-  const cyanBirdDelay = isMobileViewport ? heroDelay(0.24, 0.08) : heroDelay(0.0, 0.0);
-  const purpleBlueBirdDelay = isMobileViewport ? heroDelay(0.36, 0.12) : heroDelay(0.12, 0.04);
-  const redBirdDelay = isMobileViewport ? heroDelay(0.48, 0.16) : heroDelay(0.24, 0.08);
+  // Mockup image reveals first, then the birds follow — every breakpoint.
+  const mockupDelay = heroDelay(0.0, 0.0);
+  const cyanBirdDelay = heroDelay(0.24, 0.08);
+  const purpleBlueBirdDelay = heroDelay(0.36, 0.12);
+  const redBirdDelay = heroDelay(0.48, 0.16);
 
   return (
     <div id="overview" className="scroll-mt-28 bg-gradient-to-b from-white to-bleed-blue">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-0">
+        <div className="-translate-y-6 lg:translate-y-0">
         <motion.span
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
@@ -89,6 +87,7 @@ export default function Overview() {
             <p className="font-dm font-extrabold text-[20px] text-black">Timeline</p>
             <p className="mt-2 font-dm text-[16px] text-black">Q2 2025 (4 weeks)</p>
           </motion.div>
+        </div>
         </div>
 
         <motion.div

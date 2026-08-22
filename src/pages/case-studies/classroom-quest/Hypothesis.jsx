@@ -19,7 +19,7 @@ export default function Hypothesis() {
               href="https://www.viewsonic.com/education/superpower_quiz/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-case-study-blue underline"
+              className="font-semibold text-case-study-blue no-underline lg:hover:underline"
             >
               Teaching Superpower
             </a>
