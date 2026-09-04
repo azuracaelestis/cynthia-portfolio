@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import stickerBlueBloom from '../../assets/hero/decorations/sticker-346.svg';
 import stickerYellowBlob from '../../assets/hero/decorations/sticker-344.svg';
 import stickerGear from '../../assets/hero/decorations/sticker-343.svg';
@@ -18,7 +18,12 @@ const STICKERS = [
   { src: stickerPaleBloom, className: 'lg:top-[48%] lg:right-[8%] lg:left-auto lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
 ];
 
-export default function Decorations({ show = true }) {
+const fadeUpVariants = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } };
+
+export default function Decorations({ show = true, entranceReady = true }) {
+  const reduceMotion = useReducedMotion();
+  const entranceDelay = (s) => (reduceMotion ? { duration: 0 } : { duration: 0.35, delay: s, ease: 'easeOut' });
+
   return (
     <motion.div
       className="hidden lg:block pointer-events-none absolute inset-0 col-span-full row-span-full lg:translate-x-[50px]"
@@ -26,16 +31,24 @@ export default function Decorations({ show = true }) {
       animate={{ opacity: show ? 1 : 0 }}
       transition={{ duration: show ? 0.35 : 0.15, ease: 'easeInOut' }}
     >
-      {STICKERS.map((sticker) => (
-        <motion.img
+      {STICKERS.map((sticker, index) => (
+        <motion.div
           key={sticker.src}
-          src={sticker.src}
-          alt=""
           className={`absolute select-none ${sticker.className}`}
           style={{ x: sticker.x }}
-          animate={{ y: [sticker.y, sticker.y - 10, sticker.y] }}
-          transition={{ duration: sticker.duration, delay: sticker.delay, repeat: Infinity, ease: 'easeInOut' }}
-        />
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate={entranceReady ? 'visible' : 'hidden'}
+          transition={entranceDelay(0.24 + index * 0.06)}
+        >
+          <motion.img
+            src={sticker.src}
+            alt=""
+            className="block w-full h-full"
+            animate={{ y: [sticker.y, sticker.y - 10, sticker.y] }}
+            transition={{ duration: sticker.duration, delay: sticker.delay, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
       ))}
     </motion.div>
   );
