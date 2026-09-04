@@ -45,7 +45,12 @@ const navVariantsReduced = {
 };
 
 // sections: [{ id: 'overview', label: 'Overview' }, ...]
-export default function CaseStudyLayout({ sections, children }) {
+export default function CaseStudyLayout({
+  sections,
+  children,
+  background = 'bg-case-study-cream',
+  paddingTop = 'pt-12 lg:pt-16',
+}) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
   const reduceMotion = useReducedMotion();
@@ -54,8 +59,8 @@ export default function CaseStudyLayout({ sections, children }) {
   const navPhase = useNavScrollPhase(startSentinelRef, endSentinelRef);
 
   return (
-    <div className="bg-case-study-cream">
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 pt-12 lg:pt-16 pb-28">
+    <div className={background}>
+      <div className={`mx-auto max-w-6xl px-6 lg:px-10 ${paddingTop} pb-28`}>
         <div ref={startSentinelRef} aria-hidden="true" className="h-px" />
 
         <div className="lg:grid lg:grid-cols-[250px_1fr] lg:gap-[34px]">

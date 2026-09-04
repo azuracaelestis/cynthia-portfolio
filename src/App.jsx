@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import { useScrollToTopOnNavigate } from './hooks/useScrollToTopOnNavigate';
 
 const ClassroomQuest = lazy(() => import('./pages/case-studies/ClassroomQuest'));
+const TfamApp = lazy(() => import('./pages/case-studies/TfamApp'));
 
 function AppLayout() {
   useScrollToTopOnNavigate();
@@ -18,6 +19,7 @@ function AppLayout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/work/classroom-quest" element={<ClassroomQuest />} />
+            <Route path="/work/tfam-app" element={<TfamApp />} />
           </Routes>
         </Suspense>
       </main>

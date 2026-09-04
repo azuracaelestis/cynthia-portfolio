@@ -16,6 +16,7 @@ const SECTION_IDS = NAV_ITEMS.map((item) => item.href.slice(1));
 export default function Header() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isTfam = location.pathname === '/work/tfam-app';
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const effectiveSelectedIndex = isHome ? selectedIndex : null;
@@ -52,7 +53,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="absolute top-0 inset-x-0 z-40 bg-paper/80 backdrop-blur-sm">
+      <header className={`absolute top-0 inset-x-0 z-40 ${isTfam ? '' : 'bg-paper/80 backdrop-blur-sm'}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5 flex items-center justify-between gap-6">
           <Link to="/" className="group flex items-center gap-3 shrink-0">
             <span className="w-8 h-8 lg:w-[65px] lg:h-[65px] rounded-full bg-sky-100 flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-110">
