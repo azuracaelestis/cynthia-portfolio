@@ -2,7 +2,7 @@ import Section from '../../../components/case-study/Section';
 
 export default function Context() {
   return (
-    <Section id="context" eyebrow="CONTEXT">
+    <Section id="context" eyebrow="CONTEXT" eyebrowColor="text-tfam-gray">
       <p className="font-satoshi text-[16px] text-ink leading-[23px]">
         TFAM is Taiwan&apos;s first museum of modern and contemporary art, and it already had its own app. Visually,
         it&apos;s polished, strong branding, clean interface, it looks exactly like something built to represent the

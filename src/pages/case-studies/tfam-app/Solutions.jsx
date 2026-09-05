@@ -1,37 +1,115 @@
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 
+// IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
+// each tab a vertical chain of screens.
+const IA_TABS = [
+  { name: 'Home', screens: ['Arrival Screen', 'Audio Guide'] },
+  { name: "What's On", screens: ['Exhibition List', 'Exhibition Detail', 'Getting There'] },
+  { name: 'Map', screens: ['Floor Map', 'Suggested Route', 'Exhibition Detail'] },
+  {
+    name: 'Activities',
+    screens: ['Activities List', 'Date/Time Picker', 'Slot Picker', 'Confirm Screen', 'Booking Confirm'],
+  },
+  { name: 'Settings', screens: ['Notification', 'Interest Picker', 'Notification Toggle'] },
+];
+
+function DownArrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-ink/30">
+      <path d="M8 2v10.5M3.5 9 8 13.5 12.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IaDiagram() {
+  return (
+    <div className="mb-12">
+      {/* Root pill + fan-out connector. The connector is a simplified,
+          edge-to-edge version of Figma's center-to-center bar — close enough
+          to read as the same tree, much simpler than tracing exact vector
+          paths. */}
+      <div className="hidden lg:flex flex-col items-center">
+        <span className="bg-ink text-white font-satoshi font-bold text-[16px] rounded-full px-5 py-[10px]">
+          TFAM App
+        </span>
+        <div className="w-px h-6 bg-ink/20" />
+        <div className="w-full border-t border-ink/20">
+          <div className="grid grid-cols-5">
+            {IA_TABS.map((tab) => (
+              <div key={tab.name} className="flex justify-center">
+                <div className="w-px h-6 bg-ink/20" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-3">
+        {IA_TABS.map((tab) => (
+          <div key={tab.name} className="flex flex-col items-center gap-2">
+            <div className="w-full bg-tfam-chip border border-tfam-chip rounded-2xl p-4 lg:p-6 text-center">
+              <p className="font-satoshi font-bold text-[14px] text-ink">{tab.name}</p>
+            </div>
+            {tab.screens.map((screen) => (
+              <div key={screen} className="w-full flex flex-col items-center gap-2">
+                <DownArrow />
+                <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-3 py-4 lg:py-6 text-center">
+                  <p className="font-satoshi font-bold text-[14px] text-ink">{screen}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Per Figma (nodes 258:1301 / 258:1315): each moment is its own heading, then
+// one or more rows of 2 features, each row a pair of 317x396 screenshot
+// placeholders above the matching pair of title/body text. Wander's
+// "Notification" feature repeats the Audio Guide's body text verbatim in
+// Figma itself — not a PDF-extraction artifact, kept as-is, flagged below.
 const MOMENTS = [
   {
-    moment: 'Plan',
-    subtitle: 'Before the Visit',
-    features: [
-      {
-        title: "What's On",
-        body: 'Current and upcoming exhibitions in one place, so visitors stop hunting across social media, the website, and the front desk.',
-      },
-      {
-        title: 'Pre-Book Activities',
-        body: 'Reserve in a few taps, right in the app, instead of an email or a phone call. Target: 80%+ of people finish it in under 45 seconds.',
-      },
+    title: 'Plan (Before the Visit)',
+    rows: [
+      [
+        {
+          title: "What's On",
+          body: 'Current and upcoming exhibitions in one place, so visitors stop hunting across social media, the website, and the front desk.',
+        },
+        {
+          title: 'Pre-Book Activities',
+          body: 'Reserve in a few taps, right in the app, instead of an email or a phone call. Target: 80%+ of people finish it in under 45 seconds.',
+        },
+      ],
     ],
   },
   {
-    moment: 'Wander',
-    subtitle: 'During the Visit',
-    features: [
-      {
-        title: 'Audio Guide',
-        body: 'The app opens on a clear Start audio guide button. No digging through menus. Target: a 25% lift in audio guide use.',
-      },
-      {
-        title: 'Floor Map & Suggested Route',
-        body: 'Works without a connection, so first-timers can find their way without relying on staff or signage.',
-      },
-      {
-        title: 'Language',
-        body: 'The whole app works in English as well as Mandarin. The audio codes on the placards now map to something a tourist can actually read and start.',
-      },
+    title: 'Wander (During the Visit)',
+    rows: [
+      [
+        {
+          title: 'Audio Guide',
+          body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
+        },
+        {
+          title: 'Floor Map & Suggested Route',
+          body: 'Works without a connection, so first-timers can find their way without relying on staff or signage.',
+        },
+      ],
+      [
+        {
+          title: 'Notification',
+          body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
+        },
+        {
+          title: 'Language',
+          body: 'The whole app works in English as well as Mandarin. The audio codes on the placards now map to something a tourist can actually read and start.',
+        },
+      ],
     ],
   },
 ];
@@ -44,7 +122,7 @@ const STATS = [
 
 export default function Solutions() {
   return (
-    <Section id="solutions" eyebrow="SOLUTION" title="One companion, three moments of the visit">
+    <Section id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
       <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
       <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-8">
         The three moments became five tabs: Home, What&apos;s On, Map, Classes, and Settings. Every feature that was
@@ -53,36 +131,38 @@ export default function Solutions() {
         than one tap away.
       </p>
 
-      <ImagePlaceholder
-        label="IA diagram — TFAM App: Home / What's On / Map / Activities / Settings"
-        className="h-64 lg:h-96 mb-12"
-      />
+      <IaDiagram />
 
-      <div className="flex flex-col gap-8 mb-12">
+      <div className="flex flex-col gap-[87px] mb-12">
         {MOMENTS.map((m) => (
-          <div key={m.moment}>
-            <p className="font-satoshi font-bold text-[20px] text-ink">{m.moment}</p>
-            <p className="font-satoshi text-[14px] text-case-study-blue mb-4">{m.subtitle}</p>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {m.features.map((f) => (
-                <div key={f.title} className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6">
-                  <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-                  <p className="font-satoshi text-[16px] text-charcoal leading-[23px] mt-1">{f.body}</p>
+          <div key={m.title} className="flex flex-col gap-[42px]">
+            <p className="font-satoshi font-bold text-[20px] text-ink">{m.title}</p>
+            {m.rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
+                  {row.map((f) => (
+                    <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
+                  ))}
                 </div>
-              ))}
-            </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[52px]">
+                  {row.map((f) => (
+                    <div key={f.title} className="flex flex-col gap-4">
+                      <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                      <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         ))}
 
         <div>
-          <p className="font-satoshi font-bold text-[20px] text-ink">Remember</p>
-          <p className="font-satoshi text-[14px] text-case-study-blue mb-4">After the Visit</p>
-          <div className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6">
-            <p className="font-satoshi text-[16px] text-charcoal leading-[23px]">
-              Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it
-              was the right one to cut from this build while booking and wayfinding came first.
-            </p>
-          </div>
+          <p className="font-satoshi font-bold text-[20px] text-ink mb-[21px]">Remember (After the Visit)</p>
+          <p className="font-satoshi text-[16px] text-ink leading-[25px]">
+            Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it was
+            the right one to cut from this build while booking and wayfinding came first.
+          </p>
         </div>
       </div>
 

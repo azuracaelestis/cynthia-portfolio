@@ -12,6 +12,7 @@ export default function Section({
   title,
   children,
   eyebrowClassName = 'mb-4 lg:mb-3',
+  eyebrowColor = 'text-case-study-blue',
   titleClassName = 'mb-6',
 }) {
   const reduceMotion = useReducedMotion();
@@ -27,7 +28,7 @@ export default function Section({
           viewport={revealViewport}
           variants={variants}
           transition={transition}
-          className={`font-dm font-bold text-[16px] text-case-study-blue ${eyebrowClassName}`}
+          className={`font-dm font-bold text-[16px] ${eyebrowColor} ${eyebrowClassName}`}
         >
           {eyebrow}
         </motion.p>

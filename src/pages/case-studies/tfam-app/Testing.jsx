@@ -35,7 +35,7 @@ const FINDINGS = [
 
 export default function Testing() {
   return (
-    <Section id="testing" eyebrow="TESTING" title="It worked, but it wasn't finished.">
+    <Section id="testing" eyebrow="TESTING" eyebrowColor="text-tfam-gray" title="It worked, but it wasn't finished.">
       <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-4">
         I built the first version as a full, working prototype and tested it with five visitors across the range
         TFAM serves, ages 25 to 58. All five finished the four core tasks, start the audio guide, find a gallery on

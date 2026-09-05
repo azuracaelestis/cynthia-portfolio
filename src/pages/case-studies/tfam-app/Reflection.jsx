@@ -45,7 +45,7 @@ function NumberedList({ items }) {
 
 export default function Reflection() {
   return (
-    <Section id="reflection" eyebrow="REFLECTION" title="What I learned, and what comes next">
+    <Section id="reflection" eyebrow="REFLECTION" eyebrowColor="text-tfam-gray" title="What I learned, and what comes next">
       <div className="flex flex-col gap-12">
         <div>
           <p className="font-satoshi font-bold text-[20px] text-ink mb-6">What I learned</p>
