@@ -1,4 +1,14 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
+
+// Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms /
+// Solutions / Testing — one fade+rise system across the whole page).
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const ITEM_STAGGER = 0.08;
 
 const LEARNED = [
   {
@@ -29,17 +39,26 @@ const NEXT = [
 // Per Figma (node 258:1434): a black circular badge, not plain blue number
 // text.
 function NumberedList({ items }) {
+  const reduceMotion = useReducedMotion();
   return (
     <div className="flex flex-col gap-6">
       {items.map((item, i) => (
-        <div key={item.title} className="flex gap-[17px]">
+        <motion.div
+          key={item.title}
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * ITEM_STAGGER }}
+          className="flex gap-[17px]"
+        >
           <span className="shrink-0 size-8 rounded-full bg-black flex items-center justify-center font-satoshi font-bold text-[12px] text-white">
             {String(i + 1).padStart(2, '0')}
           </span>
           <p className="font-satoshi text-[16px] text-ink leading-[23px]">
             <span className="font-bold">{item.title}</span> {item.body}
           </p>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

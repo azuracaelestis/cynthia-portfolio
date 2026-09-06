@@ -1,5 +1,15 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
+
+// Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms /
+// Solutions — one fade+rise system across the whole page).
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const IMAGE_STAGGER = 0.08;
 
 // Per Figma (node 258:1370 vs 258:1412): the 3-image row uses a tighter
 // ~24px gap than the 2-image row's 32px. Both use a flex row (not a
@@ -38,6 +48,7 @@ const FINDINGS = [
 ];
 
 export default function Testing() {
+  const reduceMotion = useReducedMotion();
   return (
     <Section
       id="testing"
@@ -63,22 +74,44 @@ export default function Testing() {
               Finding {i + 1}: {finding.title}
             </p>
             <div className="flex flex-col gap-[48px]">
-              <div className="flex flex-col gap-2">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={revealViewport}
+                variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                transition={reduceMotion ? revealTransitionReduced : revealTransition}
+                className="flex flex-col gap-2"
+              >
                 <p className="font-satoshi font-bold text-[16px] text-ink">Observed</p>
                 <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.observed}</p>
-              </div>
+              </motion.div>
               <div className={`flex flex-wrap justify-center ${IMAGE_ROW_GAP_BY_COUNT[finding.images.length]}`}>
-                {finding.images.map((label) => (
-                  <div key={label} className="flex flex-col items-center gap-2 w-full max-w-[221px] sm:w-[221px]">
+                {finding.images.map((label, i) => (
+                  <motion.div
+                    key={label}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={revealViewport}
+                    variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                    transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * IMAGE_STAGGER }}
+                    className="flex flex-col items-center gap-2 w-full max-w-[221px] sm:w-[221px]"
+                  >
                     <p className="font-satoshi font-bold text-[14px] text-ink">{label}</p>
                     <ImagePlaceholder label="" className="w-full aspect-[221/396]" />
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-              <div className="flex flex-col gap-2">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={revealViewport}
+                variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                transition={reduceMotion ? revealTransitionReduced : revealTransition}
+                className="flex flex-col gap-2"
+              >
                 <p className="font-satoshi font-bold text-[16px] text-ink">Changed</p>
                 <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
-              </div>
+              </motion.div>
             </div>
           </div>
         ))}

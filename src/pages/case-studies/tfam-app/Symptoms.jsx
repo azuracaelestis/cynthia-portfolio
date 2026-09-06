@@ -42,18 +42,26 @@ const SCREENS = [
   { key: 'audioCodeEntry', label: 'Code Input', src: existingAudioCodeEntry, alt: "The existing TFAM app's audio guide code entry screen" },
 ];
 
+// Shared scroll-reveal recipe (matches Section.jsx's eyebrow/title reveal and
+// Diagnosis's friction cards) — one fade+rise system for the whole page.
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const CARD_STAGGER = 0.08;
+
 // Numbered heuristic callouts, keyed by screen. Positions are estimated as
 // top-left % of each image from the user's reference screenshot — there's
 // no live browser here to measure pixel-exact placement, so flag for a
-// follow-up nudge once seen live. `anchor: 'left'` (1–3) opens the callout
-// below-left of the number; `anchor: 'right'` (4–7) opens it below-right.
+// follow-up nudge once seen live. The popup always opens bottom-center under
+// the number (see the callout's className below).
 const CALLOUTS = {
   exhibitionDetail: [
     {
       id: 1,
       top: '7%',
       left: '2%',
-      anchor: 'left',
       title: 'Recognition Rather Than Recall (H6)',
       body: 'Nav hidden inside an unlabeled logo.',
     },
@@ -61,7 +69,6 @@ const CALLOUTS = {
       id: 2,
       top: '44%',
       left: '2%',
-      anchor: 'left',
       title: 'Aesthetic & Minimalist Design (H8)',
       body: 'Image dominates, no supporting structure to guide the visitor.',
     },
@@ -69,7 +76,6 @@ const CALLOUTS = {
       id: 3,
       top: '76%',
       left: '2%',
-      anchor: 'left',
       title: 'Visibility of System Status (H1)',
       body: 'Unlabeled row of marks at the bottom, purpose unclear.',
     },
@@ -79,7 +85,6 @@ const CALLOUTS = {
       id: 4,
       top: '26%',
       left: '16%',
-      anchor: 'right',
       title: 'Recognition Rather Than Recall (H6)',
       body: 'Six unlabeled icons in the left rail (logo, menu, heart, headphones, person, globe, eye).',
     },
@@ -87,7 +92,6 @@ const CALLOUTS = {
       id: 5,
       top: '68%',
       left: '88%',
-      anchor: 'right',
       title: 'Consistency and Standards (H4)',
       body: '"Hours/Tickets" and "Current/Upcoming/Past" use two different visual styles for what could both be interactive.',
     },
@@ -95,7 +99,6 @@ const CALLOUTS = {
       id: 6,
       top: '84%',
       left: '52%',
-      anchor: 'right',
       title: 'Consistency and Standards (H4)',
       body: 'Tapping Current, Upcoming, or Past exits the app to the website in a browser, instead of showing exhibitions in the app itself.',
     },
@@ -103,7 +106,6 @@ const CALLOUTS = {
       id: 7,
       top: '94%',
       left: '88%',
-      anchor: 'right',
       title: 'Readability (supports H8)',
       body: 'Dotted background reduces text contrast.',
     },
@@ -113,7 +115,6 @@ const CALLOUTS = {
       id: 8,
       top: '5%',
       left: '9%',
-      anchor: 'left',
       title: 'Consistency and Standards (H4)',
       body: 'The back icon has low, image-dependent contrast and an unconventional shape, unlike a standard chevron.',
     },
@@ -121,7 +122,6 @@ const CALLOUTS = {
       id: 9,
       top: '50%',
       left: '-2%',
-      anchor: 'left',
       title: 'Consistency and Standards (H4)',
       body: 'Description text is fully justified, with the first line letter-spaced. On a narrow screen this creates uneven word gaps and hurts reading.',
     },
@@ -131,7 +131,6 @@ const CALLOUTS = {
       id: 10,
       top: '23%',
       left: '15%',
-      anchor: 'right',
       title: 'Match Between System and Real World (H2)',
       body: 'Screen labeled "Keyboard," which names the component, not the task. A visitor expects something like "Enter audio guide number."',
     },
@@ -139,7 +138,6 @@ const CALLOUTS = {
       id: 11,
       top: '28%',
       left: '82%',
-      anchor: 'right',
       title: 'Recognition Rather Than Recall (H6)',
       body: 'Manual number entry is the primary and only visible method; the scan option is a tiny icon tucked inside the input field.',
     },
@@ -147,7 +145,6 @@ const CALLOUTS = {
       id: 12,
       top: 'calc(41% - 18px)',
       left: '48%',
-      anchor: 'right',
       title: 'Error Prevention (H5)',
       body: "No indication of how many digits the code should be, and no visible sign of what happens if it's wrong.",
     },
@@ -155,7 +152,6 @@ const CALLOUTS = {
       id: 13,
       top: '62%',
       left: '90%',
-      anchor: 'right',
       title: 'Match Between System and Real World (H2)',
       body: 'The button says "Send," but this isn\'t a message, it should read "Play" or "Start."',
     },
@@ -228,10 +224,15 @@ export default function Symptoms() {
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-[28px] gap-y-[32px]">
-        {PROBLEMS.map((problem) => (
-          <div
+        {PROBLEMS.map((problem, i) => (
+          <motion.div
             key={problem.title}
-            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-[20px] flex flex-col gap-5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={reduceMotion ? revealVariantsReduced : revealVariants}
+            transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * CARD_STAGGER }}
+            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-[20px] flex flex-col gap-5 transition-transform duration-200 ease-out hover:-translate-y-2 hover:shadow-[0px_12px_24px_rgba(0,0,0,0.15)]"
           >
             <div className="size-[42px] overflow-clip">
               <img src={problem.icon} alt="" className="block size-full" />
@@ -240,7 +241,7 @@ export default function Symptoms() {
               <p className="font-satoshi font-bold text-[20px] leading-[25px] text-ink">{problem.title}</p>
               <p className="font-satoshi text-[16px] text-ink leading-[25px]">{problem.body}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -248,14 +249,21 @@ export default function Symptoms() {
         These weren&apos;t just my read. For an app this polished, the public reviews were only lukewarm.
       </p>
 
-      <blockquote className="mt-6 bg-white rounded-2xl px-6 py-5 flex items-center gap-6">
+      <motion.blockquote
+        initial="hidden"
+        whileInView="visible"
+        viewport={revealViewport}
+        variants={reduceMotion ? revealVariantsReduced : revealVariants}
+        transition={reduceMotion ? revealTransitionReduced : revealTransition}
+        className="mt-6 bg-white rounded-2xl px-6 py-5 flex items-center gap-6"
+      >
         <div className="bg-black w-[3px] h-[85px] shrink-0" />
         <p className="font-satoshi text-[16px] text-ink leading-[30px]">
           &ldquo;A curator&apos;s vanity project, not a useful app for the public.&rdquo;
           <br />
           <span className="font-bold">— TFAM app review, App Store</span>
         </p>
-      </blockquote>
+      </motion.blockquote>
 
       <p className="font-satoshi font-bold text-[20px] text-ink mt-[52px] mb-6">Heuristic Evaluation</p>
       <p className="font-satoshi text-[16px] text-ink leading-[25px]">
@@ -264,12 +272,10 @@ export default function Symptoms() {
       </p>
 
       {/* 2x2 grid of the existing app's screens, centered in the content
-          column. Base gaps (18px column / 53px row) are Figma's own, each
-          bumped +42px per request; 16px radius and the 0 0 10px elevation
-          are Figma's own too; the desktop grid width is Figma's 444px
-          enlarged 20% (444 → 533), and falls back to a fluid 2-up on
-          mobile. */}
-      <div className="mt-12 grid grid-cols-2 gap-[58px] lg:gap-x-[60px] lg:gap-y-[95px] lg:w-[533px] mx-auto">
+          column. 16px radius and the 0 0 10px elevation are Figma's own; the
+          desktop grid width is Figma's 444px enlarged 20% (444 → 533), and
+          falls back to a fluid 2-up on mobile. */}
+      <div className="mt-12 grid grid-cols-2 gap-x-[18px] gap-y-[52px] lg:w-[533px] mx-auto">
         {SCREENS.map((screen) => (
           <div key={screen.key} ref={(el) => (screenRefs.current[screen.key] = el)}>
             <p className="font-satoshi font-bold text-[14px] text-ink mb-2">{screen.label}</p>
@@ -303,14 +309,14 @@ export default function Symptoms() {
                   <AnimatePresence>
                     {isOpen && (
                       <motion.div
-                        initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.95 }}
+                        initial={reduceMotion ? { opacity: 1, x: '-50%' } : { opacity: 0, x: '-50%', y: -6, scale: 0.95 }}
+                        animate={{ opacity: 1, x: '-50%', y: 0, scale: 1 }}
+                        exit={reduceMotion ? { opacity: 0, x: '-50%' } : { opacity: 0, x: '-50%', y: -6, scale: 0.95 }}
                         transition={{ duration: reduceMotion ? 0 : 0.2, ease: 'easeOut' }}
-                        className={`absolute top-full mt-2 ${callout.anchor === 'right' ? 'left-0' : 'right-0'} w-[200px] bg-tfam-callout rounded-xl shadow-[0px_4px_16px_rgba(0,0,0,0.2)] p-4 z-10`}
+                        className="absolute top-full mt-2 left-1/2 w-[300px] rounded-xl border border-white/25 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] p-4 z-10"
                       >
                         <p className="font-satoshi font-bold text-[14px] text-ink mb-1">{callout.title}</p>
-                        <p className="font-satoshi text-[14px] text-charcoal leading-[19px]">{callout.body}</p>
+                        <p className="font-satoshi text-[14px] text-ink leading-[19px]">{callout.body}</p>
                         {getNextCallout(callout.id) && (
                           <button
                             type="button"

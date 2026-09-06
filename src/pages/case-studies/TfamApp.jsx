@@ -47,11 +47,25 @@ export default function TfamApp() {
 
       <Overview />
 
+      {/* lg:pt-[258px] puts 125px between the phone mockups' visible bottom
+          and the Context section. Derived, not guessed — the phones' bottom
+          edge is the sum of several things: the hero stage is 655px tall at
+          a 1200px content width (aspect-[1200/655]), the phones render 726px
+          and 777px tall there, rotating them ±23° pushes their corners lower
+          still, and each PNG's artwork stops at 91.26% of its canvas. Net:
+          they bottom out 125px BELOW the dark edge at rest.
+
+          Note this gap is not constant — Overview's PHONE_DRIFT floats the
+          phones up to 120px upward as the hero scrolls, so the gap opens
+          from ~5px to 125px on the way down. 125px is the value at full
+          drift, i.e. what you see once the boundary has scrolled up into
+          view. Damping PHONE_DRIFT is the lever if it should hold steadier. */}
       <CaseStudyLayout
         sections={SECTIONS}
         background="bg-paper"
-        paddingTop="pt-12 lg:pt-[184px]"
+        paddingTop="pt-12 lg:pt-[258px]"
         sidebarVariant="mono"
+        sidebarGridClassName="lg:grid-cols-[185px_1fr] lg:gap-[34px]"
       >
         {SECTIONS.filter((section) => section.id !== 'overview').map((section) => {
           const Custom = CUSTOM_SECTIONS[section.id];

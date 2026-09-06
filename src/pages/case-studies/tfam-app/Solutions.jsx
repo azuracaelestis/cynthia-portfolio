@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, useInView, useReducedMotion } from 'framer-motion';
+import { animate, motion, useInView, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 import tryItYourself from '../../../assets/case study/case-study-tfam-app/solutions/try-it-yourself.png';
@@ -26,11 +26,31 @@ function DownArrow() {
   );
 }
 
+// Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms —
+// one fade+rise system across the whole page).
+const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
+const revealVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const STAT_STAGGER = 0.1;
+
 // Whole diagram scaled down ~10% (padding/font/gap) from the original
 // build, per feedback that it read as too cramped/blocky at full size.
+// Reveals as ONE unit (single fade, no per-box stagger) — with ~20 small
+// boxes inside, staggering each one would read as slow/busy rather than
+// polished, matching how Classroom Quest treats its own large diagram.
 function IaDiagram() {
+  const reduceMotion = useReducedMotion();
   return (
-    <div className="mb-12">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={revealViewport}
+      variants={reduceMotion ? revealVariantsReduced : revealVariants}
+      transition={reduceMotion ? revealTransitionReduced : revealTransition}
+      className="mb-12"
+    >
       {/* Root pill + fan-out connector. The connector is a simplified,
           edge-to-edge version of Figma's center-to-center bar — close enough
           to read as the same tree, much simpler than tracing exact vector
@@ -68,7 +88,7 @@ function IaDiagram() {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -179,6 +199,7 @@ function CountUpStat({ prefix, value, suffix }) {
 }
 
 export default function Solutions() {
+  const reduceMotion = useReducedMotion();
   return (
     <Section id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
       <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
@@ -239,9 +260,14 @@ export default function Solutions() {
       {/* Per Figma (node 258:1340): a vertical stack of full-width rows, not
           a 3-col grid of centered cards. */}
       <div className="flex flex-col gap-3 mb-[119px]">
-        {STATS.map((s) => (
-          <div
+        {STATS.map((s, i) => (
+          <motion.div
             key={s.label}
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={reduceMotion ? revealVariantsReduced : revealVariants}
+            transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * STAT_STAGGER }}
             className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex items-start"
           >
             <CountUpStat prefix={s.prefix} value={s.value} suffix={s.suffix} />
@@ -249,7 +275,7 @@ export default function Solutions() {
               <p className="font-satoshi font-bold text-[16px] text-ink">{s.label}</p>
               <p className="font-satoshi text-[16px] text-ink">{s.body}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -259,7 +285,14 @@ export default function Solutions() {
           with the visitor's own phone, so a button here would be redundant
           on desktop. A mobile-specific button (scanning isn't useful there)
           is a possible follow-up, not built yet. */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-[42px] items-center justify-center">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={revealViewport}
+        variants={reduceMotion ? revealVariantsReduced : revealVariants}
+        transition={reduceMotion ? revealTransitionReduced : revealTransition}
+        className="flex flex-col lg:flex-row gap-8 lg:gap-[42px] items-center justify-center"
+      >
         <img
           src={tryItYourself}
           alt="TFAM app arrival screen, showing a welcome message, a Start audio guide button, and Today at the Museum and Explore the Museum sections"
@@ -273,7 +306,7 @@ export default function Solutions() {
             class, just like a visitor would. Please access it by using your phone.
           </p>
         </div>
-      </div>
+      </motion.div>
     </Section>
   );
 }

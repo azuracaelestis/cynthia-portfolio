@@ -43,6 +43,13 @@ const cardVariantsReduced = { hidden: { opacity: 0 }, visible: { opacity: 1 } };
 const cardTransition = { duration: 0.6, ease: [0, 0, 0.2, 1] };
 const cardTransitionReduced = { duration: 0 };
 
+// Same fade+rise shape as the friction cards above, but at the page's
+// standard 0.4s (the 0.6s above is specific to the timeline's slower pace).
+const revealTransition = { duration: 0.4, ease: [0, 0, 0.2, 1] };
+const revealTransitionReduced = { duration: 0 };
+const revealViewport = { once: true, margin: '0px 0px -20% 0px' };
+const PERSONA_STAGGER = 0.1;
+
 const PERSONAS = [
   {
     name: 'Yu-Chen Lin, 29',
@@ -228,8 +235,16 @@ export default function Diagnosis() {
       <div className="mb-[52px]">
         <p className="font-satoshi font-bold text-[20px] text-ink mb-6">New User Persona</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {PERSONAS.map((p) => (
-            <div key={p.name} className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] overflow-hidden">
+          {PERSONAS.map((p, i) => (
+            <motion.div
+              key={p.name}
+              initial="hidden"
+              whileInView="visible"
+              viewport={revealViewport}
+              variants={reduceMotion ? cardVariantsReduced : cardVariants}
+              transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * PERSONA_STAGGER }}
+              className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] overflow-hidden"
+            >
               <img
                 src={p.photo}
                 alt={p.name}
@@ -262,21 +277,28 @@ export default function Diagnosis() {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
       <div className="mb-[52px]">
         <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Each frustration turned into a question</p>
-        <div className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-[14px]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? cardVariantsReduced : cardVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
+          className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-[14px]"
+        >
           {QUESTIONS.map((q) => (
             <div key={q} className="flex gap-[14px] items-start">
               <img src={arrowRight} alt="" className="shrink-0 size-5" />
               <p className="font-satoshi text-[16px] text-ink">{q}</p>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <div>
@@ -286,12 +308,19 @@ export default function Diagnosis() {
           three moments in a visit: <span className="font-bold">plan, wander, remember</span>. Every feature would
           live inside whichever moment it actually served.
         </p>
-        <div className="bg-ink/5 rounded-2xl p-6 flex flex-col gap-2">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? cardVariantsReduced : cardVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
+          className="bg-ink/5 rounded-2xl p-6 flex flex-col gap-2"
+        >
           <p className="font-satoshi font-bold text-[16px] text-ink">Guiding principle</p>
           <p className="font-satoshi text-[16px] text-ink">
             People take in information best right when they need it, not all at once on a home screen.
           </p>
-        </div>
+        </motion.div>
       </div>
     </Section>
   );

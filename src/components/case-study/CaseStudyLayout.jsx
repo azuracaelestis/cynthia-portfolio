@@ -54,6 +54,7 @@ export default function CaseStudyLayout({
   background = 'bg-case-study-cream',
   paddingTop = 'pt-12 lg:pt-16',
   sidebarVariant = 'blue',
+  sidebarGridClassName = 'lg:grid-cols-[250px_1fr] lg:gap-[34px]',
 }) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
@@ -68,7 +69,7 @@ export default function CaseStudyLayout({
       <div className={`mx-auto max-w-6xl px-6 lg:px-10 ${paddingTop} pb-28`}>
         <div ref={startSentinelRef} aria-hidden="true" className="h-px" />
 
-        <div className="lg:grid lg:grid-cols-[250px_1fr] lg:gap-[34px]">
+        <div className={`lg:grid ${sidebarGridClassName}`}>
           {/* Desktop: sticky sidebar */}
           <nav aria-label="On this page" className="hidden lg:block">
             <motion.div
