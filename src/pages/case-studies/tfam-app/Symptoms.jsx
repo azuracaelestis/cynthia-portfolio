@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import existingNavDrawer from '../../../assets/case study/case-study-tfam-app/symptoms/existing-nav-drawer.jpg';
 import existingExhibitionDetail from '../../../assets/case study/case-study-tfam-app/symptoms/existing-exhibition-detail.jpg';
@@ -33,14 +32,44 @@ const PROBLEMS = [
   },
 ];
 
-// 2x2 grid of the existing app's screens. Bottom row reordered (audioPlayer
-// before audioCodeEntry) so the keyboard/code-entry screen lands bottom-right.
-const SCREENS = [
-  { key: 'exhibitionDetail', label: 'Homepage', src: existingExhibitionDetail, alt: "The existing TFAM app's exhibition detail screen" },
-  { key: 'navDrawer', label: 'Side Bar', src: existingNavDrawer, alt: "The existing TFAM app's navigation drawer" },
-  { key: 'audioPlayer', label: 'Audio Guide', src: existingAudioPlayer, alt: "The existing TFAM app's audio guide player screen" },
-  { key: 'audioCodeEntry', label: 'Code Input', src: existingAudioCodeEntry, alt: "The existing TFAM app's audio guide code entry screen" },
+// All 4 existing-app screens, in 2 side-by-side pairs, each using the
+// always-visible leader-line layout: the first screen in a pair has its
+// notes on the LEFT, the second has them on the RIGHT — the two images in
+// a pair sit next to each other in the middle, notes flanking the outside.
+const ANNOTATED_SCREENS = [
+  {
+    key: 'exhibitionDetail',
+    label: 'Homepage',
+    src: existingExhibitionDetail,
+    alt: "The existing TFAM app's exhibition detail screen",
+    notesOnLeft: true,
+  },
+  {
+    key: 'navDrawer',
+    label: 'Side Bar',
+    src: existingNavDrawer,
+    alt: "The existing TFAM app's navigation drawer",
+    notesOnLeft: false,
+  },
+  {
+    key: 'audioPlayer',
+    label: 'Audio Guide',
+    src: existingAudioPlayer,
+    alt: "The existing TFAM app's audio guide player screen",
+    notesOnLeft: true,
+    noteTextWidth: 135,
+  },
+  {
+    key: 'audioCodeEntry',
+    label: 'Code Input',
+    src: existingAudioCodeEntry,
+    alt: "The existing TFAM app's audio guide code entry screen",
+    notesOnLeft: false,
+    noteTextWidth: 135,
+  },
 ];
+
+const DEFAULT_NOTE_TEXT_WIDTH = 123;
 
 // Shared scroll-reveal recipe (matches Section.jsx's eyebrow/title reveal and
 // Diagnosis's friction cards) — one fade+rise system for the whole page.
@@ -83,31 +112,24 @@ const CALLOUTS = {
   navDrawer: [
     {
       id: 4,
-      top: '26%',
-      left: '16%',
+      top: '5%',
+      left: '10%',
       title: 'Recognition Rather Than Recall (H6)',
       body: 'Six unlabeled icons in the left rail (logo, menu, heart, headphones, person, globe, eye).',
     },
     {
       id: 5,
-      top: '68%',
+      top: 'calc(68% - 48px)',
       left: '88%',
       title: 'Consistency and Standards (H4)',
       body: '"Hours/Tickets" and "Current/Upcoming/Past" use two different visual styles for what could both be interactive.',
     },
     {
       id: 6,
-      top: '84%',
+      top: '90%',
       left: '52%',
       title: 'Consistency and Standards (H4)',
       body: 'Tapping Current, Upcoming, or Past exits the app to the website in a browser, instead of showing exhibitions in the app itself.',
-    },
-    {
-      id: 7,
-      top: '94%',
-      left: '88%',
-      title: 'Readability (supports H8)',
-      body: 'Dotted background reduces text contrast.',
     },
   ],
   audioPlayer: [
@@ -129,28 +151,14 @@ const CALLOUTS = {
   audioCodeEntry: [
     {
       id: 10,
-      top: '23%',
+      top: '2%',
       left: '15%',
       title: 'Match Between System and Real World (H2)',
       body: 'Screen labeled "Keyboard," which names the component, not the task. A visitor expects something like "Enter audio guide number."',
     },
     {
       id: 11,
-      top: '28%',
-      left: '82%',
-      title: 'Recognition Rather Than Recall (H6)',
-      body: 'Manual number entry is the primary and only visible method; the scan option is a tiny icon tucked inside the input field.',
-    },
-    {
-      id: 12,
-      top: 'calc(41% - 18px)',
-      left: '48%',
-      title: 'Error Prevention (H5)',
-      body: "No indication of how many digits the code should be, and no visible sign of what happens if it's wrong.",
-    },
-    {
-      id: 13,
-      top: '62%',
+      top: '70%',
       left: '90%',
       title: 'Match Between System and Real World (H2)',
       body: 'The button says "Send," but this isn\'t a message, it should read "Play" or "Start."',
@@ -158,56 +166,124 @@ const CALLOUTS = {
   ],
 };
 
-// Flat, id-ordered list (each entry tagged with its own screen) so "Next"
-// can walk 1 → 2 → 3 → ... across screens, not just within one image's set.
-const ALL_CALLOUTS = Object.entries(CALLOUTS)
-  .flatMap(([screenKey, items]) => items.map((c) => ({ ...c, screenKey })))
-  .sort((a, b) => a.id - b.id);
-
-function getNextCallout(id) {
-  const index = ALL_CALLOUTS.findIndex((c) => c.id === id);
-  return index >= 0 && index < ALL_CALLOUTS.length - 1 ? ALL_CALLOUTS[index + 1] : null;
+// One screen + its always-visible leader-line notes, mirrorable to either
+// side. Both the image column and the notes column are `flex flex-col` with
+// an identical-height label at the top (the notes column's copy is
+// `invisible`, just reserving the same space) so their "content areas" line
+// up exactly — the notes column's content area is `flex-1`, stretching to
+// match the image's real height, which is what lets each note's `top`
+// percentage land at the same spot as its dot on the image.
+// Per Figma (node 289:xxxx): a small numbered badge sits directly above each
+// note's own text (not on the image), text is 12px with a 4px title→body
+// gap and no card background, and the line ending in a small dot is what
+// actually points into the image.
+function NoteBadge({ id }) {
+  return (
+    <span className="shrink-0 size-6 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
+      {id}
+    </span>
+  );
 }
 
-function ChevronRight() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+function AnnotatedScreen({ screen }) {
+  const notes = CALLOUTS[screen.key];
+
+  const imageColumn = (
+    <div className="flex flex-col w-[221px] shrink-0">
+      <p className="font-satoshi font-bold text-[14px] text-ink mb-2">{screen.label}</p>
+      {/* Dots (and their in-image connector segment) live OUTSIDE the
+          rounded/overflow-hidden clip (which only wraps the img now) — some
+          sit at or past the image's own edge, so if they shared that
+          overflow-hidden box they'd get clipped.
+
+          Dot position is each note's own stored {top, left} — pointing at
+          the actual UI detail the finding is about (e.g. #4's logo, well
+          inside the image), not just a generic edge anchor. When a dot
+          sits inside the image rather than right at its edge, a short
+          connector segment runs from the dot to whichever edge faces the
+          notes column, so the leader line reads as one continuous path
+          instead of stopping short of the real target. */}
+      <div className="relative w-full aspect-[213/463]">
+        <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
+          <img src={screen.src} alt={screen.alt} className="absolute inset-0 w-full h-full object-cover" />
+        </div>
+        {notes.map((note) => (
+          <div key={note.id}>
+            <div
+              className="absolute h-px bg-ink/30 -translate-y-1/2"
+              style={
+                screen.notesOnLeft
+                  ? { top: note.top, left: 0, right: `calc(100% - ${note.left})` }
+                  : { top: note.top, left: note.left, right: 0 }
+              }
+            />
+            <span
+              className="absolute size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black"
+              style={{ top: note.top, left: note.left }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const notesColumn = (
+    <div className="flex flex-col flex-1 max-w-[380px]">
+      <p aria-hidden="true" className="invisible font-satoshi font-bold text-[14px] mb-2">
+        {screen.label}
+      </p>
+      <div className="relative flex-1">
+        {/* Per Figma: the line's y matches the BADGE's own vertical center,
+            not the note block as a whole — so the badge+line sit in their
+            own fixed-height row (still centered on `top` via
+            -translate-y-1/2, but now against the badge's real 24px height,
+            not whatever height the body text wraps to), and the caption
+            text is a separate block positioned just below that row. */}
+        {notes.map((note) => (
+          <div key={note.id}>
+            <div className="absolute left-0 right-0 flex items-center gap-3 -translate-y-1/2" style={{ top: note.top }}>
+              {screen.notesOnLeft ? (
+                <>
+                  <NoteBadge id={note.id} />
+                  <div className="flex-1 min-w-4 h-px bg-ink/30" />
+                </>
+              ) : (
+                <>
+                  <div className="flex-1 min-w-4 h-px bg-ink/30" />
+                  <NoteBadge id={note.id} />
+                </>
+              )}
+            </div>
+            <div
+              className={`absolute ${screen.notesOnLeft ? 'left-0' : 'right-0'}`}
+              style={{ top: `calc(${note.top} + 16px)`, width: screen.noteTextWidth ?? DEFAULT_NOTE_TEXT_WIDTH }}
+            >
+              <p className="font-satoshi text-[12px] text-ink leading-[16px]">
+                <span className="font-bold block">{note.title}.</span>
+                {note.body}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  return screen.notesOnLeft ? (
+    <>
+      {notesColumn}
+      {imageColumn}
+    </>
+  ) : (
+    <>
+      {imageColumn}
+      {notesColumn}
+    </>
   );
 }
 
 export default function Symptoms() {
   const reduceMotion = useReducedMotion();
-  const [activeCallout, setActiveCallout] = useState(null);
-  const screenRefs = useRef({});
-  const calloutRefs = useRef({});
-
-  function handleNext(id) {
-    const next = getNextCallout(id);
-    if (!next) return;
-    setActiveCallout(next.id);
-    screenRefs.current[next.screenKey]?.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'center',
-    });
-  }
-
-  // Clicking anywhere outside the currently-open callout (its badge or its
-  // popup) closes it. Uses mousedown, which fires before the badge/Next
-  // button's own click handler, so clicking within the open callout itself
-  // — including "Next" — never gets closed out from under it.
-  useEffect(() => {
-    if (activeCallout == null) return undefined;
-    function handlePointerDown(event) {
-      const el = calloutRefs.current[activeCallout];
-      if (el && !el.contains(event.target)) {
-        setActiveCallout(null);
-      }
-    }
-    document.addEventListener('mousedown', handlePointerDown);
-    return () => document.removeEventListener('mousedown', handlePointerDown);
-  }, [activeCallout]);
 
   return (
     <Section
@@ -271,71 +347,21 @@ export default function Symptoms() {
         vague complaints into specific, nameable problems I could design against.
       </p>
 
-      {/* 2x2 grid of the existing app's screens, centered in the content
-          column. 16px radius and the 0 0 10px elevation are Figma's own; the
-          desktop grid width is Figma's 444px enlarged 20% (444 → 533), and
-          falls back to a fluid 2-up on mobile. */}
-      <div className="mt-12 grid grid-cols-2 gap-x-[18px] gap-y-[52px] lg:w-[533px] mx-auto">
-        {SCREENS.map((screen) => (
-          <div key={screen.key} ref={(el) => (screenRefs.current[screen.key] = el)}>
-            <p className="font-satoshi font-bold text-[14px] text-ink mb-2">{screen.label}</p>
-            <div className="relative">
-              <img
-                src={screen.src}
-                alt={screen.alt}
-                className="w-full h-auto aspect-[213/463] object-cover rounded-2xl shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]"
-              />
-            {(CALLOUTS[screen.key] || []).map((callout) => {
-              const isOpen = activeCallout === callout.id;
-              return (
-                <div
-                  key={callout.id}
-                  ref={(el) => (calloutRefs.current[callout.id] = el)}
-                  className="absolute"
-                  style={{ top: callout.top, left: callout.left }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActiveCallout(isOpen ? null : callout.id)}
-                    aria-expanded={isOpen}
-                    aria-label={`Heuristic ${callout.id}: ${callout.title}`}
-                    className="relative flex items-center justify-center size-6"
-                  >
-                    {!reduceMotion && <span className="absolute inset-0 rounded-full bg-black animate-ping" />}
-                    <span className="relative flex items-center justify-center size-6 rounded-full bg-black text-white font-satoshi font-bold text-[12px] shadow-[0px_2px_6px_rgba(0,0,0,0.3)]">
-                      {callout.id}
-                    </span>
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={reduceMotion ? { opacity: 1, x: '-50%' } : { opacity: 0, x: '-50%', y: -6, scale: 0.95 }}
-                        animate={{ opacity: 1, x: '-50%', y: 0, scale: 1 }}
-                        exit={reduceMotion ? { opacity: 0, x: '-50%' } : { opacity: 0, x: '-50%', y: -6, scale: 0.95 }}
-                        transition={{ duration: reduceMotion ? 0 : 0.2, ease: 'easeOut' }}
-                        className="absolute top-full mt-2 left-1/2 w-[300px] rounded-xl border border-white/25 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] p-4 z-10"
-                      >
-                        <p className="font-satoshi font-bold text-[14px] text-ink mb-1">{callout.title}</p>
-                        <p className="font-satoshi text-[14px] text-ink leading-[19px]">{callout.body}</p>
-                        {getNextCallout(callout.id) && (
-                          <button
-                            type="button"
-                            onClick={() => handleNext(callout.id)}
-                            className="mt-4 inline-flex items-center gap-1 font-satoshi font-bold text-[13px] text-ink hover:underline"
-                          >
-                            Next
-                            <ChevronRight />
-                          </button>
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-            </div>
-          </div>
-        ))}
+      {/* Findings as always-visible notes with a leader line, in 2 pairs:
+          Homepage+Side Bar, then Audio Guide+Code Input. Each pair's two
+          images sit next to each other in the middle (a plain spacer div
+          between them, no notes there), with each screen's own notes column
+          flanking the outside. */}
+      <div className="mt-8 flex justify-center">
+        <AnnotatedScreen screen={ANNOTATED_SCREENS[0]} />
+        <div className="w-6 shrink-0" />
+        <AnnotatedScreen screen={ANNOTATED_SCREENS[1]} />
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <AnnotatedScreen screen={ANNOTATED_SCREENS[2]} />
+        <div className="w-6 shrink-0" />
+        <AnnotatedScreen screen={ANNOTATED_SCREENS[3]} />
       </div>
     </Section>
   );

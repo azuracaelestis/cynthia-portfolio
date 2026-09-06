@@ -4,6 +4,10 @@ import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 import tryItYourself from '../../../assets/case study/case-study-tfam-app/solutions/try-it-yourself.png';
 import qrCode from '../../../assets/case study/case-study-tfam-app/solutions/qr-code.png';
+import whatsonMockup from '../../../assets/case study/case-study-tfam-app/solutions/whatson-mockup.mp4';
+import activitiesMockup from '../../../assets/case study/case-study-tfam-app/solutions/activities-mockup.mp4';
+import audioGuideMockup from '../../../assets/case study/case-study-tfam-app/solutions/audio-guide-mockup.mp4';
+import mapSuggestedRouteMockup from '../../../assets/case study/case-study-tfam-app/solutions/map-suggested-route-mockup.mp4';
 
 // IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
 // each tab a vertical chain of screens.
@@ -105,10 +109,14 @@ const MOMENTS = [
         {
           title: "What's On",
           body: 'Current and upcoming exhibitions in one place, so visitors stop hunting across social media, the website, and the front desk.',
+          video: whatsonMockup,
+          videoScale: 'scale-110',
         },
         {
           title: 'Pre-Book Activities',
           body: 'Reserve in a few taps, right in the app, instead of an email or a phone call. Target: 80%+ of people finish it in under 45 seconds.',
+          video: activitiesMockup,
+          videoScale: 'scale-110',
         },
       ],
     ],
@@ -120,10 +128,14 @@ const MOMENTS = [
         {
           title: 'Audio Guide',
           body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
+          video: audioGuideMockup,
+          videoScale: 'scale-110',
         },
         {
           title: 'Floor Map & Suggested Route',
           body: 'Works without a connection, so first-timers can find their way without relying on staff or signage.',
+          video: mapSuggestedRouteMockup,
+          videoScale: 'scale-110',
         },
       ],
       [
@@ -198,6 +210,132 @@ function CountUpStat({ prefix, value, suffix }) {
   );
 }
 
+function PlayIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path d="M6 4.5v11l9-5.5-9-5.5z" />
+    </svg>
+  );
+}
+
+function PauseIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <rect x="5" y="4" width="3.5" height="12" rx="1" />
+      <rect x="11.5" y="4" width="3.5" height="12" rx="1" />
+    </svg>
+  );
+}
+
+// Same circular play/pause button as Classroom Quest's Design.jsx (sized
+// 30% smaller and resting at 30% opacity here, revealing fully on hover) —
+// no native controls, play state driven by the video's own onPlay/onPause
+// so it stays correct regardless of what triggered the change (the
+// button, or the scroll-triggered `active` handoff below).
+function MockupVideo({ src, scaleClassName, active, isLast, onEnded }) {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const hasHandedOffRef = useRef(false);
+
+  // Starts playing once `active` turns true (the scroll-into-view trigger,
+  // or this video's turn in the What's On → Pre-Book Activities handoff) —
+  // doesn't attempt to pause on active:false, so a manual play via the
+  // button is never fought.
+  useEffect(() => {
+    if (active) videoRef.current?.play().catch(() => {});
+  }, [active]);
+
+  // Every video ends up looping forever — but a non-last video needs its
+  // FIRST end to fire the handoff to the next one, and native `loop` never
+  // fires `ended` at all. So only the last video uses native `loop`; the
+  // others play with `loop=false`, fire the handoff callback once on their
+  // real `ended` event, then this handler restarts them manually — a
+  // hand-rolled loop for exactly as long as it takes to have already
+  // signaled the handoff.
+  function handleEnded() {
+    if (!hasHandedOffRef.current) {
+      hasHandedOffRef.current = true;
+      onEnded?.();
+    }
+    if (!isLast) videoRef.current?.play().catch(() => {});
+  }
+
+  function togglePlay() {
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.paused) el.play().catch(() => {});
+    else el.pause();
+  }
+
+  return (
+    <div className="relative">
+      <video
+        ref={videoRef}
+        src={src}
+        className={`w-full aspect-[317/396] object-cover rounded-2xl ${scaleClassName ?? ''}`}
+        loop={isLast}
+        muted
+        playsInline
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={handleEnded}
+      />
+      <button
+        type="button"
+        onClick={togglePlay}
+        aria-label={isPlaying ? 'Pause video' : 'Play video'}
+        className="absolute left-4 bottom-4 w-10 h-10 rounded-full bg-ink/60 backdrop-blur-sm ring-2 ring-white/70 flex items-center justify-center text-white opacity-30 hover:opacity-100 transition-[opacity,transform] hover:scale-105"
+      >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+    </div>
+  );
+}
+
+// Starts the row's videos in order once it scrolls into view — What's On
+// plays first; when it finishes once, Pre-Book Activities starts, and both
+// keep looping continuously from then on.
+function MockupRow({ features }) {
+  const rowRef = useRef(null);
+  const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
+  const videoIndices = features.map((f, i) => (f.video ? i : null)).filter((i) => i !== null);
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  useEffect(() => {
+    if (isInView && videoIndices.length > 0) setActiveIndex(videoIndices[0]);
+    // videoIndices is derived fresh from `features` every render — safe to
+    // omit from deps since `features` (and thus its content) doesn't change
+    // after mount for a given row.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInView]);
+
+  function handleEnded(i) {
+    const position = videoIndices.indexOf(i);
+    if (position !== -1 && position < videoIndices.length - 1) {
+      setActiveIndex(videoIndices[position + 1]);
+    }
+  }
+
+  return (
+    <div ref={rowRef} className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
+      {features.map((f, i) =>
+        f.video ? (
+          <MockupVideo
+            key={f.title}
+            src={f.video}
+            scaleClassName={f.videoScale}
+            active={activeIndex === i}
+            isLast={i === videoIndices[videoIndices.length - 1]}
+            onEnded={() => handleEnded(i)}
+          />
+        ) : (
+          <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
+        ),
+      )}
+    </div>
+  );
+}
+
 export default function Solutions() {
   const reduceMotion = useReducedMotion();
   return (
@@ -221,11 +359,7 @@ export default function Solutions() {
             <p className="font-satoshi font-bold text-[20px] text-ink">{m.title}</p>
             {m.rows.map((row, rowIndex) => (
               <div key={rowIndex} className="flex flex-col gap-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
-                  {row.map((f) => (
-                    <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
-                  ))}
-                </div>
+                <MockupRow features={row} />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
                   {row.map((f) => (
                     <div key={f.title} className="flex flex-col gap-4">
