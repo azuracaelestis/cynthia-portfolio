@@ -26,12 +26,14 @@ const NEXT = [
   },
 ];
 
+// Per Figma (node 258:1434): a black circular badge, not plain blue number
+// text.
 function NumberedList({ items }) {
   return (
     <div className="flex flex-col gap-6">
       {items.map((item, i) => (
-        <div key={item.title} className="flex gap-4">
-          <span className="shrink-0 font-satoshi font-extrabold text-[20px] text-case-study-blue">
+        <div key={item.title} className="flex gap-[17px]">
+          <span className="shrink-0 size-8 rounded-full bg-black flex items-center justify-center font-satoshi font-bold text-[12px] text-white">
             {String(i + 1).padStart(2, '0')}
           </span>
           <p className="font-satoshi text-[16px] text-ink leading-[23px]">
@@ -45,13 +47,23 @@ function NumberedList({ items }) {
 
 export default function Reflection() {
   return (
-    <Section id="reflection" eyebrow="REFLECTION" eyebrowColor="text-tfam-gray" title="What I learned, and what comes next">
-      <div className="flex flex-col gap-12">
+    <Section
+      id="reflection"
+      eyebrow="REFLECTION"
+      eyebrowColor="text-tfam-gray"
+      eyebrowClassName="mb-6"
+      title="What I learned, and what comes next"
+      titleClassName="mb-8"
+    >
+      <div className="flex flex-col gap-[56px]">
         <div>
           <p className="font-satoshi font-bold text-[20px] text-ink mb-6">What I learned</p>
           <NumberedList items={LEARNED} />
         </div>
         <div>
+          {/* Figma's own label for this block is a copy/paste of "What I
+              learned" (not updated to "What's next") — kept the correct
+              label here rather than the mislabeled one. */}
           <p className="font-satoshi font-bold text-[20px] text-ink mb-6">What&apos;s next</p>
           <NumberedList items={NEXT} />
         </div>

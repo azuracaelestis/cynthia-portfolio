@@ -1,5 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
+import { animate, useInView, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
+import tryItYourself from '../../../assets/case study/case-study-tfam-app/solutions/try-it-yourself.png';
+import qrCode from '../../../assets/case study/case-study-tfam-app/solutions/qr-code.png';
 
 // IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
 // each tab a vertical chain of screens.
@@ -16,12 +20,14 @@ const IA_TABS = [
 
 function DownArrow() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-ink/30">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-ink/30">
       <path d="M8 2v10.5M3.5 9 8 13.5 12.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
+// Whole diagram scaled down ~10% (padding/font/gap) from the original
+// build, per feedback that it read as too cramped/blocky at full size.
 function IaDiagram() {
   return (
     <div className="mb-12">
@@ -30,32 +36,32 @@ function IaDiagram() {
           to read as the same tree, much simpler than tracing exact vector
           paths. */}
       <div className="hidden lg:flex flex-col items-center">
-        <span className="bg-ink text-white font-satoshi font-bold text-[16px] rounded-full px-5 py-[10px]">
+        <span className="bg-ink text-white font-satoshi font-bold text-[14px] rounded-full px-[18px] py-[9px]">
           TFAM App
         </span>
-        <div className="w-px h-6 bg-ink/20" />
+        <div className="w-px h-[22px] bg-ink/20" />
         <div className="w-full border-t border-ink/20">
           <div className="grid grid-cols-5">
             {IA_TABS.map((tab) => (
               <div key={tab.name} className="flex justify-center">
-                <div className="w-px h-6 bg-ink/20" />
+                <div className="w-px h-[22px] bg-ink/20" />
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-[14px] lg:gap-[11px]">
         {IA_TABS.map((tab) => (
-          <div key={tab.name} className="flex flex-col items-center gap-2">
-            <div className="w-full bg-tfam-chip border border-tfam-chip rounded-2xl p-4 lg:p-6 text-center">
-              <p className="font-satoshi font-bold text-[14px] text-ink">{tab.name}</p>
+          <div key={tab.name} className="flex flex-col items-center gap-[7px]">
+            <div className="w-full bg-tfam-chip border border-tfam-chip rounded-2xl p-[14px] lg:p-[22px] text-center">
+              <p className="font-satoshi font-bold text-[13px] text-ink">{tab.name}</p>
             </div>
             {tab.screens.map((screen) => (
-              <div key={screen} className="w-full flex flex-col items-center gap-2">
+              <div key={screen} className="w-full flex flex-col items-center gap-[7px]">
                 <DownArrow />
-                <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-3 py-4 lg:py-6 text-center">
-                  <p className="font-satoshi font-bold text-[14px] text-ink">{screen}</p>
+                <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-[11px] py-[14px] lg:py-[22px] text-center">
+                  <p className="font-satoshi font-bold text-[13px] text-ink">{screen}</p>
                 </div>
               </div>
             ))}
@@ -114,17 +120,69 @@ const MOMENTS = [
   },
 ];
 
+// Per Figma (node 258:1340): 3 stacked full-width rows, not a 3-col grid —
+// a number on the left, a bold label + body pair on the right. `value` is
+// numeric (not the display string) so it can be counted up on scroll-in.
 const STATS = [
-  { value: '+25%', label: 'Feature discovery', body: 'Aimed lift in audio guide use, by surfacing it on arrival.' },
-  { value: '80%', label: 'Self service booking', body: 'Booking completion in-app, replacing email and phone in under 45 sec.' },
-  { value: '4/5', label: 'Visitor confidence', body: 'Target confidence score in post-visit surveys.' },
+  {
+    prefix: '+',
+    value: 25,
+    suffix: '%',
+    label: 'Feature discovery',
+    body: 'Aimed lift in audio guide use, by surfacing it on arrival.',
+  },
+  {
+    prefix: '',
+    value: 80,
+    suffix: '%',
+    label: 'Self-service booking',
+    body: 'Booking completion in-app, replacing email and phone less than 45 sec.',
+  },
+  {
+    prefix: '',
+    value: 4,
+    suffix: '/5',
+    label: 'Visitor confidence',
+    body: 'Target confidence score in post-visit surveys.',
+  },
 ];
+
+// Counts up from 0 the first time it scrolls into view; reduced motion skips
+// straight to the final value.
+function CountUpStat({ prefix, value, suffix }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '0px 0px -20% 0px' });
+  const reduceMotion = useReducedMotion();
+  const [display, setDisplay] = useState(reduceMotion ? value : 0);
+
+  useEffect(() => {
+    if (!isInView) return undefined;
+    if (reduceMotion) {
+      setDisplay(value);
+      return undefined;
+    }
+    const controls = animate(0, value, {
+      duration: 1.2,
+      ease: 'easeOut',
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [isInView, reduceMotion, value]);
+
+  return (
+    <p ref={ref} className="font-satoshi font-medium text-[36px] text-ink shrink-0 w-[80px] lg:w-[106px]">
+      {prefix}
+      {display}
+      {suffix}
+    </p>
+  );
+}
 
 export default function Solutions() {
   return (
     <Section id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
       <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
-      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-8">
+      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-[57px]">
         The three moments became five tabs: Home, What&apos;s On, Map, Classes, and Settings. Every feature that was
         buried in the old app now sits in the tab where a visitor would go looking for it. The audio guide, the old
         app&apos;s weakest point, is now reachable from Home, What&apos;s On, and the Map, so it&apos;s never more
@@ -133,7 +191,10 @@ export default function Solutions() {
 
       <IaDiagram />
 
-      <div className="flex flex-col gap-[87px] mb-12">
+      {/* Figma (node 258:1301 vs 258:1227) measures a 146px gap here — much
+          wider than the 87px between individual moments — reproduced as-is
+          rather than rounded down to match the smaller rhythm. */}
+      <div className="flex flex-col gap-[87px] mt-[98px]">
         {MOMENTS.map((m) => (
           <div key={m.title} className="flex flex-col gap-[42px]">
             <p className="font-satoshi font-bold text-[20px] text-ink">{m.title}</p>
@@ -144,7 +205,7 @@ export default function Solutions() {
                     <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
                   ))}
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[52px]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
                   {row.map((f) => (
                     <div key={f.title} className="flex flex-col gap-4">
                       <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
@@ -156,47 +217,62 @@ export default function Solutions() {
             ))}
           </div>
         ))}
-
-        <div>
-          <p className="font-satoshi font-bold text-[20px] text-ink mb-[21px]">Remember (After the Visit)</p>
-          <p className="font-satoshi text-[16px] text-ink leading-[25px]">
-            Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it was
-            the right one to cut from this build while booking and wayfinding came first.
-          </p>
-        </div>
       </div>
 
-      <div className="bg-ink/5 rounded-2xl px-6 py-5 mb-8">
-        <p className="font-satoshi font-bold text-[14px] text-ink mb-2">Note on the numbers below</p>
-        <p className="font-satoshi text-[14px] text-charcoal leading-[21px]">
+      <div className="mt-[56px] mb-[80px]">
+        <p className="font-satoshi font-bold text-[20px] text-ink mb-[21px]">Remember (After the Visit)</p>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px]">
+          Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it was
+          the right one to cut from this build while booking and wayfinding came first.
+        </p>
+      </div>
+
+      <div className="bg-ink/5 rounded-2xl p-6 mb-[49px] flex flex-col gap-2">
+        <p className="font-satoshi font-bold text-[14px] text-ink">Note on the numbers below</p>
+        <p className="font-satoshi text-[14px] text-ink leading-[21px]">
           This is a self-initiated passion project, so these are design targets I&apos;d measure against, not results
           from real usage. I&apos;m labelling them that way on purpose. Validating them against real visitor data is
           the natural next step once the museum&apos;s booking system exists.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+      {/* Per Figma (node 258:1340): a vertical stack of full-width rows, not
+          a 3-col grid of centered cards. */}
+      <div className="flex flex-col gap-3 mb-[119px]">
         {STATS.map((s) => (
-          <div key={s.label} className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 text-center">
-            <p className="font-satoshi font-extrabold text-[40px] text-case-study-blue leading-tight">{s.value}</p>
-            <p className="font-satoshi font-bold text-[16px] text-ink mt-1">{s.label}</p>
-            <p className="font-satoshi text-[14px] text-charcoal leading-[21px] mt-2">{s.body}</p>
+          <div
+            key={s.label}
+            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex items-start"
+          >
+            <CountUpStat prefix={s.prefix} value={s.value} suffix={s.suffix} />
+            <div className="flex flex-col gap-[9px] pl-6">
+              <p className="font-satoshi font-bold text-[16px] text-ink">{s.label}</p>
+              <p className="font-satoshi text-[16px] text-ink">{s.body}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="bg-ink rounded-2xl p-8 flex flex-col items-start gap-4">
-        <p className="font-satoshi font-bold text-[20px] text-white">Try it yourself</p>
-        <p className="font-satoshi text-[16px] text-white/70 leading-[23px]">
-          This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
-          class, just like a visitor would.
-        </p>
-        <span
-          aria-disabled="true"
-          className="inline-flex items-center rounded-full bg-white/10 text-white/40 font-satoshi font-semibold text-[16px] px-6 py-3 cursor-not-allowed"
-        >
-          Launch the Prototype
-        </span>
+      {/* Per Figma (node 258:1459), updated design: a real phone-mockup
+          screenshot beside a QR code + copy, not a dark CTA card. No
+          "Launch the Prototype" button — a QR code is meant to be scanned
+          with the visitor's own phone, so a button here would be redundant
+          on desktop. A mobile-specific button (scanning isn't useful there)
+          is a possible follow-up, not built yet. */}
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-[42px] items-center justify-center">
+        <img
+          src={tryItYourself}
+          alt="TFAM app arrival screen, showing a welcome message, a Start audio guide button, and Today at the Museum and Explore the Museum sections"
+          className="w-full max-w-[259px] h-auto rounded-2xl shrink-0"
+        />
+        <div className="flex flex-col gap-3 items-center text-center lg:w-[292px]">
+          <img src={qrCode} alt="QR code linking to the TFAM app prototype" className="size-[103px]" />
+          <p className="font-satoshi font-bold text-[20px] text-ink">Try it yourself</p>
+          <p className="font-satoshi text-[14px] text-ink leading-[21px]">
+            This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
+            class, just like a visitor would. Please access it by using your phone.
+          </p>
+        </div>
       </div>
     </Section>
   );

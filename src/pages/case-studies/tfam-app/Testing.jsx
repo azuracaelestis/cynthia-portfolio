@@ -1,9 +1,13 @@
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 
-const GRID_COLS_BY_COUNT = {
-  2: 'grid-cols-1 sm:grid-cols-2',
-  3: 'grid-cols-1 sm:grid-cols-3',
+// Per Figma (node 258:1370 vs 258:1412): the 3-image row uses a tighter
+// ~24px gap than the 2-image row's 32px. Both use a flex row (not a
+// stretching grid) so a 2-image row's placeholders stay the same size as
+// a 3-image row's, instead of stretching wider to fill the row.
+const IMAGE_ROW_GAP_BY_COUNT = {
+  2: 'gap-8',
+  3: 'gap-6',
 };
 
 const FINDINGS = [
@@ -35,37 +39,46 @@ const FINDINGS = [
 
 export default function Testing() {
   return (
-    <Section id="testing" eyebrow="TESTING" eyebrowColor="text-tfam-gray" title="It worked, but it wasn't finished.">
-      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-4">
+    <Section
+      id="testing"
+      eyebrow="TESTING"
+      eyebrowColor="text-tfam-gray"
+      eyebrowClassName="mb-6"
+      title="It worked, but it wasn't finished."
+      titleClassName="mb-3"
+    >
+      <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-[90px]">
         I built the first version as a full, working prototype and tested it with five visitors across the range
         TFAM serves, ages 25 to 58. All five finished the four core tasks, start the audio guide, find a gallery on
         the map, book a class, and check what&apos;s on, so the structure held. But passing the tasks only proved the
-        app worked, not that it was finished.
-      </p>
-      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-12">
-        In fixing an app that was too pretty to use, I had overcorrected into one that was too plain to feel like a
-        museum. The test showed me a good app has to do three things at once: be usable, feel like the brand, and be
-        open to everyone. These are the problems that surfaced.
+        app worked, not that it was finished. In fixing an app that was too pretty to use, I had overcorrected into
+        one that was too plain to feel like a museum. The test showed me a good app has to do three things at once:
+        be usable, feel like the brand, and be open to everyone. These are the problems that surfaced.
       </p>
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-[90px]">
         {FINDINGS.map((finding, i) => (
-          <div key={finding.title}>
-            <p className="font-satoshi font-bold text-[20px] text-ink mb-4">
+          <div key={finding.title} className="flex flex-col gap-8">
+            <p className="font-satoshi font-bold text-[20px] text-ink">
               Finding {i + 1}: {finding.title}
             </p>
-            <div className="mb-4">
-              <p className="font-satoshi font-bold text-[14px] text-case-study-blue mb-1">Observed</p>
-              <p className="font-satoshi text-[16px] text-charcoal leading-[23px]">{finding.observed}</p>
-            </div>
-            <div className={`grid ${GRID_COLS_BY_COUNT[finding.images.length]} gap-4 mb-4`}>
-              {finding.images.map((label) => (
-                <ImagePlaceholder key={label} label={label} className="h-56" />
-              ))}
-            </div>
-            <div>
-              <p className="font-satoshi font-bold text-[14px] text-case-study-blue mb-1">Changed</p>
-              <p className="font-satoshi text-[16px] text-charcoal leading-[23px]">{finding.changed}</p>
+            <div className="flex flex-col gap-[48px]">
+              <div className="flex flex-col gap-2">
+                <p className="font-satoshi font-bold text-[16px] text-ink">Observed</p>
+                <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.observed}</p>
+              </div>
+              <div className={`flex flex-wrap justify-center ${IMAGE_ROW_GAP_BY_COUNT[finding.images.length]}`}>
+                {finding.images.map((label) => (
+                  <div key={label} className="flex flex-col items-center gap-2 w-full max-w-[221px] sm:w-[221px]">
+                    <p className="font-satoshi font-bold text-[14px] text-ink">{label}</p>
+                    <ImagePlaceholder label="" className="w-full aspect-[221/396]" />
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="font-satoshi font-bold text-[16px] text-ink">Changed</p>
+                <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
+              </div>
             </div>
           </div>
         ))}

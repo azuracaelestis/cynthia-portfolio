@@ -45,11 +45,15 @@ const navVariantsReduced = {
 };
 
 // sections: [{ id: 'overview', label: 'Overview' }, ...]
+// sidebarVariant: 'blue' (Classroom Quest's original blue-accent look) or
+// 'mono' (TFAM's black/gray restyle, per Figma node 258:1201) — everything
+// else about the sidebar (shadow, card shape, spacing) is shared.
 export default function CaseStudyLayout({
   sections,
   children,
   background = 'bg-case-study-cream',
   paddingTop = 'pt-12 lg:pt-16',
+  sidebarVariant = 'blue',
 }) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
@@ -57,6 +61,7 @@ export default function CaseStudyLayout({
   const startSentinelRef = useRef(null);
   const endSentinelRef = useRef(null);
   const navPhase = useNavScrollPhase(startSentinelRef, endSentinelRef);
+  const isMono = sidebarVariant === 'mono';
 
   return (
     <div className={background}>
@@ -72,25 +77,39 @@ export default function CaseStudyLayout({
               animate={navPhase}
               variants={reduceMotion ? navVariantsReduced : navVariants}
             >
-              <p className="font-dm font-bold text-[14px] text-case-study-blue">ON THIS PAGE</p>
+              <p
+                className={
+                  isMono ? 'font-satoshi font-bold text-[15px] text-black' : 'font-dm font-bold text-[14px] text-case-study-blue'
+                }
+              >
+                ON THIS PAGE
+              </p>
               <ul className="flex flex-col gap-[10px]">
-                {sections.map((s) => (
-                  <li key={s.id}>
-                    <a
-                      href={`#${s.id}`}
-                      className={`group flex items-center gap-4 rounded-lg px-3 py-1 font-dm font-bold text-[16px] text-black transition-colors ${
-                        activeId === s.id ? 'bg-case-study-highlight' : ''
-                      }`}
-                    >
-                      <span
-                        className={`shrink-0 size-1.5 rounded-full transition-colors ${
-                          activeId === s.id ? 'bg-case-study-blue' : 'bg-case-study-cream group-hover:bg-case-study-blue'
+                {sections.map((s) => {
+                  const isActive = activeId === s.id;
+                  const activeDot = isMono ? 'bg-black' : 'bg-case-study-blue';
+                  const hoverDot = isMono ? 'group-hover:bg-black' : 'group-hover:bg-case-study-blue';
+                  const activeBg = isMono ? 'bg-tfam-nav-active' : 'bg-case-study-highlight';
+                  const radius = isMono ? (isActive ? 'rounded-lg' : 'rounded-2xl') : 'rounded-lg';
+                  const itemFont = isMono ? 'font-satoshi' : 'font-dm';
+                  return (
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.id}`}
+                        className={`group flex items-center gap-4 ${radius} px-3 py-1 ${itemFont} font-bold text-[16px] text-black transition-colors ${
+                          isActive ? activeBg : ''
                         }`}
-                      />
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
+                      >
+                        <span
+                          className={`shrink-0 size-1.5 rounded-full transition-colors ${
+                            isActive ? activeDot : `bg-case-study-cream ${hoverDot}`
+                          }`}
+                        />
+                        {s.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </motion.div>
           </nav>

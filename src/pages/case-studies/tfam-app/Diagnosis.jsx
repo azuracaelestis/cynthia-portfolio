@@ -234,7 +234,7 @@ export default function Diagnosis() {
                 src={p.photo}
                 alt={p.name}
                 className="w-full h-[270px] lg:h-[306px] object-cover"
-                style={{ objectPosition: 'center calc(50% - 24px)' }}
+                style={{ objectPosition: 'center calc(50% + 48px)' }}
               />
               <div className="p-8 flex flex-col gap-4">
                 <div>
@@ -286,7 +286,7 @@ export default function Diagnosis() {
           three moments in a visit: <span className="font-bold">plan, wander, remember</span>. Every feature would
           live inside whichever moment it actually served.
         </p>
-        <div className="bg-sky-50 rounded-2xl p-6 flex flex-col gap-2">
+        <div className="bg-ink/5 rounded-2xl p-6 flex flex-col gap-2">
           <p className="font-satoshi font-bold text-[16px] text-ink">Guiding principle</p>
           <p className="font-satoshi text-[16px] text-ink">
             People take in information best right when they need it, not all at once on a home screen.

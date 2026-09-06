@@ -47,7 +47,12 @@ export default function TfamApp() {
 
       <Overview />
 
-      <CaseStudyLayout sections={SECTIONS} background="bg-paper" paddingTop="pt-12 lg:pt-[184px]">
+      <CaseStudyLayout
+        sections={SECTIONS}
+        background="bg-paper"
+        paddingTop="pt-12 lg:pt-[184px]"
+        sidebarVariant="mono"
+      >
         {SECTIONS.filter((section) => section.id !== 'overview').map((section) => {
           const Custom = CUSTOM_SECTIONS[section.id];
           return <Custom key={section.id} />;
