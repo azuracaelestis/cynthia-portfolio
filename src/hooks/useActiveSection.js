@@ -13,8 +13,10 @@ import { useEffect, useState } from 'react';
 // header) and picks the LAST section in document order currently touching
 // it, which matches how sections are meant to become "active" as their
 // heading passes that line.
-export function useActiveSection(ids) {
+export function useActiveSection(ids, options) {
   const [activeId, setActiveId] = useState(ids[0]);
+  const threshold = options?.threshold ?? 0;
+  const rootMargin = options?.rootMargin ?? '-140px 0px -70% 0px';
 
   useEffect(() => {
     const elements = ids.map((id) => document.getElementById(id)).filter(Boolean);
@@ -31,12 +33,12 @@ export function useActiveSection(ids) {
         const active = ids.filter((id) => intersecting.has(id));
         if (active.length > 0) setActiveId(active[active.length - 1]);
       },
-      { threshold: 0, rootMargin: '-140px 0px -70% 0px' }
+      { threshold, rootMargin }
     );
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [ids]);
+  }, [ids, threshold, rootMargin]);
 
   return activeId;
 }

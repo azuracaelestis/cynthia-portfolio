@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useActiveSection } from '../../../hooks/useActiveSection';
 import Section from '../../../components/case-study/Section';
 import existingNavDrawer from '../../../assets/case study/case-study-tfam-app/symptoms/existing-nav-drawer.jpg';
 import existingExhibitionDetail from '../../../assets/case study/case-study-tfam-app/symptoms/existing-exhibition-detail.jpg';
@@ -68,8 +70,6 @@ const ANNOTATED_SCREENS = [
     noteTextWidth: 135,
   },
 ];
-
-const DEFAULT_NOTE_TEXT_WIDTH = 123;
 
 // Shared scroll-reveal recipe (matches Section.jsx's eyebrow/title reveal and
 // Diagnosis's friction cards) — one fade+rise system for the whole page.
@@ -166,17 +166,9 @@ const CALLOUTS = {
   ],
 };
 
-// One screen + its always-visible leader-line notes, mirrorable to either
-// side. Both the image column and the notes column are `flex flex-col` with
-// an identical-height label at the top (the notes column's copy is
-// `invisible`, just reserving the same space) so their "content areas" line
-// up exactly — the notes column's content area is `flex-1`, stretching to
-// match the image's real height, which is what lets each note's `top`
-// percentage land at the same spot as its dot on the image.
-// Per Figma (node 289:xxxx): a small numbered badge sits directly above each
-// note's own text (not on the image), text is 12px with a 4px title→body
-// gap and no card background, and the line ending in a small dot is what
-// actually points into the image.
+// DOM ids the scroll-spy watches — one per screen block in the left column.
+const HEURISTIC_IDS = ANNOTATED_SCREENS.map((screen) => `heuristic-${screen.key}`);
+
 function NoteBadge({ id }) {
   return (
     <span className="shrink-0 size-6 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
@@ -185,105 +177,144 @@ function NoteBadge({ id }) {
   );
 }
 
-function AnnotatedScreen({ screen }) {
+// Numbered badges for one screen's findings, shared by both the mobile
+// inline image and the desktop sticky panel — sits half outside the image's
+// own edge, same as the original leader-line design. Every badge shows at
+// equal weight by default (matching the reference "first look": all of a
+// screen's numbers visible together, none dimmed); `hoveredId` only grows
+// the one the reader is currently pointing at on a finding row, it doesn't
+// fade the rest.
+function ScreenDots({ notes, hoveredId, reduceMotion }) {
+  return notes.map((note) => {
+    const emphasized = note.id === hoveredId;
+    return (
+      <span
+        key={note.id}
+        className="absolute size-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]"
+        style={{
+          top: note.top,
+          left: note.left,
+          transform: `translate(-50%, -50%) scale(${emphasized ? 1.15 : 1})`,
+          transitionProperty: 'transform',
+          transitionDuration: reduceMotion ? '0ms' : '200ms',
+        }}
+      >
+        {note.id}
+      </span>
+    );
+  });
+}
+
+// One screen's image + its dots, framed the same way at every use site.
+function ScreenImage({ screen, notes, hoveredId, reduceMotion, className = '' }) {
+  return (
+    <div className={`relative w-full aspect-[213/463] ${className}`}>
+      <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
+        <img src={screen.src} alt={screen.alt} className="absolute inset-0 w-full h-full object-cover" />
+      </div>
+      <ScreenDots notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} />
+    </div>
+  );
+}
+
+// One screen's accordion row in the left column: its sub-heading (Homepage,
+// Side Bar, Audio Guide, Code Input) always shows, stacked with the other 3
+// — only the currently active screen expands its findings below its own
+// sub-heading; every other row stays collapsed to just the sub-heading.
+// Below `lg:` there's no sticky right column to sync to, so every row is
+// simply always expanded with its own image, no accordion.
+function HeuristicBlock({ screen, isActive, hoveredId, onHoverFinding, reduceMotion }) {
   const notes = CALLOUTS[screen.key];
 
-  const imageColumn = (
-    <div className="flex flex-col w-[221px] shrink-0">
-      <p className="font-satoshi font-bold text-[14px] text-ink mb-2">{screen.label}</p>
-      {/* Dots (and their in-image connector segment) live OUTSIDE the
-          rounded/overflow-hidden clip (which only wraps the img now) — some
-          sit at or past the image's own edge, so if they shared that
-          overflow-hidden box they'd get clipped.
-
-          Dot position is each note's own stored {top, left} — pointing at
-          the actual UI detail the finding is about (e.g. #4's logo, well
-          inside the image), not just a generic edge anchor. When a dot
-          sits inside the image rather than right at its edge, a short
-          connector segment runs from the dot to whichever edge faces the
-          notes column, so the leader line reads as one continuous path
-          instead of stopping short of the real target. */}
-      <div className="relative w-full aspect-[213/463]">
-        <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
-          <img src={screen.src} alt={screen.alt} className="absolute inset-0 w-full h-full object-cover" />
+  const findingsList = (
+    <div className="flex flex-col gap-5">
+      {notes.map((note) => (
+        <div key={note.id} onMouseEnter={() => onHoverFinding(screen.key, note.id)} className="flex gap-3 items-start">
+          <NoteBadge id={note.id} />
+          <p className="font-satoshi text-[14px] leading-[20px] text-ink max-w-[380px]">
+            <span className="font-bold block">{note.title}.</span>
+            {note.body}
+          </p>
         </div>
-        {notes.map((note) => (
-          <div key={note.id}>
-            <div
-              className="absolute h-px bg-ink/30 -translate-y-1/2"
-              style={
-                screen.notesOnLeft
-                  ? { top: note.top, left: 0, right: `calc(100% - ${note.left})` }
-                  : { top: note.top, left: note.left, right: 0 }
-              }
-            />
-            <span
-              className="absolute size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black"
-              style={{ top: note.top, left: note.left }}
-            />
-          </div>
-        ))}
-      </div>
+      ))}
     </div>
   );
 
-  const notesColumn = (
-    <div className="flex flex-col flex-1 max-w-[380px]">
-      <p aria-hidden="true" className="invisible font-satoshi font-bold text-[14px] mb-2">
-        {screen.label}
-      </p>
-      <div className="relative flex-1">
-        {/* Per Figma: the line's y matches the BADGE's own vertical center,
-            not the note block as a whole — so the badge+line sit in their
-            own fixed-height row (still centered on `top` via
-            -translate-y-1/2, but now against the badge's real 24px height,
-            not whatever height the body text wraps to), and the caption
-            text is a separate block positioned just below that row. */}
-        {notes.map((note) => (
-          <div key={note.id}>
-            <div className="absolute left-0 right-0 flex items-center gap-3 -translate-y-1/2" style={{ top: note.top }}>
-              {screen.notesOnLeft ? (
-                <>
-                  <NoteBadge id={note.id} />
-                  <div className="flex-1 min-w-4 h-px bg-ink/30" />
-                </>
-              ) : (
-                <>
-                  <div className="flex-1 min-w-4 h-px bg-ink/30" />
-                  <NoteBadge id={note.id} />
-                </>
-              )}
-            </div>
-            <div
-              className={`absolute ${screen.notesOnLeft ? 'left-0' : 'right-0'}`}
-              style={{ top: `calc(${note.top} + 16px)`, width: screen.noteTextWidth ?? DEFAULT_NOTE_TEXT_WIDTH }}
-            >
-              <p className="font-satoshi text-[12px] text-ink leading-[16px]">
-                <span className="font-bold block">{note.title}.</span>
-                {note.body}
-              </p>
-            </div>
-          </div>
-        ))}
+  return (
+    <div id={`heuristic-${screen.key}`} className="scroll-mt-32 py-5">
+      <p className="font-satoshi font-bold text-[16px] text-ink">{screen.label}</p>
+
+      <div
+        className="hidden lg:grid transition-[grid-template-rows]"
+        style={{ gridTemplateRows: isActive ? '1fr' : '0fr', transitionDuration: reduceMotion ? '0ms' : '350ms' }}
+      >
+        <div className="overflow-hidden">
+          <div className="pt-4">{findingsList}</div>
+        </div>
+      </div>
+
+      {/* Mobile/tablet fallback: no sticky column at this width, so each
+          row stays always expanded with its own image inline. */}
+      <div className="lg:hidden mt-4">
+        {findingsList}
+        <ScreenImage
+          screen={screen}
+          notes={notes}
+          hoveredId={hoveredId}
+          reduceMotion={reduceMotion}
+          className="mt-5 max-w-[221px]"
+        />
       </div>
     </div>
   );
+}
 
-  return screen.notesOnLeft ? (
-    <>
-      {notesColumn}
-      {imageColumn}
-    </>
-  ) : (
-    <>
-      {imageColumn}
-      {notesColumn}
-    </>
+// Desktop-only sticky right panel: all 4 screen images stacked absolutely,
+// crossfaded via opacity (CharacterStage.jsx's always-mounted pattern) so the
+// active screen's image is always what's on screen, pinned while the left
+// column scrolls past it.
+function HeuristicRightPanel({ activeKey, hoveredByScreen, reduceMotion }) {
+  return (
+    <div className="hidden lg:block sticky top-32">
+      <div className="relative w-full max-w-[280px] mx-auto">
+        {ANNOTATED_SCREENS.map((screen) => (
+          <div
+            key={screen.key}
+            className="absolute inset-0"
+            style={{
+              opacity: screen.key === activeKey ? 1 : 0,
+              pointerEvents: screen.key === activeKey ? 'auto' : 'none',
+              transitionProperty: 'opacity',
+              transitionDuration: reduceMotion ? '0ms' : '350ms',
+            }}
+          >
+            <ScreenImage
+              screen={screen}
+              notes={CALLOUTS[screen.key]}
+              hoveredId={hoveredByScreen[screen.key]}
+              reduceMotion={reduceMotion}
+            />
+          </div>
+        ))}
+        {/* Reserves layout height matching the stacked images above, since
+            every image in the stack is `absolute` and contributes none. */}
+        <div className="w-full aspect-[213/463] invisible" aria-hidden="true" />
+      </div>
+    </div>
   );
 }
 
 export default function Symptoms() {
   const reduceMotion = useReducedMotion();
+  const activeHeuristicId = useActiveSection(HEURISTIC_IDS, { rootMargin: '-20% 0px -60% 0px' });
+  const activeScreenKey = activeHeuristicId.replace('heuristic-', '');
+  const [hoveredByScreen, setHoveredByScreen] = useState(() =>
+    Object.fromEntries(ANNOTATED_SCREENS.map((screen) => [screen.key, null]))
+  );
+
+  function handleHoverFinding(screenKey, findingId) {
+    setHoveredByScreen((prev) => ({ ...prev, [screenKey]: findingId }));
+  }
 
   return (
     <Section
@@ -347,21 +378,27 @@ export default function Symptoms() {
         vague complaints into specific, nameable problems I could design against.
       </p>
 
-      {/* Findings as always-visible notes with a leader line, in 2 pairs:
-          Homepage+Side Bar, then Audio Guide+Code Input. Each pair's two
-          images sit next to each other in the middle (a plain spacer div
-          between them, no notes there), with each screen's own notes column
-          flanking the outside. */}
-      <div className="mt-8 flex justify-center">
-        <AnnotatedScreen screen={ANNOTATED_SCREENS[0]} />
-        <div className="w-6 shrink-0" />
-        <AnnotatedScreen screen={ANNOTATED_SCREENS[1]} />
-      </div>
-
-      <div className="mt-12 flex justify-center">
-        <AnnotatedScreen screen={ANNOTATED_SCREENS[2]} />
-        <div className="w-6 shrink-0" />
-        <AnnotatedScreen screen={ANNOTATED_SCREENS[3]} />
+      {/* Scrollytelling layout: left column is 4 stacked screen blocks that
+          scroll normally — only the active screen's text is visible, the
+          rest sit invisible but keep their space; right column is a sticky
+          panel whose image crossfades to match whichever block is active,
+          with the hovered finding's badge emphasized. Below `lg:` there's no
+          room for a sticky column, so each block falls back to carrying its
+          own image inline. */}
+      <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_280px] lg:gap-x-16">
+        <div className="flex flex-col divide-y divide-ink/10">
+          {ANNOTATED_SCREENS.map((screen) => (
+            <HeuristicBlock
+              key={screen.key}
+              screen={screen}
+              isActive={activeScreenKey === screen.key}
+              hoveredId={hoveredByScreen[screen.key]}
+              onHoverFinding={handleHoverFinding}
+              reduceMotion={reduceMotion}
+            />
+          ))}
+        </div>
+        <HeuristicRightPanel activeKey={activeScreenKey} hoveredByScreen={hoveredByScreen} reduceMotion={reduceMotion} />
       </div>
     </Section>
   );

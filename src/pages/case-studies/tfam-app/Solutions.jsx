@@ -8,6 +8,8 @@ import whatsonMockup from '../../../assets/case study/case-study-tfam-app/soluti
 import activitiesMockup from '../../../assets/case study/case-study-tfam-app/solutions/activities-mockup.mp4';
 import audioGuideMockup from '../../../assets/case study/case-study-tfam-app/solutions/audio-guide-mockup.mp4';
 import mapSuggestedRouteMockup from '../../../assets/case study/case-study-tfam-app/solutions/map-suggested-route-mockup.mp4';
+import notificationMockup from '../../../assets/case study/case-study-tfam-app/solutions/notification-mockup.mp4';
+import languageMockup from '../../../assets/case study/case-study-tfam-app/solutions/language-mockup.mp4';
 
 // IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
 // each tab a vertical chain of screens.
@@ -142,10 +144,14 @@ const MOMENTS = [
         {
           title: 'Notification',
           body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
+          video: notificationMockup,
+          videoScale: 'scale-110',
         },
         {
           title: 'Language',
           body: 'The whole app works in English as well as Mandarin. The audio codes on the placards now map to something a tourist can actually read and start.',
+          video: languageMockup,
+          videoScale: 'scale-110',
         },
       ],
     ],
@@ -355,21 +361,26 @@ export default function Solutions() {
           rather than rounded down to match the smaller rhythm. */}
       <div className="flex flex-col gap-[87px] mt-[98px]">
         {MOMENTS.map((m) => (
-          <div key={m.title} className="flex flex-col gap-[42px]">
-            <p className="font-satoshi font-bold text-[20px] text-ink">{m.title}</p>
-            {m.rows.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex flex-col gap-6">
-                <MockupRow features={row} />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
-                  {row.map((f) => (
-                    <div key={f.title} className="flex flex-col gap-4">
-                      <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-                      <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
-                    </div>
-                  ))}
+          <div key={m.title} className="flex flex-col">
+            <p className="font-satoshi font-bold text-[20px] text-ink mb-[42px]">{m.title}</p>
+            {/* 90px between rows within a moment (was 42px, +48px per
+                request) — only visible for Wander, the one moment with 2
+                rows (Audio Guide/Floor Map, then Notification/Language). */}
+            <div className="flex flex-col gap-[90px]">
+              {m.rows.map((row, rowIndex) => (
+                <div key={rowIndex} className="flex flex-col gap-6">
+                  <MockupRow features={row} />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
+                    {row.map((f) => (
+                      <div key={f.title} className="flex flex-col gap-4">
+                        <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                        <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ))}
       </div>
