@@ -151,8 +151,8 @@ const CALLOUTS = {
   audioCodeEntry: [
     {
       id: 10,
-      top: '2%',
-      left: '15%',
+      top: '28%',
+      left: '11%',
       title: 'Match Between System and Real World (H2)',
       body: 'Screen labeled "Keyboard," which names the component, not the task. A visitor expects something like "Enter audio guide number."',
     },
