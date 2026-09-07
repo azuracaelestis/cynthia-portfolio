@@ -215,7 +215,7 @@ function ScreenDots({ notes, hoveredId, reduceMotion }) {
 function ScreenImage({ screen, notes, hoveredId, reduceMotion, className = '' }) {
   return (
     <div className={`relative w-full aspect-[213/463] ${className}`}>
-      <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
+      <div className="absolute inset-0 rounded-[32px] overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
         <img src={screen.src} alt={screen.alt} className="absolute inset-0 w-full h-full object-cover" />
       </div>
       <ScreenDots notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} />
@@ -231,7 +231,7 @@ function FindingsList({ screen, notes, onHoverFinding }) {
       {notes.map((note) => (
         <div key={note.id} onMouseEnter={() => onHoverFinding(screen.key, note.id)} className="flex gap-3 items-start">
           <NoteBadge id={note.id} />
-          <p className="font-satoshi text-[14px] leading-[20px] text-ink max-w-[380px]">
+          <p className="font-satoshi text-[16px] leading-[25px] text-ink max-w-[380px]">
             <span className="font-bold block">{note.title}.</span>
             {note.body}
           </p>
@@ -250,7 +250,7 @@ function HeuristicBlock({ screen, isActive, onHoverFinding, reduceMotion }) {
   const notes = CALLOUTS[screen.key];
   return (
     <div className="py-5">
-      <p className="font-satoshi font-bold text-[16px] text-ink">{screen.label}</p>
+      <p className="font-satoshi font-bold text-[20px] text-ink">{screen.label}</p>
       <div
         className="grid transition-[grid-template-rows]"
         style={{ gridTemplateRows: isActive ? '1fr' : '0fr', transitionDuration: reduceMotion ? '0ms' : '350ms' }}
@@ -271,7 +271,7 @@ function HeuristicMobileBlock({ screen, hoveredId, onHoverFinding, reduceMotion 
   const notes = CALLOUTS[screen.key];
   return (
     <div className="py-8 first:pt-0">
-      <p className="font-satoshi font-bold text-[16px] text-ink mb-4">{screen.label}</p>
+      <p className="font-satoshi font-bold text-[20px] text-ink mb-4">{screen.label}</p>
       <FindingsList screen={screen} notes={notes} onHoverFinding={onHoverFinding} />
       <ScreenImage screen={screen} notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} className="mt-5 max-w-[221px]" />
     </div>
