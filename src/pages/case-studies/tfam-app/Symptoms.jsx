@@ -169,6 +169,12 @@ const CALLOUTS = {
 // DOM ids the scroll-spy watches — one per screen block in the left column.
 const HEURISTIC_IDS = ANNOTATED_SCREENS.map((screen) => `heuristic-${screen.key}`);
 
+// Scroll distance (desktop only) the reader spends "inside" one screen
+// before the pin releases into the next — one viewport height per screen,
+// so the whole 4-screen block holds the page for ~4 viewports of scroll
+// before continuing into the next section.
+const HEURISTIC_PIN_STEP = '100vh';
+
 function NoteBadge({ id }) {
   return (
     <span className="shrink-0 size-6 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
@@ -217,16 +223,10 @@ function ScreenImage({ screen, notes, hoveredId, reduceMotion, className = '' })
   );
 }
 
-// One screen's accordion row in the left column: its sub-heading (Homepage,
-// Side Bar, Audio Guide, Code Input) always shows, stacked with the other 3
-// — only the currently active screen expands its findings below its own
-// sub-heading; every other row stays collapsed to just the sub-heading.
-// Below `lg:` there's no sticky right column to sync to, so every row is
-// simply always expanded with its own image, no accordion.
-function HeuristicBlock({ screen, isActive, hoveredId, onHoverFinding, reduceMotion }) {
-  const notes = CALLOUTS[screen.key];
-
-  const findingsList = (
+// One screen's findings as title+body rows, shared by the desktop accordion
+// and the mobile fallback.
+function FindingsList({ screen, notes, onHoverFinding }) {
+  return (
     <div className="flex flex-col gap-5">
       {notes.map((note) => (
         <div key={note.id} onMouseEnter={() => onHoverFinding(screen.key, note.id)} className="flex gap-3 items-start">
@@ -239,67 +239,69 @@ function HeuristicBlock({ screen, isActive, hoveredId, onHoverFinding, reduceMot
       ))}
     </div>
   );
+}
 
+// Desktop-only: one screen's accordion row, presentational only (no DOM id
+// — the pin's actual scroll-spy anchors are separate invisible spacers, see
+// `HEURISTIC_PIN_STEP`). Its sub-heading (Homepage, Side Bar, Audio Guide,
+// Code Input) always shows, stacked with the other 3; only the currently
+// active screen expands its findings below its own sub-heading.
+function HeuristicBlock({ screen, isActive, onHoverFinding, reduceMotion }) {
+  const notes = CALLOUTS[screen.key];
   return (
-    <div id={`heuristic-${screen.key}`} className="scroll-mt-32 py-5">
+    <div className="py-5">
       <p className="font-satoshi font-bold text-[16px] text-ink">{screen.label}</p>
-
       <div
-        className="hidden lg:grid transition-[grid-template-rows]"
+        className="grid transition-[grid-template-rows]"
         style={{ gridTemplateRows: isActive ? '1fr' : '0fr', transitionDuration: reduceMotion ? '0ms' : '350ms' }}
       >
         <div className="overflow-hidden">
-          <div className="pt-4">{findingsList}</div>
+          <div className="pt-4">
+            <FindingsList screen={screen} notes={notes} onHoverFinding={onHoverFinding} />
+          </div>
         </div>
-      </div>
-
-      {/* Mobile/tablet fallback: no sticky column at this width, so each
-          row stays always expanded with its own image inline. */}
-      <div className="lg:hidden mt-4">
-        {findingsList}
-        <ScreenImage
-          screen={screen}
-          notes={notes}
-          hoveredId={hoveredId}
-          reduceMotion={reduceMotion}
-          className="mt-5 max-w-[221px]"
-        />
       </div>
     </div>
   );
 }
 
-// Desktop-only sticky right panel: all 4 screen images stacked absolutely,
+// Mobile/tablet fallback (below `lg:`): no pin at this width, so every
+// screen renders in normal flow, always expanded, with its own image inline.
+function HeuristicMobileBlock({ screen, hoveredId, onHoverFinding, reduceMotion }) {
+  const notes = CALLOUTS[screen.key];
+  return (
+    <div className="py-8 first:pt-0">
+      <p className="font-satoshi font-bold text-[16px] text-ink mb-4">{screen.label}</p>
+      <FindingsList screen={screen} notes={notes} onHoverFinding={onHoverFinding} />
+      <ScreenImage screen={screen} notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} className="mt-5 max-w-[221px]" />
+    </div>
+  );
+}
+
+// Desktop-only right panel: all 4 screen images stacked absolutely,
 // crossfaded via opacity (CharacterStage.jsx's always-mounted pattern) so the
-// active screen's image is always what's on screen, pinned while the left
-// column scrolls past it.
+// active screen's image is always what's on screen. Presentational only —
+// the parent pin wrapper (not this component) owns the sticky positioning.
 function HeuristicRightPanel({ activeKey, hoveredByScreen, reduceMotion }) {
   return (
-    <div className="hidden lg:block sticky top-32">
-      <div className="relative w-full max-w-[280px] mx-auto">
-        {ANNOTATED_SCREENS.map((screen) => (
-          <div
-            key={screen.key}
-            className="absolute inset-0"
-            style={{
-              opacity: screen.key === activeKey ? 1 : 0,
-              pointerEvents: screen.key === activeKey ? 'auto' : 'none',
-              transitionProperty: 'opacity',
-              transitionDuration: reduceMotion ? '0ms' : '350ms',
-            }}
-          >
-            <ScreenImage
-              screen={screen}
-              notes={CALLOUTS[screen.key]}
-              hoveredId={hoveredByScreen[screen.key]}
-              reduceMotion={reduceMotion}
-            />
-          </div>
-        ))}
-        {/* Reserves layout height matching the stacked images above, since
-            every image in the stack is `absolute` and contributes none. */}
-        <div className="w-full aspect-[213/463] invisible" aria-hidden="true" />
-      </div>
+    <div className="relative w-full max-w-[280px] mx-auto">
+      {ANNOTATED_SCREENS.map((screen) => (
+        <div
+          key={screen.key}
+          className="absolute inset-0"
+          style={{
+            opacity: screen.key === activeKey ? 1 : 0,
+            pointerEvents: screen.key === activeKey ? 'auto' : 'none',
+            transitionProperty: 'opacity',
+            transitionDuration: reduceMotion ? '0ms' : '350ms',
+          }}
+        >
+          <ScreenImage screen={screen} notes={CALLOUTS[screen.key]} hoveredId={hoveredByScreen[screen.key]} reduceMotion={reduceMotion} />
+        </div>
+      ))}
+      {/* Reserves layout height matching the stacked images above, since
+          every image in the stack is `absolute` and contributes none. */}
+      <div className="w-full aspect-[213/463] invisible" aria-hidden="true" />
     </div>
   );
 }
@@ -378,27 +380,47 @@ export default function Symptoms() {
         vague complaints into specific, nameable problems I could design against.
       </p>
 
-      {/* Scrollytelling layout: left column is 4 stacked screen blocks that
-          scroll normally — only the active screen's text is visible, the
-          rest sit invisible but keep their space; right column is a sticky
-          panel whose image crossfades to match whichever block is active,
-          with the hovered finding's badge emphasized. Below `lg:` there's no
-          room for a sticky column, so each block falls back to carrying its
-          own image inline. */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_280px] lg:gap-x-16">
-        <div className="flex flex-col divide-y divide-ink/10">
+      {/* Pinned scrollytelling layout (desktop only): the whole two-column
+          block sticks in place while the reader scrolls through 4 invisible
+          anchors (one per screen, `HEURISTIC_PIN_STEP` tall each) — the page
+          only continues past this block once they've scrolled through all 4
+          (Homepage → Side Bar → Audio Guide → Code Input). Below `lg:` there's
+          no room/need for a pin, so every screen just renders in normal flow. */}
+      <div className="relative mt-8">
+        <div className="hidden lg:block" aria-hidden="true">
           {ANNOTATED_SCREENS.map((screen) => (
-            <HeuristicBlock
+            <div key={screen.key} id={`heuristic-${screen.key}`} style={{ height: HEURISTIC_PIN_STEP }} />
+          ))}
+        </div>
+
+        <div className="hidden lg:block absolute inset-0">
+          <div className="sticky top-32 grid grid-cols-[1fr_280px] gap-x-16">
+            <div className="flex flex-col divide-y divide-ink/10">
+              {ANNOTATED_SCREENS.map((screen) => (
+                <HeuristicBlock
+                  key={screen.key}
+                  screen={screen}
+                  isActive={activeScreenKey === screen.key}
+                  onHoverFinding={handleHoverFinding}
+                  reduceMotion={reduceMotion}
+                />
+              ))}
+            </div>
+            <HeuristicRightPanel activeKey={activeScreenKey} hoveredByScreen={hoveredByScreen} reduceMotion={reduceMotion} />
+          </div>
+        </div>
+
+        <div className="lg:hidden flex flex-col divide-y divide-ink/10">
+          {ANNOTATED_SCREENS.map((screen) => (
+            <HeuristicMobileBlock
               key={screen.key}
               screen={screen}
-              isActive={activeScreenKey === screen.key}
               hoveredId={hoveredByScreen[screen.key]}
               onHoverFinding={handleHoverFinding}
               reduceMotion={reduceMotion}
             />
           ))}
         </div>
-        <HeuristicRightPanel activeKey={activeScreenKey} hoveredByScreen={hoveredByScreen} reduceMotion={reduceMotion} />
       </div>
     </Section>
   );
