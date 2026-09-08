@@ -8,7 +8,7 @@ import tfamSplashTestV1 from '../../../assets/case study/case-study-tfam-app/tes
 import tfamAudioGuideExisting from '../../../assets/case study/case-study-tfam-app/testing/tfam-audio-guide-existing-app.jpg';
 import tfamAudioGuideV1 from '../../../assets/case study/case-study-tfam-app/testing/tfam-audio-guide-v1.jpg';
 import tfamAudioGuideV2 from '../../../assets/case study/case-study-tfam-app/testing/tfam-audio-guide-v2.jpg';
-import accessibilityMockup from '../../../assets/case study/case-study-tfam-app/testing/accessibility_mockup.mp4';
+import accessibilityMockup from '../../../assets/case study/case-study-tfam-app/testing/accessibility_mockup-2.mp4';
 
 // Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms /
 // Solutions — one fade+rise system across the whole page).
@@ -32,14 +32,16 @@ const FINDINGS = [
   {
     title: 'The arrival screen lost its context',
     observed:
-      "One visitor wasn't sure what app she was even looking at. The arrival screen showed only a small logo mark, with no museum name and nothing that felt like TFAM. In making it simple, I had stripped out the brand.",
+      "One visitor wasn't sure what app she was even looking at. The arrival screen showed only a small logo, no museum name, nothing that felt like TFAM. In making it simple, I had stripped out the brand.",
     images: [
       { label: 'Existing App', video: tfamSplashTest, videoScale: 'scale-[1.15]' },
       { label: 'Version 1', image: tfamSplashTestV1, enlarge: true },
       { label: 'Version 2', video: tfamSplashScreenV2, videoScale: 'scale-[1.15]' },
     ],
-    changed:
-      "Two moves. I built a splash screen from scratch to hold the museum's brand and a contemporary feel, something I had skipped in version one to stay simple, but that was a mistake. Giving the brand its own home on the splash let the working screens stay clean. Then on the arrival screen I added a clear Welcome to Taipei Fine Arts Museum, so the app tells you where you are the moment it opens.",
+    version1:
+      "I put the audio guide at the top of the arrival screen. That made the audio guide easy to see, but the app lost its context. People had no idea what the app was, all that was left was the TFAM logo mark in the top-left corner, which most people didn't recognize.",
+    version2:
+      'I built a splash screen to carry the brand, then added a clear "Welcome to Taipei Fine Arts Museum" on the arrival screen. Now the app tells you what it is and where you are the moment it opens, and the working screens still stay clean and simple.',
   },
   {
     title: 'Designed for two hands, used with one',
@@ -50,16 +52,20 @@ const FINDINGS = [
       { label: 'Version 1', image: tfamAudioGuideV1, enlarge: true },
       { label: 'Version 2', image: tfamAudioGuideV2, enlarge: true },
     ],
-    changed:
-      "I made scanning a QR code the first option, since it takes one tap, and kept typing the code as a backup for anyone who prefers it. This also closes the loop on the old app's biggest problem, the audio guide that was too hard to start.",
+    version1:
+      'Starting the audio guide meant typing a code on a keypad. It worked, but only if you had two free hands and could look at the screen the whole time. For a parent holding a child, or anyone with one hand full, that was hard to do.',
+    version2:
+      'I made scanning a QR code the first option, since it takes just one tap, and kept typing the code as a backup for anyone who prefers it. Now most people can start the audio guide with one hand.',
   },
   {
     title: 'You could swipe, but not everyone can',
     observed:
       'The card sliders used a peeking card and dots to show they could be swiped. That signals it well, but swiping is still a gesture, and a gesture needs finger reach and flexibility. For a visitor using one thumb, knowing you can swipe doesn’t help if the swipe itself is hard to do.',
-    images: [{ label: 'Version 1' }, { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.08]' }],
-    changed:
-      "I added an arrow as a one-tap way to move between cards, so no drag is needed. Where a peeking card already hints there's more (What's On and Activities), the arrow appears only when someone starts to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realise the slider could move at all.",
+    images: [{ label: 'Version 1' }, { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' }],
+    version1:
+      'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
+    version2:
+      "I added an arrow so you can move between cards with one tap, no swipe needed. Where a peeking card already hints there's more (What's On and Activities), the arrow shows up only when you start to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realise the slider could move.",
   },
 ];
 
@@ -222,17 +228,44 @@ export default function Testing() {
                   </motion.div>
                 ))}
               </div>
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={revealViewport}
-                variants={reduceMotion ? revealVariantsReduced : revealVariants}
-                transition={reduceMotion ? revealTransitionReduced : revealTransition}
-                className="flex flex-col gap-2"
-              >
-                <p className="font-satoshi font-bold text-[16px] text-ink">Changed</p>
-                <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
-              </motion.div>
+              {finding.version1 && finding.version2 ? (
+                <>
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={revealViewport}
+                    variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                    transition={reduceMotion ? revealTransitionReduced : revealTransition}
+                    className="flex flex-col gap-2"
+                  >
+                    <p className="font-satoshi font-bold text-[16px] text-ink">Version 1</p>
+                    <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.version1}</p>
+                  </motion.div>
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={revealViewport}
+                    variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                    transition={reduceMotion ? revealTransitionReduced : revealTransition}
+                    className="flex flex-col gap-2"
+                  >
+                    <p className="font-satoshi font-bold text-[16px] text-ink">Version 2</p>
+                    <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.version2}</p>
+                  </motion.div>
+                </>
+              ) : (
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={revealViewport}
+                  variants={reduceMotion ? revealVariantsReduced : revealVariants}
+                  transition={reduceMotion ? revealTransitionReduced : revealTransition}
+                  className="flex flex-col gap-2"
+                >
+                  <p className="font-satoshi font-bold text-[16px] text-ink">Changed</p>
+                  <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
+                </motion.div>
+              )}
             </div>
           </div>
         ))}

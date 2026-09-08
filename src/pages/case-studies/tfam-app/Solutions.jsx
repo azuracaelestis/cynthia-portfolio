@@ -4,12 +4,12 @@ import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 import tryItYourself from '../../../assets/case study/case-study-tfam-app/solutions/try-it-yourself.png';
 import qrCode from '../../../assets/case study/case-study-tfam-app/solutions/qr-code.png';
-import whatsonMockup from '../../../assets/case study/case-study-tfam-app/solutions/whatson-mockup.mp4';
-import activitiesMockup from '../../../assets/case study/case-study-tfam-app/solutions/activities-mockup.mp4';
-import audioGuideMockup from '../../../assets/case study/case-study-tfam-app/solutions/audio-guide-mockup.mp4';
-import mapSuggestedRouteMockup from '../../../assets/case study/case-study-tfam-app/solutions/map-suggested-route-mockup.mp4';
-import notificationMockup from '../../../assets/case study/case-study-tfam-app/solutions/notification-mockup.mp4';
-import languageMockup from '../../../assets/case study/case-study-tfam-app/solutions/language-mockup.mp4';
+import whatsonMockup from '../../../assets/case study/case-study-tfam-app/solutions/whatson-mockup-v2.mp4';
+import activitiesMockup from '../../../assets/case study/case-study-tfam-app/solutions/activities-mockup-v2.mp4';
+import audioGuideMockup from '../../../assets/case study/case-study-tfam-app/solutions/audio-guide-mockup-v2.mp4';
+import mapSuggestedRouteMockup from '../../../assets/case study/case-study-tfam-app/solutions/map-suggested-route-mockup-v2.mp4';
+import notificationMockup from '../../../assets/case study/case-study-tfam-app/solutions/notification-mockup-v2.mp4';
+import languageMockup from '../../../assets/case study/case-study-tfam-app/solutions/language-mockup-v2.mp4';
 
 // IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
 // each tab a vertical chain of screens.
@@ -100,9 +100,7 @@ function IaDiagram() {
 
 // Per Figma (nodes 258:1301 / 258:1315): each moment is its own heading, then
 // one or more rows of 2 features, each row a pair of 317x396 screenshot
-// placeholders above the matching pair of title/body text. Wander's
-// "Notification" feature repeats the Audio Guide's body text verbatim in
-// Figma itself — not a PDF-extraction artifact, kept as-is, flagged below.
+// placeholders above the matching pair of title/body text.
 const MOMENTS = [
   {
     title: 'Plan (Before the Visit)',
@@ -115,9 +113,18 @@ const MOMENTS = [
           videoScale: 'scale-110',
         },
         {
-          title: 'Pre-Book Activities',
-          body: 'Reserve in a few taps, right in the app, instead of an email or a phone call. Target: 80%+ of people finish it in under 45 seconds.',
+          title: 'Pre-Book a Tour or Class',
+          body: 'Reserve in a few taps, right in the app, instead of an email or a phone call.',
+          target: '80%+ of people finish it in under 45 seconds.',
           video: activitiesMockup,
+          videoScale: 'scale-110',
+        },
+      ],
+      [
+        {
+          title: 'Stay in the Loop',
+          body: 'A notify-me toggle lets repeat visitors like Yu-Chen get told when a new exhibition or class opens, so their visits stay fresh.',
+          video: notificationMockup,
           videoScale: 'scale-110',
         },
       ],
@@ -128,13 +135,14 @@ const MOMENTS = [
     rows: [
       [
         {
-          title: 'Audio Guide',
-          body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
+          title: 'Arrival and Audio Guide',
+          body: 'The app opens on a clear "Start audio guide" button. No digging through menus.',
+          target: 'A 25% lift in audio guide use.',
           video: audioGuideMockup,
           videoScale: 'scale-110',
         },
         {
-          title: 'Floor Map & Suggested Route',
+          title: 'Offline Floor Map',
           body: 'Works without a connection, so first-timers can find their way without relying on staff or signage.',
           video: mapSuggestedRouteMockup,
           videoScale: 'scale-110',
@@ -142,14 +150,8 @@ const MOMENTS = [
       ],
       [
         {
-          title: 'Notification',
-          body: 'The app opens on a clear "Start audio guide" button. No digging through menus. Target: a 25% lift in audio guide use.',
-          video: notificationMockup,
-          videoScale: 'scale-110',
-        },
-        {
-          title: 'Language',
-          body: 'The whole app works in English as well as Mandarin. The audio codes on the placards now map to something a tourist can actually read and start.',
+          title: 'Two Languages',
+          body: "The whole app works in English as well as Mandarin, so a visitor like Marco isn't stuck at the first wall. The audio codes on the placards now map to something he can actually read and start.",
           video: languageMockup,
           videoScale: 'scale-110',
         },
@@ -167,21 +169,21 @@ const STATS = [
     value: 25,
     suffix: '%',
     label: 'Feature discovery',
-    body: 'Aimed lift in audio guide use, by surfacing it on arrival.',
+    body: 'Target lift in audio guide use.',
   },
   {
     prefix: '',
     value: 80,
     suffix: '%',
     label: 'Self-service booking',
-    body: 'Booking completion in-app, replacing email and phone less than 45 sec.',
+    body: 'Target booking completion, in under 45 seconds.',
   },
   {
     prefix: '',
     value: 4,
     suffix: '/5',
     label: 'Visitor confidence',
-    body: 'Target confidence score in post-visit surveys.',
+    body: 'Target confidence score, from a post-visit survey.',
   },
 ];
 
@@ -236,35 +238,19 @@ function PauseIcon() {
 // Same circular play/pause button as Classroom Quest's Design.jsx (sized
 // 30% smaller and resting at 30% opacity here, revealing fully on hover) —
 // no native controls, play state driven by the video's own onPlay/onPause
-// so it stays correct regardless of what triggered the change (the
-// button, or the scroll-triggered `active` handoff below).
-function MockupVideo({ src, scaleClassName, active, isLast, onEnded }) {
+// so it stays correct regardless of what triggered the change (the button,
+// or the scroll-triggered auto-play below).
+function MockupVideo({ src, scaleClassName, active }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const hasHandedOffRef = useRef(false);
 
-  // Starts playing once `active` turns true (the scroll-into-view trigger,
-  // or this video's turn in the What's On → Pre-Book Activities handoff) —
-  // doesn't attempt to pause on active:false, so a manual play via the
-  // button is never fought.
+  // Plays once when `active` turns true (the row scrolling into view) — no
+  // `loop`, so it plays through once and rests on its last frame. Doesn't
+  // attempt to pause on active:false, so a manual play via the button below
+  // is never fought.
   useEffect(() => {
     if (active) videoRef.current?.play().catch(() => {});
   }, [active]);
-
-  // Every video ends up looping forever — but a non-last video needs its
-  // FIRST end to fire the handoff to the next one, and native `loop` never
-  // fires `ended` at all. So only the last video uses native `loop`; the
-  // others play with `loop=false`, fire the handoff callback once on their
-  // real `ended` event, then this handler restarts them manually — a
-  // hand-rolled loop for exactly as long as it takes to have already
-  // signaled the handoff.
-  function handleEnded() {
-    if (!hasHandedOffRef.current) {
-      hasHandedOffRef.current = true;
-      onEnded?.();
-    }
-    if (!isLast) videoRef.current?.play().catch(() => {});
-  }
 
   function togglePlay() {
     const el = videoRef.current;
@@ -279,12 +265,10 @@ function MockupVideo({ src, scaleClassName, active, isLast, onEnded }) {
         ref={videoRef}
         src={src}
         className={`w-full aspect-[317/396] object-cover rounded-2xl ${scaleClassName ?? ''}`}
-        loop={isLast}
         muted
         playsInline
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onEnded={handleEnded}
       />
       <button
         type="button"
@@ -298,46 +282,63 @@ function MockupVideo({ src, scaleClassName, active, isLast, onEnded }) {
   );
 }
 
-// Starts the row's videos in order once it scrolls into view — What's On
-// plays first; when it finishes once, Pre-Book Activities starts, and both
-// keep looping continuously from then on.
+// Starts every video in the row playing simultaneously, once, the first
+// time the row scrolls into view — no sequential handoff, no looping. Each
+// video rests on its last frame when it finishes; the reader can replay any
+// one of them individually via its own play/pause button.
 function MockupRow({ features }) {
   const rowRef = useRef(null);
   const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
-  const videoIndices = features.map((f, i) => (f.video ? i : null)).filter((i) => i !== null);
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  useEffect(() => {
-    if (isInView && videoIndices.length > 0) setActiveIndex(videoIndices[0]);
-    // videoIndices is derived fresh from `features` every render — safe to
-    // omit from deps since `features` (and thus its content) doesn't change
-    // after mount for a given row.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInView]);
-
-  function handleEnded(i) {
-    const position = videoIndices.indexOf(i);
-    if (position !== -1 && position < videoIndices.length - 1) {
-      setActiveIndex(videoIndices[position + 1]);
-    }
-  }
 
   return (
     <div ref={rowRef} className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
-      {features.map((f, i) =>
+      {features.map((f) =>
         f.video ? (
-          <MockupVideo
-            key={f.title}
-            src={f.video}
-            scaleClassName={f.videoScale}
-            active={activeIndex === i}
-            isLast={i === videoIndices[videoIndices.length - 1]}
-            onEnded={() => handleEnded(i)}
-          />
+          <MockupVideo key={f.title} src={f.video} scaleClassName={f.videoScale} active={isInView} />
         ) : (
           <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
         ),
       )}
+    </div>
+  );
+}
+
+// A feature's "Target: ..." metric, pulled out of the body paragraph and
+// rendered as its own callout — same badge/pill treatment already used for
+// the persona traits in Diagnosis.jsx, reused here for visual consistency
+// rather than inventing a new style.
+function TargetCallout({ children }) {
+  return (
+    <p className="self-start rounded-full bg-ink/5 font-satoshi font-bold text-[14px] text-ink px-4 py-2">
+      Target: {children}
+    </p>
+  );
+}
+
+// Single-feature rows (Plan's "Stay in the Loop", Wander's "Two Languages")
+// pair image and text side by side — image left, text right — rather than
+// the stacked video-row-then-text-row layout above, which left an empty
+// second column on both rows for a lone item. Same scroll-triggered,
+// play-once behavior as MockupRow, just its own useInView since the layout
+// (and therefore the single video's container) is different.
+function SingleFeatureRow({ feature }) {
+  const rowRef = useRef(null);
+  const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
+
+  return (
+    <div ref={rowRef} className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-[32px]">
+      <div className="lg:w-1/2 shrink-0">
+        {feature.video ? (
+          <MockupVideo src={feature.video} scaleClassName={feature.videoScale} active={isInView} />
+        ) : (
+          <ImagePlaceholder label="Screenshot" className="w-full aspect-[317/396]" />
+        )}
+      </div>
+      <div className="flex flex-col gap-4">
+        <p className="font-satoshi font-bold text-[16px] text-ink">{feature.title}</p>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px]">{feature.body}</p>
+        {feature.target && <TargetCallout>{feature.target}</TargetCallout>}
+      </div>
     </div>
   );
 }
@@ -348,9 +349,9 @@ export default function Solutions() {
     <Section id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
       <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
       <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-[57px]">
-        The three moments became five tabs: Home, What&apos;s On, Map, Classes, and Settings. Every feature that was
-        buried in the old app now sits in the tab where a visitor would go looking for it. The audio guide, the old
-        app&apos;s weakest point, is now reachable from Home, What&apos;s On, and the Map, so it&apos;s never more
+        The three moments became five tabs: Home, What&apos;s On, Map, Activities, and Settings. Every feature that
+        was hidden in the old app now sits in the tab where a visitor would look for it. The audio guide, the old
+        app&apos;s weakest point, can now be reached from Home, What&apos;s On, and the Map, so it&apos;s never more
         than one tap away.
       </p>
 
@@ -364,22 +365,29 @@ export default function Solutions() {
           <div key={m.title} className="flex flex-col">
             <p className="font-satoshi font-bold text-[20px] text-ink mb-[42px]">{m.title}</p>
             {/* 90px between rows within a moment (was 42px, +48px per
-                request) — only visible for Wander, the one moment with 2
-                rows (Audio Guide/Floor Map, then Notification/Language). */}
+                request) — both moments now have 2 rows: Plan's second row
+                (Stay in the Loop) and Wander's second row (Two Languages)
+                each hold a single feature, left-aligned in the 2-col grid
+                below, since Notification moved from Wander to Plan. */}
             <div className="flex flex-col gap-[90px]">
-              {m.rows.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex flex-col gap-6">
-                  <MockupRow features={row} />
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
-                    {row.map((f) => (
-                      <div key={f.title} className="flex flex-col gap-4">
-                        <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-                        <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
-                      </div>
-                    ))}
+              {m.rows.map((row, rowIndex) =>
+                row.length === 1 ? (
+                  <SingleFeatureRow key={rowIndex} feature={row[0]} />
+                ) : (
+                  <div key={rowIndex} className="flex flex-col gap-6">
+                    <MockupRow features={row} />
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
+                      {row.map((f) => (
+                        <div key={f.title} className="flex flex-col gap-4">
+                          <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                          <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
+                          {f.target && <TargetCallout>{f.target}</TargetCallout>}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
           </div>
         ))}

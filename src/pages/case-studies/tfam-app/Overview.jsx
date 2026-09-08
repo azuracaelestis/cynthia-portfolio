@@ -2,8 +2,20 @@ import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ShaderBackground } from '../../../shader/ShaderBackground';
 import grainField from '../../../assets/case study/case-study-tfam-app/header/tfam-grain-field-2744.80.png';
-import mockupWhatson from '../../../assets/case study/case-study-tfam-app/header/mockup1_whatson.png';
-import mockupOnboarding from '../../../assets/case study/case-study-tfam-app/header/mockup1_onboarding.png';
+import mockupHome from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 2.png';
+import mockupWhatsOnList from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 4.png';
+import mockupWhatsOnDetail from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 3.png';
+
+// Per Figma (node 312:1503, "Frame 3465598"): 3 flat, non-rotated mockups in
+// a row, bottom-aligned, 15px gap, each 316px of the page's 1440px width
+// (21.94%) — replaces the earlier 2-rotated-phone composition, which (per
+// the removed comment below) was never actually sourced from this real
+// Figma frame in the first place.
+const MOCKUPS = [
+  { src: mockupHome, alt: "TFAM App, home screen mockup" },
+  { src: mockupWhatsOnList, alt: "TFAM App, What's On list mockup" },
+  { src: mockupWhatsOnDetail, alt: 'TFAM App, exhibition detail mockup' },
+];
 
 // The tuned "Grain Field — the one" look, straight from the shader lab's
 // Remotion-props export (see src/shader/README.md).
@@ -124,121 +136,58 @@ export default function Overview() {
           </div>
         </div>
 
-        {/* Phone mockups, positioned per Figma (node 258:1042). The stage's
-            aspect ratio is Figma's own 1200x655 — the span from the meta
-            card's bottom (y545) down to the dark rectangle's bottom (y1200)
-            — so the dark hero ends exactly where Figma's does and every
-            offset below stays proportional at any width. The mockups are
-            absolutely positioned, so they don't add flow height: their
-            bottoms hang past the dark edge and float over the white section
-            below (via this section's z-10). Mobile: hidden until a dedicated
-            mobile pass.
+        {/* Mockup row, per Figma (node 312:1503, "Frame 3465598"): 3 flat,
+            non-rotated device mockups, bottom-aligned, centered, 15px gap,
+            each 21.94% of the page width (316/1440) — this is the FIRST
+            time this composition has actually been sourced from Figma; the
+            previous 2-rotated-phone version (crop/rotation/position tuned
+            across many rounds, per this block's prior history) was an
+            approximation that turned out not to match this real frame at
+            all, so none of that per-phone tuning carries over. What DOES
+            carry over: the stage box below (sizing/fit mechanics — the
+            viewport-height cap, the shortened aspect ratio, the negative
+            margin overlapping the white section) was tuned independently of
+            the phones themselves and is reused as-is as the mounting
+            surface for this new row.
 
-            The two source PNGs were cropped to their real (non-transparent)
-            bounds — each canvas had ~15-33% of dead transparent margin baked
-            in (likely shadow/rotation export clearance), which was inflating
-            how far the rotated phones hung below the dark stage without
-            adding anything visible. The width/top/left below are NOT Figma's
-            raw numbers anymore. First they were re-derived to land the
-            VISIBLE phone in the exact same on-screen position/size Figma had
-            (a pure footprint win from the crop, ~60-90px less overhang per
-            phone, no visual change) — then, after two rounds of raising the
-            viewport-height cap below hit diminishing returns (a cap can only
-            return the phones to their full declared size, never exceed it),
-            declared width was bumped +30% directly per direct feedback that
-            the mockups still read too small, then eased back -15% once they
-            read as too big. Top-left anchor kept fixed throughout, so each
-            phone grows/shrinks toward its bottom-right from that point
-            rather than from its center.
+            The row is `absolute inset-x-0` of the stage box, bottom-aligned
+            (matching Figma's own "items-end" for this group) at `bottom-
+            [-90px]` — 90px BELOW the box's own bottom edge (48px, then
+            +42px more per feedback), on top of whatever overlap that box's
+            `-mb-20`/aspect-ratio tuning already produces, so the mockups'
+            bottoms visibly cover a bit of the white section rather than
+            landing flush at the boundary. Each
+            image is 10% larger than Figma's raw 21.94% (316/1440) — 24.13%
+            — per direct feedback that they read too small at 1:1. Mobile:
+            hidden until a dedicated mobile pass, same as before.
 
-            Rotation lives in `style`, not a `rotate-[...]` class: Tailwind v4
-            sets the standalone `rotate` property, which would compose with
-            framer-motion's `transform` and make the resting angle hard to
-            reason about. One transform, one owner.
-
-            Eased from Figma's ±23° to ±14°: since rotation pivots around
-            each image's own center, a shallower angle shrinks the rotated
-            bounding box's vertical extent on BOTH sides (top and bottom)
-            without moving that center point — a second, independent cut to
-            the same overhang the crop above addresses, while keeping a
-            visible tilt rather than flattening the composition.
-
-            Each phone is a wrapper (owns position + the continuous scroll
-            drift, `y: phoneY`) around the actual image (owns the one-time
-            mount entrance — opacity/y/scale via initial/animate — plus the
-            static `rotate`). Splitting them this way is what lets a
-            continuously-updating scroll value and a play-once mount
-            animation coexist without one fighting the other over the same
-            transform property.
-
-            `lg:-mb-32`: per Figma, the stage's own height (this aspect-ratio
-            box) is meant to end exactly where the dark background ends —
-            the phones' overhang past that into the white section below is
-            handled entirely by their absolute positioning, not by this box's
-            height. But our meta card holds real copy (wraps differently
-            than Figma's fitted mockup text), rendering a bit taller than
-            Figma's, which pushes this whole box — and the white section
-            starting right after it — lower than intended. This negative
-            margin pulls the white section back up to compensate; it doesn't
-            move the phones themselves (they're absolutely positioned inside
-            this box, unaffected by the box's own trailing margin). Best-
-            effort estimate, no live browser to measure the real overflow —
-            flag for a follow-up nudge once seen live.
-
-            Viewport-height cap: at full content width the box's own
-            `aspect-[1200/655]` height is ~655px, which — stacked under the
-            eyebrow/title/meta-card above it — doesn't fit inside one 16:9
-            screen on typical laptop heights even after the crop/rotation
-            fixes above. Rather than deriving height FROM width (which can't
-            respond to viewport height at all) and then fighting to shrink
-            the phones separately, `w-[min(100%,119.1vh)]` derives the WIDTH
-            from a height budget instead: 119.1vh = 65vh (the target stage
-            height) × 1200/655 (the aspect ratio), so on a short/wide
-            viewport the box's width — and with it, height AND every phone
-            positioned as a % of it — all scale down together as one unit.
-            On a tall-enough viewport `min()` just resolves to `100%` and
-            nothing changes from today. (Went 38vh → 50vh → 65vh, +30% over
-            the previous pass each of the last two rounds — at this point the
-            cap is close to no longer capping much on typical laptop heights,
-            so if it's STILL too small the phones' declared width/position
-            percentages themselves are the more direct next lever, not this
-            number.) */}
-        <div className="relative mt-12 h-32 lg:mt-0 lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/655] lg:-mb-32">
+            The scroll-linked drift (`y: phoneY`) now applies to the whole
+            row as one unit (a single wrapper) rather than per-image, since
+            all 3 move together at the same rate in this layout — simpler
+            than the old per-phone wrappers, which existed to let 2
+            independently-positioned images share a differently-shaped
+            drift range. The one-time mount entrance (opacity/y/scale)
+            still staggers per image via PHONE_ENTER_STAGGER. */}
+        <div className="relative mt-12 h-32 lg:mt-6 lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/520] lg:-mb-20">
           <motion.div
-            className="hidden lg:block absolute w-[27.04%] top-[19.06%] left-[23.15%]"
+            className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]"
             style={reduceMotion ? undefined : { y: phoneY }}
           >
-            <motion.img
-              src={mockupWhatson}
-              alt="TFAM App, What's On screen mockup"
-              className="w-full drop-shadow-2xl"
-              style={{ rotate: -14 }}
-              initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE, delay: 0 }
-              }
-            />
-          </motion.div>
-          <motion.div
-            className="hidden lg:block absolute w-[28.88%] top-[10.32%] left-[51.83%]"
-            style={reduceMotion ? undefined : { y: phoneY }}
-          >
-            <motion.img
-              src={mockupOnboarding}
-              alt="TFAM App, onboarding screen mockup"
-              className="w-full drop-shadow-2xl"
-              style={{ rotate: 14 }}
-              initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE, delay: PHONE_ENTER_STAGGER }
-              }
-            />
+            {MOCKUPS.map((mockup, i) => (
+              <motion.img
+                key={mockup.src}
+                src={mockup.src}
+                alt={mockup.alt}
+                className="w-[24.13%] h-auto drop-shadow-2xl"
+                initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE, delay: i * PHONE_ENTER_STAGGER }
+                }
+              />
+            ))}
           </motion.div>
         </div>
       </div>

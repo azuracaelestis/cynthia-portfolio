@@ -31,7 +31,7 @@ function RefreshIcon() {
   );
 }
 
-export default function MoreCaseStudies({ currentId }) {
+export default function MoreCaseStudies({ currentId, background = 'bg-case-study-cream' }) {
   const pool = CASE_STUDIES.filter((study) => study.id !== currentId);
   const [studyIndex, setStudyIndex] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -74,7 +74,7 @@ export default function MoreCaseStudies({ currentId }) {
   }
 
   return (
-    <section className="bg-case-study-cream pt-20 pb-24">
+    <section className={`${background} pt-20 pb-24`}>
       <div className="mx-[6px] lg:mx-auto max-w-[1302px] rounded-[32px] bg-white px-6 lg:px-12 py-12 lg:py-[90px] flex flex-col items-center gap-8">
         <h2 className="font-dm font-bold text-[32px] lg:text-[48px] text-ink text-center leading-tight">
           More case studies

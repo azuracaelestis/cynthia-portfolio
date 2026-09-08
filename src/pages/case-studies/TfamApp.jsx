@@ -73,7 +73,7 @@ export default function TfamApp() {
         })}
       </CaseStudyLayout>
 
-      <MoreCaseStudies currentId="tfam" />
+      <MoreCaseStudies currentId="tfam" background="bg-paper" />
     </>
   );
 }

@@ -8,13 +8,19 @@ import resumeIcon from '../assets/footer/icon/resume.svg';
 export default function Footer() {
   const location = useLocation();
   const isCaseStudy = location.pathname.startsWith('/work/');
+  // TFAM's own page background is white (bg-paper, see TfamApp.jsx), not the
+  // cream every other case-study page defaults to — so its footer shouldn't
+  // pick up the cream tint either. Other case-study pages (e.g. Classroom
+  // Quest) keep it, since their page background is still cream and the
+  // footer is meant to blend into it seamlessly.
+  const isTfamApp = location.pathname.startsWith('/work/tfam-app');
   const reduceMotion = useReducedMotion();
 
   return (
     <footer
       id="contact"
       className={`mx-[6px] lg:mx-0 rounded-t-[32px] bg-bleed-blue pt-[34px] pb-[120px] lg:rounded-t-none lg:pt-12 lg:pb-0 ${
-        isCaseStudy ? 'lg:bg-case-study-cream' : 'lg:bg-transparent'
+        isCaseStudy && !isTfamApp ? 'lg:bg-case-study-cream' : 'lg:bg-transparent'
       }`}
     >
       <div className="relative mx-auto max-w-[1302px] rounded-t-[32px] bg-bleed-blue px-0 lg:px-10 pt-[56px] lg:pt-24 pb-12 text-center overflow-hidden">

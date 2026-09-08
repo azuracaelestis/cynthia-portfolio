@@ -11,14 +11,18 @@ const EASE_IN = [0.4, 0, 1, 1];
 // preserved on either side of it.
 const REST_X = -15;
 
-// The nav's phase relative to the tracked content: 'before' (right, hidden),
-// 'visible' (in place), 'after' (left, hidden). Transitioning INTO 'visible'
+// The nav's phase relative to the tracked content: 'before' (left, hidden),
+// 'visible' (in place), 'after' (right, hidden). Transitioning INTO 'visible'
 // is always the entrance (ease-out); transitioning OUT of it, in either
 // direction, is always the exit (ease-in) — matching how the motion reads to
-// the reader as one system running forward or in reverse.
+// the reader as one system running forward or in reverse. Both hidden states
+// sit on the LEFT-TO-RIGHT side of resting (before to the left, after to the
+// right of it) so the whole sweep — entering as the reader scrolls down into
+// the content, then exiting past the end — reads as one continuous
+// left-to-right motion, never reversing direction mid-scroll.
 const navVariants = {
   before: {
-    x: REST_X + 40,
+    x: REST_X - 40,
     opacity: 0,
     transition: { duration: 0.35, ease: EASE_IN },
     transitionEnd: { visibility: 'hidden', pointerEvents: 'none' },
@@ -31,7 +35,7 @@ const navVariants = {
     transition: { duration: 0.35, ease: EASE_OUT },
   },
   after: {
-    x: REST_X - 40,
+    x: REST_X + 40,
     opacity: 0,
     transition: { duration: 0.35, ease: EASE_IN },
     transitionEnd: { visibility: 'hidden', pointerEvents: 'none' },

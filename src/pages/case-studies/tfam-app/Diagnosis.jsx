@@ -7,17 +7,17 @@ import arrowRight from '../../../assets/case study/case-study-tfam-app/diagnosis
 
 const FRICTION = [
   {
-    title: 'Plan (Before the Visit)',
+    title: 'Plan (Before the visit)',
     body: 'Exhibition details are hard to find, and booking means an email or a phone call.',
     cx: 108.5,
   },
   {
-    title: 'Wander (During Visit)',
+    title: 'Wander (During the visit)',
     body: 'The audio guide has no clear way in. Visitors lean on staff and signage instead.',
     cx: 350,
   },
   {
-    title: 'Remember (After)',
+    title: 'Remember (After the visit)',
     body: "Nothing carries the visit home. There's no way to keep the pieces you loved.",
     cx: 595,
   },
@@ -52,19 +52,19 @@ const PERSONA_STAGGER = 0.1;
 
 const PERSONAS = [
   {
-    name: 'Yu-Chen Lin, 29',
+    name: 'Yu-Chen, 29',
     photo: yuChenLinPhoto,
     tag: 'Marketing manager in Taipei',
-    badges: ['Repeat local', 'Mandarin speaker'],
+    badges: ['Repeat local', 'Reads Mandarin'],
     goal: 'See what’s on and book a tour in a few taps.',
     frustrations: 'Planning means juggling the website, social media, and a phone call.',
     breaks: 'Before she leaves home. Language is never her problem, planning is.',
   },
   {
-    name: 'Marco Rossi, 34',
+    name: 'Marco, 34',
     photo: marcoPhoto,
-    tag: 'Architect visiting from Milan',
-    badges: ['First-time tourist', 'Non-Mandarin speaker'],
+    tag: 'Architect from Milan',
+    badges: ['First-time tourist', 'Speaks little Mandarin'],
     goal: 'Find his way and understand the art without leaning on staff.',
     frustrations: 'The app and signage assume Mandarin, and the audio codes on the placards mean nothing to him.',
     breaks: 'The moment he walks in. Language is the first wall he hits.',
@@ -186,7 +186,7 @@ export default function Diagnosis() {
           Hovering/focusing a card cancels the sequence for good and moves
           the halo there instead — it stays on the last moment looked at. */}
       <div className="mb-[52px] w-full max-w-[711px] mx-auto flex flex-col items-center gap-8">
-        <p className="font-satoshi font-bold text-[20px] text-ink w-full">Friction mapped to the visit journey</p>
+        <p className="font-satoshi font-bold text-[20px] text-ink w-full">Friction showed up at three moments of the visit</p>
         <svg viewBox="0 0 700 44" className="hidden lg:block w-[700px] h-[44px]" aria-hidden="true">
           <rect y="19" width="700" height="5" rx="2.5" fill="black" />
           {!reduceMotion && (
@@ -233,7 +233,7 @@ export default function Diagnosis() {
       </div>
 
       <div className="mb-[52px]">
-        <p className="font-satoshi font-bold text-[20px] text-ink mb-6">New User Persona</p>
+        <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Two visitors, two different breaking points</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {PERSONAS.map((p, i) => (
             <motion.div
