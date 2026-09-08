@@ -130,14 +130,38 @@ export default function Overview() {
             — so the dark hero ends exactly where Figma's does and every
             offset below stays proportional at any width. The mockups are
             absolutely positioned, so they don't add flow height: their
-            bottoms hang ~210px past the dark edge and float over the white
-            section below (via this section's z-10). Mobile: hidden until a
-            dedicated mobile pass.
+            bottoms hang past the dark edge and float over the white section
+            below (via this section's z-10). Mobile: hidden until a dedicated
+            mobile pass.
+
+            The two source PNGs were cropped to their real (non-transparent)
+            bounds — each canvas had ~15-33% of dead transparent margin baked
+            in (likely shadow/rotation export clearance), which was inflating
+            how far the rotated phones hung below the dark stage without
+            adding anything visible. The width/top/left below are NOT Figma's
+            raw numbers anymore. First they were re-derived to land the
+            VISIBLE phone in the exact same on-screen position/size Figma had
+            (a pure footprint win from the crop, ~60-90px less overhang per
+            phone, no visual change) — then, after two rounds of raising the
+            viewport-height cap below hit diminishing returns (a cap can only
+            return the phones to their full declared size, never exceed it),
+            declared width was bumped +30% directly per direct feedback that
+            the mockups still read too small, then eased back -15% once they
+            read as too big. Top-left anchor kept fixed throughout, so each
+            phone grows/shrinks toward its bottom-right from that point
+            rather than from its center.
 
             Rotation lives in `style`, not a `rotate-[...]` class: Tailwind v4
             sets the standalone `rotate` property, which would compose with
             framer-motion's `transform` and make the resting angle hard to
             reason about. One transform, one owner.
+
+            Eased from Figma's ±23° to ±14°: since rotation pivots around
+            each image's own center, a shallower angle shrinks the rotated
+            bounding box's vertical extent on BOTH sides (top and bottom)
+            without moving that center point — a second, independent cut to
+            the same overhang the crop above addresses, while keeping a
+            visible tilt rather than flattening the composition.
 
             Each phone is a wrapper (owns position + the continuous scroll
             drift, `y: phoneY`) around the actual image (owns the one-time
@@ -159,17 +183,36 @@ export default function Overview() {
             move the phones themselves (they're absolutely positioned inside
             this box, unaffected by the box's own trailing margin). Best-
             effort estimate, no live browser to measure the real overflow —
-            flag for a follow-up nudge once seen live. */}
-        <div className="relative mt-12 h-32 lg:mt-0 lg:h-auto lg:aspect-[1200/655] lg:-mb-32">
+            flag for a follow-up nudge once seen live.
+
+            Viewport-height cap: at full content width the box's own
+            `aspect-[1200/655]` height is ~655px, which — stacked under the
+            eyebrow/title/meta-card above it — doesn't fit inside one 16:9
+            screen on typical laptop heights even after the crop/rotation
+            fixes above. Rather than deriving height FROM width (which can't
+            respond to viewport height at all) and then fighting to shrink
+            the phones separately, `w-[min(100%,119.1vh)]` derives the WIDTH
+            from a height budget instead: 119.1vh = 65vh (the target stage
+            height) × 1200/655 (the aspect ratio), so on a short/wide
+            viewport the box's width — and with it, height AND every phone
+            positioned as a % of it — all scale down together as one unit.
+            On a tall-enough viewport `min()` just resolves to `100%` and
+            nothing changes from today. (Went 38vh → 50vh → 65vh, +30% over
+            the previous pass each of the last two rounds — at this point the
+            cap is close to no longer capping much on typical laptop heights,
+            so if it's STILL too small the phones' declared width/position
+            percentages themselves are the more direct next lever, not this
+            number.) */}
+        <div className="relative mt-12 h-32 lg:mt-0 lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/655] lg:-mb-32">
           <motion.div
-            className="hidden lg:block absolute w-[35.51%] top-[12.88%] left-[17.79%]"
+            className="hidden lg:block absolute w-[27.04%] top-[19.06%] left-[23.15%]"
             style={reduceMotion ? undefined : { y: phoneY }}
           >
             <motion.img
               src={mockupWhatson}
               alt="TFAM App, What's On screen mockup"
               className="w-full drop-shadow-2xl"
-              style={{ rotate: -23.02 }}
+              style={{ rotate: -14 }}
               initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={
@@ -180,14 +223,14 @@ export default function Overview() {
             />
           </motion.div>
           <motion.div
-            className="hidden lg:block absolute w-[37.99%] top-[3.7%] left-[43.47%]"
+            className="hidden lg:block absolute w-[28.88%] top-[10.32%] left-[51.83%]"
             style={reduceMotion ? undefined : { y: phoneY }}
           >
             <motion.img
               src={mockupOnboarding}
               alt="TFAM App, onboarding screen mockup"
               className="w-full drop-shadow-2xl"
-              style={{ rotate: 23.09 }}
+              style={{ rotate: 14 }}
               initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={
