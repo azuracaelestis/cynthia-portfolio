@@ -84,7 +84,7 @@ export default function CaseStudyLayout({
             >
               <p
                 className={
-                  isMono ? 'font-satoshi font-bold text-[15px] text-black' : 'font-dm font-bold text-[14px] text-case-study-blue'
+                  isMono ? 'font-satoshi font-bold text-[15px] text-black' : 'font-satoshi font-bold text-[14px] text-case-study-blue'
                 }
               >
                 ON THIS PAGE
@@ -96,7 +96,7 @@ export default function CaseStudyLayout({
                   const hoverDot = isMono ? 'group-hover:bg-black' : 'group-hover:bg-case-study-blue';
                   const activeBg = isMono ? 'bg-tfam-nav-active' : 'bg-case-study-highlight';
                   const radius = isMono ? (isActive ? 'rounded-lg' : 'rounded-2xl') : 'rounded-lg';
-                  const itemFont = isMono ? 'font-satoshi' : 'font-dm';
+                  const itemFont = isMono ? 'font-satoshi' : 'font-satoshi';
                   return (
                     <li key={s.id}>
                       <a

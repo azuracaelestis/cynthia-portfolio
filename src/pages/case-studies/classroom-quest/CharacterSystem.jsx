@@ -47,7 +47,7 @@ export default function CharacterSystem() {
 
   return (
     <Section id="character-system" eyebrow="CHARACTER SYSTEM" title="Same characters, rebuilt for a new format.">
-      <p className="font-dm text-[16px] text-black leading-[23px] mb-8">
+      <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8">
         Last year, we used 3D-rendered GIFs. They looked great on a laptop, but they broke down at the event. The
         files were too heavy, so they loaded slowly on the venue&apos;s Wi-Fi. Because of this, I set one rule before
         starting the character designs: use 2D MP4 only. This kept the quality high, while making the files much

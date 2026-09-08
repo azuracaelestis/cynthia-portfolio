@@ -47,7 +47,7 @@ export default function Overview() {
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
           transition={textDelay(0.0, 0.0)}
-          className="font-dm font-bold text-[16px] lg:text-[24px] text-black"
+          className="font-satoshi font-bold text-[16px] lg:text-[24px] text-black"
         >
           ViewSonic Education
         </motion.span>
@@ -55,37 +55,37 @@ export default function Overview() {
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
           transition={textDelay(0.08, 0.04)}
-          className="mt-4 lg:mt-3 font-dm font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-black"
+          className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-black"
         >
           A Product Update<br className="lg:hidden" /> Teachers Wanted<br className="lg:hidden" /> to Play
         </motion.h1>
 
         <div className="mt-6 flex flex-col gap-6 lg:mt-12 lg:flex-row lg:justify-between lg:gap-x-8">
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.18, 0.08)}>
-            <p className="font-dm font-extrabold text-[20px] text-black">Overview</p>
-            <p className="mt-2 font-dm text-[16px] text-black lg:max-w-[390px]">
+            <p className="font-satoshi font-medium text-[20px] text-black">Overview</p>
+            <p className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[390px]">
               Classroom Quest is a gamified web experience for myViewBoard 3.0 where teachers play through five familiar classroom moments, each resolving into the feature that solves it.
             </p>
           </motion.div>
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.24, 0.12)}>
-            <p className="font-dm font-extrabold text-[20px] text-black">Role</p>
-            <p className="mt-2 font-dm text-[16px] text-black lg:max-w-[220px]">
+            <p className="font-satoshi font-medium text-[20px] text-black">Role</p>
+            <p className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[220px]">
               <span className="font-semibold">Lead UI Designer</span>
               <br />
               Owned visual direction, interaction design, character system, and localization
             </p>
           </motion.div>
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.3, 0.16)}>
-            <p className="font-dm font-extrabold text-[20px] text-black">The Team</p>
-            <p className="mt-2 font-dm text-[16px] text-black lg:max-w-[231px]">
+            <p className="font-satoshi font-medium text-[20px] text-black">The Team</p>
+            <p className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[231px]">
               UI Designers, Project Manager,
               <br />
               Engineers, UX Researchers, Content Team, Growth Team
             </p>
           </motion.div>
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.36, 0.2)}>
-            <p className="font-dm font-extrabold text-[20px] text-black">Timeline</p>
-            <p className="mt-2 font-dm text-[16px] text-black">Q2 2025 (4 weeks)</p>
+            <p className="font-satoshi font-medium text-[20px] text-black">Timeline</p>
+            <p className="mt-2 font-satoshi text-[16px] text-black">Q2 2025 (4 weeks)</p>
           </motion.div>
         </div>
         </div>

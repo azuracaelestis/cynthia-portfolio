@@ -56,7 +56,7 @@ export default function DesignPractice() {
           transition={{ default: { duration: 6.5, delay: 0.8, repeat: Infinity, ease: 'easeInOut' }, rotate: { duration: 2, ease: 'easeInOut' } }}
           whileHover={reduceMotion ? undefined : { rotate: 360 }}
         />
-        <div className="text-center font-dm">
+        <div className="text-center font-satoshi">
           <span className="inline-block -rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
             My Design Practice
           </span>

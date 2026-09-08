@@ -41,7 +41,7 @@ export default function Footer() {
           transition={reduceMotion ? undefined : { duration: 7, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        <h2 className="font-dm font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
+        <h2 className="font-satoshi font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
           {isCaseStudy ? (
             <>
               Still here?<br className="lg:hidden" /> That's a good sign.
@@ -60,7 +60,7 @@ export default function Footer() {
         <div className="mt-8 flex flex-col gap-[15px] px-[18px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-4 lg:px-0">
           <a
             href="mailto:azuracaelestis@outlook.com?subject=Let%27s%20connect&body=Hi%20Cynthia%2C%0A%0A"
-            className="font-dm h-12 w-full lg:w-auto rounded-full bg-amber-400 hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full bg-amber-400 hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
           >
             <svg className="w-6 h-6 lg:w-4 lg:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -72,21 +72,21 @@ export default function Footer() {
             href="https://www.linkedin.com/in/cynthia-tanawi/"
             target="_blank"
             rel="noreferrer"
-            className="font-dm h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
           >
             <img src={linkedinIcon} alt="" className="w-6 h-6 lg:w-4 lg:h-4" />
             LinkedIn
           </a>
           <a
             href="/resume.pdf"
-            className="font-dm h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
           >
             <img src={resumeIcon} alt="" className="w-6 h-6 lg:w-4 lg:h-4" />
             Resume
           </a>
         </div>
 
-        <div className="font-dm mt-[52px] sm:mt-20 flex flex-col sm:flex-row items-center justify-between gap-[40px] sm:gap-4 text-sm text-black sm:pt-6">
+        <div className="font-satoshi mt-[52px] sm:mt-20 flex flex-col sm:flex-row items-center justify-between gap-[40px] sm:gap-4 text-sm text-black sm:pt-6">
           <nav className="flex gap-[20px] sm:gap-6">
             <a href="#home" className="group relative font-bold text-[16px] text-ink transition-colors">
               Home

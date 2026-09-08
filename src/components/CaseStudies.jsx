@@ -24,16 +24,16 @@ function StudyCard({ study, index }) {
         )}
       </div>
 
-      <span className="absolute top-[51px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-dm font-semibold">
+      <span className="absolute top-[51px] left-[24px] lg:top-[3%] lg:left-[calc(4%-12px)] inline-block text-ink text-[12px] lg:text-base font-satoshi font-semibold">
         {study.tag}
       </span>
 
       <div className="absolute top-[51px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
         <div className="max-w-[440px] translate-y-[40px]">
-          <h3 className="font-dm font-extrabold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
+          <h3 className="font-satoshi font-extrabold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
           </h3>
-          <p className="mt-4 font-dm font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
+          <p className="mt-4 font-satoshi font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
         </div>
       </div>
 
@@ -52,7 +52,7 @@ function StudyCard({ study, index }) {
           </div>
         </div>
       ) : (
-        <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-dm text-sm">
+        <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-satoshi text-sm">
           Image placeholder
         </div>
       )}
@@ -90,11 +90,11 @@ function StudyCard({ study, index }) {
       )}
 
       {study.thumbnail ? (
-        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink text-white font-dm font-bold text-[16px] h-[45px]">
+        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink text-white font-satoshi font-bold text-[16px] h-[45px]">
           Read Case Study
         </span>
       ) : (
-        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink/30 text-white font-dm font-bold text-[16px] h-[45px]">
+        <span className="lg:hidden absolute left-[5%] right-[5%] bottom-[6%] flex items-center justify-center rounded-full bg-ink/30 text-white font-satoshi font-bold text-[16px] h-[45px]">
           Coming Soon
         </span>
       )}
@@ -156,7 +156,7 @@ export default function CaseStudies() {
               <span className="inline-block rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#FACC61] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
                 Selected Projects
               </span>
-              <h2 className="mt-3 lg:mt-8 font-dm font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-none text-ink">
+              <h2 className="mt-3 lg:mt-8 font-satoshi font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-none text-ink">
                 Case Studies
               </h2>
             </div>

@@ -76,7 +76,7 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
   return (
     <section className={`${background} pt-20 pb-24`}>
       <div className="mx-[6px] lg:mx-auto max-w-[1302px] rounded-[32px] bg-white px-6 lg:px-12 py-12 lg:py-[90px] flex flex-col items-center gap-8">
-        <h2 className="font-dm font-bold text-[32px] lg:text-[48px] text-ink text-center leading-tight">
+        <h2 className="font-satoshi font-bold text-[32px] lg:text-[48px] text-ink text-center leading-tight">
           More case studies
         </h2>
 
@@ -117,20 +117,20 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
             >
               <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
 
-              <span className="hidden lg:block absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[14px] font-dm font-bold">
+              <span className="hidden lg:block absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[14px] font-satoshi font-bold">
                 {study.tag}
               </span>
 
               <div className="absolute top-[calc(24%+4px)] left-[calc(5.3%+94px)] lg:top-[calc(24%+24px)] lg:left-[5.3%] w-[42%]">
                 {!study.link && (
-                  <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-dm font-semibold px-3 py-1">
+                  <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-satoshi font-semibold px-3 py-1">
                     Coming soon
                   </span>
                 )}
-                <h3 className="font-dm font-bold text-[18px] lg:text-[32px] text-ink leading-tight">
+                <h3 className="font-satoshi font-bold text-[18px] lg:text-[32px] text-ink leading-tight">
                   {study.title}
                 </h3>
-                <p className="hidden lg:block mt-4 font-dm font-light text-[18px] text-ink/80 leading-snug">
+                <p className="hidden lg:block mt-4 font-satoshi font-light text-[18px] text-ink/80 leading-snug">
                   {study.body}
                 </p>
               </div>
@@ -142,7 +142,7 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
           <button
             type="button"
             onClick={handleShuffle}
-            className="flex items-center gap-[10px] rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 lg:px-12 lg:py-4 font-dm font-bold text-[16px] lg:text-[20px] text-ink"
+            className="flex items-center gap-[10px] rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 lg:px-12 lg:py-4 font-satoshi font-bold text-[16px] lg:text-[20px] text-ink"
           >
             Shuffle
             <RefreshIcon />

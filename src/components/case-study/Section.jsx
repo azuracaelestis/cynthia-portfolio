@@ -28,7 +28,7 @@ export default function Section({
           viewport={revealViewport}
           variants={variants}
           transition={transition}
-          className={`font-dm font-bold text-[16px] ${eyebrowColor} ${eyebrowClassName}`}
+          className={`font-satoshi font-bold text-[16px] ${eyebrowColor} ${eyebrowClassName}`}
         >
           {eyebrow}
         </motion.p>
@@ -40,7 +40,7 @@ export default function Section({
           viewport={revealViewport}
           variants={variants}
           transition={transition}
-          className={`font-dm font-extrabold text-[28px] lg:text-[36px] text-ink leading-tight ${titleClassName}`}
+          className={`font-satoshi font-bold text-[28px] lg:text-[36px] text-ink leading-tight ${titleClassName}`}
         >
           {title}
         </motion.h2>

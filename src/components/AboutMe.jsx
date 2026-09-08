@@ -70,34 +70,34 @@ export default function AboutMe() {
           </div>
 
           <div className="lg:col-start-2 lg:row-start-1">
-            <h2 className="font-dm font-bold text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[44px] lg:leading-[52px] text-white">
+            <h2 className="font-satoshi font-bold text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[44px] lg:leading-[52px] text-white">
               Designing for educators.
             </h2>
-            <p className="mt-6 font-dm font-light text-[16px] leading-[24px] text-white">
+            <p className="mt-6 font-satoshi font-light text-[16px] leading-[24px] text-white">
               Hi, I'm Cynthia. I'm a product designer with a foundation in brand design, visual craft, and
               pedagogy in language learning. I'm originally from Indonesia, based in Taipei, Taiwan for the
               past ten years, and now looking for a new opportunity in Vancouver — open to the right team
               anywhere.
             </p>
-            <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
+            <p className="mt-4 font-satoshi font-light text-[16px] leading-[24px] text-white">
               Beyond the craft itself, education and technology are what I care about most. I believe design
               has the power to transform how people learn — and I'm always excited to explore what design,
               technology, and education together can do to open that door wider for the people usually left
               out of it.
             </p>
-            <p className="mt-4 font-dm font-light text-[16px] leading-[24px] text-white">
+            <p className="mt-4 font-satoshi font-light text-[16px] leading-[24px] text-white">
               When I'm not designing, I love travelling, challenging myself with mountain hikes, and exploring
               new AI tools to build a design playground.
             </p>
           </div>
 
           <div className="lg:col-start-1 lg:row-start-2">
-            <h3 className="font-dm font-bold text-sm uppercase tracking-wide text-sky-200/70">
+            <h3 className="font-satoshi font-bold text-sm uppercase tracking-wide text-sky-200/70">
               Experience
             </h3>
             <ul className="mt-4 divide-y divide-white/15">
               {EXPERIENCE.map((job) => (
-                <li key={job.company} className="font-dm py-3 first:pt-0 flex justify-between gap-4 text-sm">
+                <li key={job.company} className="font-satoshi py-3 first:pt-0 flex justify-between gap-4 text-sm">
                   <div>
                     <p className="font-semibold text-sky-50">{job.company}</p>
                     <p className="text-sky-100/60">{job.role}</p>
@@ -110,7 +110,7 @@ export default function AboutMe() {
 
           <div className="lg:col-start-2 lg:row-start-2">
             <div>
-              <h3 className="font-dm font-bold text-sm uppercase tracking-wide text-sky-200/70">
+              <h3 className="font-satoshi font-bold text-sm uppercase tracking-wide text-sky-200/70">
                 Design Toolkit
               </h3>
               <div className="mt-3 flex gap-2 flex-wrap">
@@ -126,7 +126,7 @@ export default function AboutMe() {
             </div>
 
             <div className="mt-4">
-              <h3 className="font-dm font-bold text-sm uppercase tracking-wide text-sky-200/70">
+              <h3 className="font-satoshi font-bold text-sm uppercase tracking-wide text-sky-200/70">
                 Building Toolkit
               </h3>
               <div className="mt-3 flex gap-2 flex-wrap">

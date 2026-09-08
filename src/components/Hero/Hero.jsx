@@ -96,7 +96,7 @@ export default function Hero() {
       <Decorations show={mood === 'awake'} entranceReady={entranceSettled} />
       <DecorationsMobile entranceReady={entranceSettled} />
 
-      <div className="relative font-dm">
+      <div className="relative font-satoshi">
         <h1 className="font-bold text-[40px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">
           <motion.span
             className="inline-block"

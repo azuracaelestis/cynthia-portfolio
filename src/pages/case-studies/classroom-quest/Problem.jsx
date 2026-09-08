@@ -40,8 +40,8 @@ export default function Problem() {
           >
             <img src={card.icon} alt="" className="h-[52px] w-auto" />
             <div>
-              <p className="font-dm font-bold text-[20px] text-black">{card.title}</p>
-              <p className="mt-2 font-dm text-[16px] text-black leading-[23px]">{card.body}</p>
+              <p className="font-satoshi font-bold text-[20px] text-black">{card.title}</p>
+              <p className="mt-2 font-satoshi text-[16px] text-black leading-[23px]">{card.body}</p>
             </div>
           </motion.div>
         ))}
