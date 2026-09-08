@@ -9,6 +9,7 @@ import tfamAudioGuideExisting from '../../../assets/case study/case-study-tfam-a
 import tfamAudioGuideV1 from '../../../assets/case study/case-study-tfam-app/testing/tfam-audio-guide-v1.jpg';
 import tfamAudioGuideV2 from '../../../assets/case study/case-study-tfam-app/testing/tfam-audio-guide-v2.jpg';
 import accessibilityMockup from '../../../assets/case study/case-study-tfam-app/testing/accessibility_mockup-2.mp4';
+import accessibilityMockupV1 from '../../../assets/case study/case-study-tfam-app/testing/accessibility_mockup-v1.mp4';
 
 // Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms /
 // Solutions — one fade+rise system across the whole page).
@@ -61,7 +62,10 @@ const FINDINGS = [
     title: 'You could swipe, but not everyone can',
     observed:
       'The card sliders used a peeking card and dots to show they could be swiped. That signals it well, but swiping is still a gesture, and a gesture needs finger reach and flexibility. For a visitor using one thumb, knowing you can swipe doesn’t help if the swipe itself is hard to do.',
-    images: [{ label: 'Version 1' }, { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' }],
+    images: [
+      { label: 'Version 1', video: accessibilityMockupV1, videoScale: 'scale-[1.15]' },
+      { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' },
+    ],
     version1:
       'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
     version2:

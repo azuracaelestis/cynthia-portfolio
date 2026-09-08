@@ -113,9 +113,8 @@ export default function Overview() {
           <div>
             <p className="font-satoshi font-medium text-[20px] text-white">Overview</p>
             <p className="mt-2 font-satoshi text-[16px] text-white/80 lg:max-w-[390px]">
-              TFAM&apos;s app had plenty of features, but they were built to look good more than to be used, so the
-              ones visitors needed most were hard to reach. I led an end-to-end redesign focused on surfacing what
-              was already there, not adding more.
+              TFAM&apos;s app had plenty of features, but they were hard to reach because looks came before use. My
+              redesign surfaced what was there and made it easier to use.
             </p>
           </div>
           <div>
@@ -132,7 +131,11 @@ export default function Overview() {
           </div>
           <div>
             <p className="font-satoshi font-medium text-[20px] text-white">Timeline</p>
-            <p className="mt-2 font-satoshi text-[16px] text-white/80">Q2–Q3 2026 (2.5 month)</p>
+            <p className="mt-2 font-satoshi text-[16px] text-white/80">
+              Q2–Q3 2026
+              <br />
+              (2.5 month)
+            </p>
           </div>
         </div>
 
