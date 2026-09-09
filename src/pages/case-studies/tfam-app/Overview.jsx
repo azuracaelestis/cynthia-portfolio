@@ -151,7 +151,12 @@ export default function Overview() {
             viewport-height cap, the shortened aspect ratio, the negative
             margin overlapping the white section) was tuned independently of
             the phones themselves and is reused as-is as the mounting
-            surface for this new row.
+            surface for this new row. The vh cap has a 900px floor
+            (`clamp(900px, 119.1vh, 100%)`) so the mockups don't shrink
+            noticeably on shorter-but-not-unusually-short windows (e.g. a
+            13" MacBook vs. a 16" one) — the vh-scaling itself is kept for
+            genuinely short/wide viewports, where it still prevents the
+            phones from growing too tall.
 
             The row is `absolute inset-x-0` of the stage box, bottom-aligned
             (matching Figma's own "items-end" for this group) at `bottom-
@@ -173,7 +178,7 @@ export default function Overview() {
             independently-positioned images share a differently-shaped
             drift range. The one-time mount entrance (opacity/y/scale)
             still staggers per image via PHONE_ENTER_STAGGER. */}
-        <div className="relative mt-12 h-32 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/520] lg:-mb-20">
+        <div className="relative mt-12 h-32 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
           <motion.div
             className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]"
             style={reduceMotion ? undefined : { y: phoneY }}

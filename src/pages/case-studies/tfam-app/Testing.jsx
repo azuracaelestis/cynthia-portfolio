@@ -35,6 +35,11 @@ const FINDINGS = [
     observed:
       "One visitor wasn't sure what app she was even looking at. The arrival screen showed only a small logo, no museum name, nothing that felt like TFAM. In making it simple, I had stripped out the brand.",
     images: [
+      // Centered scale-[1.15]. Bottom-anchoring the zoom was tried (to
+      // protect the bottom edge, since these clips have moments — their own
+      // baked-in zoom/scroll — where the phone already fills nearly the
+      // whole frame) but cropped the top too aggressively; centered is the
+      // accepted compromise between the two edges.
       { label: 'Existing App', video: tfamSplashTest, videoScale: 'scale-[1.15]' },
       { label: 'Version 1', image: tfamSplashTestV1, enlarge: true },
       { label: 'Version 2', video: tfamSplashScreenV2, videoScale: 'scale-[1.15]' },
@@ -63,8 +68,15 @@ const FINDINGS = [
     observed:
       'The card sliders used a peeking card and dots to show they could be swiped. That signals it well, but swiping is still a gesture, and a gesture needs finger reach and flexibility. For a visitor using one thumb, knowing you can swipe doesn’t help if the swipe itself is hard to do.',
     images: [
-      { label: 'Version 1', video: accessibilityMockupV1, videoScale: 'scale-[1.15]' },
-      { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' },
+      // No videoScale here, unlike the other findings' videos: these two
+      // clips' own aspect ratio already matches the 221:396 box almost
+      // exactly, so plain object-cover leaves ~0 vertical crop room —
+      // scale-[1.15] pushed 7.5% of the frame past the box's top AND
+      // bottom edges, and these clips have almost no margin below the
+      // phone to spare, so the bottom (tab bar / swipe UI) was getting
+      // clipped.
+      { label: 'Version 1', video: accessibilityMockupV1 },
+      { label: 'Version 2', video: accessibilityMockup },
     ],
     version1:
       'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
@@ -214,7 +226,7 @@ export default function Testing() {
                     viewport={revealViewport}
                     variants={reduceMotion ? revealVariantsReduced : revealVariants}
                     transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * IMAGE_STAGGER }}
-                    className="flex flex-col items-center gap-2 w-full max-w-[221px] sm:w-[221px]"
+                    className="flex flex-col items-center gap-3 w-full max-w-[221px] sm:w-[221px]"
                   >
                     <p className="font-satoshi font-bold text-[14px] text-ink">{image.label}</p>
                     {image.video ? (
