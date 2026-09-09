@@ -29,7 +29,7 @@ function StudyCard({ study, index }) {
       </span>
 
       <div className="absolute top-[51px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
-        <div className="max-w-[440px] translate-y-[40px]">
+        <div className="max-w-[440px] translate-y-[28px]">
           <h3 className="font-satoshi font-bold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
           </h3>
@@ -38,7 +38,7 @@ function StudyCard({ study, index }) {
             <img
               src={study.arrowRight}
               alt=""
-              className="hidden lg:block mt-4 w-8 opacity-0 -translate-x-4 transition-[opacity,transform] duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
+              className="hidden lg:block mt-4 w-[48px] opacity-0 -translate-x-4 transition-[opacity,transform] duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
             />
           )}
         </div>
@@ -47,15 +47,41 @@ function StudyCard({ study, index }) {
       {study.thumbnail ? (
         <div className="hidden lg:block absolute top-[28%] bottom-[10%] right-[6%] w-[42%]">
           <div className="relative h-full flex items-center justify-center">
-            <img
-              src={study.thumbnail.mockup}
-              alt=""
-              className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
-            />
-            <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
-            <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-translate-x-8 group-hover:-translate-y-3 group-hover:rotate-2" />
-            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
-            <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:translate-x-8 group-hover:-translate-y-3 group-hover:-rotate-[38deg]" />
+            {study.thumbnail.phones ? (
+              <>
+                <img
+                  src={study.thumbnail.phones[0]}
+                  alt=""
+                  className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg transition-transform duration-300 ease-out group-hover:-translate-y-3 group-hover:-rotate-[10deg]"
+                />
+                <img
+                  src={study.thumbnail.phones[2]}
+                  alt=""
+                  className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg transition-transform duration-300 ease-out group-hover:-translate-y-3 group-hover:rotate-[10deg]"
+                />
+                <img
+                  src={study.thumbnail.phones[1]}
+                  alt=""
+                  className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl transition-transform duration-300 ease-out group-hover:-translate-y-[10px]"
+                />
+              </>
+            ) : (
+              study.thumbnail.mockup && (
+                <img
+                  src={study.thumbnail.mockup}
+                  alt=""
+                  className="w-full max-h-full rounded-xl object-contain drop-shadow-lg"
+                />
+              )
+            )}
+            {study.thumbnail.bubble && <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />}
+            {study.thumbnail.birdLeft && (
+              <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12 transition-transform duration-300 ease-out group-hover:-translate-x-8 group-hover:-translate-y-3 group-hover:rotate-2" />
+            )}
+            {study.thumbnail.book && <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />}
+            {study.thumbnail.birdRight && (
+              <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg] transition-transform duration-300 ease-out group-hover:translate-x-8 group-hover:-translate-y-3 group-hover:-rotate-[38deg]" />
+            )}
           </div>
         </div>
       ) : (
@@ -66,32 +92,46 @@ function StudyCard({ study, index }) {
 
       {study.thumbnail && (
         <div className="lg:hidden absolute left-[5%] right-[5%] top-[calc(54%-24px)] flex flex-col items-center">
-          <div className="relative w-[80%]">
-            <img
-              src={study.thumbnail.mockup}
-              alt=""
-              className="w-full h-auto rounded-xl object-contain drop-shadow-lg"
-            />
-            <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />
-            <motion.img
-              src={study.thumbnail.birdLeft}
-              alt=""
-              className="absolute top-[30%] -left-[5%] w-[27%]"
-              initial={{ x: 0, y: 0, rotate: 12 }}
-              whileInView={reduceMotion ? undefined : { x: -32, y: -12, rotate: 2 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            />
-            <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />
-            <motion.img
-              src={study.thumbnail.birdRight}
-              alt=""
-              className="absolute top-[36%] -right-[6%] w-[25%]"
-              initial={{ x: 0, y: 0, rotate: -30 }}
-              whileInView={reduceMotion ? undefined : { x: 32, y: -12, rotate: -38 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            />
+          <div className={`relative w-[80%] ${study.thumbnail.phones ? 'aspect-[6/5]' : ''}`}>
+            {study.thumbnail.phones ? (
+              <>
+                <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
+              </>
+            ) : (
+              study.thumbnail.mockup && (
+                <img
+                  src={study.thumbnail.mockup}
+                  alt=""
+                  className="w-full h-auto rounded-xl object-contain drop-shadow-lg"
+                />
+              )
+            )}
+            {study.thumbnail.bubble && <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />}
+            {study.thumbnail.birdLeft && (
+              <motion.img
+                src={study.thumbnail.birdLeft}
+                alt=""
+                className="absolute top-[30%] -left-[5%] w-[27%]"
+                initial={{ x: 0, y: 0, rotate: 12 }}
+                whileInView={reduceMotion ? undefined : { x: -32, y: -12, rotate: 2 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
+            )}
+            {study.thumbnail.book && <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />}
+            {study.thumbnail.birdRight && (
+              <motion.img
+                src={study.thumbnail.birdRight}
+                alt=""
+                className="absolute top-[36%] -right-[6%] w-[25%]"
+                initial={{ x: 0, y: 0, rotate: -30 }}
+                whileInView={reduceMotion ? undefined : { x: 32, y: -12, rotate: -38 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
+            )}
           </div>
         </div>
       )}

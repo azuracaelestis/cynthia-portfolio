@@ -1,4 +1,5 @@
 import folderYellow from '../assets/case study/folder/folder-yellow.svg';
+import folderYellowHover from '../assets/case study/folder/folder-yellow-hover.svg';
 import folderBlue from '../assets/case study/folder/folder-blue.svg';
 import folderBrown from '../assets/case study/folder/folder-brown.svg';
 import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile-yellow.svg';
@@ -12,18 +13,27 @@ import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-
 import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
 import flyingBook from '../assets/case study/folder-thumnail/classroom quest/flying_book.svg';
 import panicBubble from '../assets/case study/folder-thumnail/classroom quest/panic_bubble.svg';
+import tfamThumbnailWhatsOn from '../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-whats-on.png';
+import tfamThumbnailHome from '../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-home.png';
+import tfamThumbnailExhibitionDetail from '../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-exhibition-detail.png';
 
 export const CASE_STUDIES = [
   {
     id: 'tfam',
     tag: 'Taipei Fine Art Museum',
-    title: 'A companion for the whole museum visit',
-    body: 'TFAM built an app that looked good but was hard to use. I redesigned it around the whole museum visit.',
+    title: 'A Companion for the Whole Museum Visit',
+    body: 'TFAM built an app that looked good but was hard to use. I researched, redesigned, and prototyped it around the whole museum visit.',
     folder: folderYellow,
     folderMobile: folderMobileYellow,
+    folderHover: folderYellowHover,
     arrowRight: arrowRightBlack,
     rotate: -5,
     link: '/work/tfam-app',
+    thumbnail: {
+      // Per Figma (node 316:1023): 3 fanned phone screens, left-to-right —
+      // What's On list, Home (front/center), exhibition detail.
+      phones: [tfamThumbnailWhatsOn, tfamThumbnailHome, tfamThumbnailExhibitionDetail],
+    },
   },
   {
     id: 'classroom-quest',

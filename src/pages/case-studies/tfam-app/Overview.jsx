@@ -161,7 +161,9 @@ export default function Overview() {
             bottoms visibly cover a bit of the white section rather than
             landing flush at the boundary. Each
             image is 10% larger than Figma's raw 21.94% (316/1440) — 24.13%
-            — per direct feedback that they read too small at 1:1. Mobile:
+            — per direct feedback that they read too small at 1:1, then a
+            further 15% on top of that — 27.75% — per follow-up feedback.
+            Mobile:
             hidden until a dedicated mobile pass, same as before.
 
             The scroll-linked drift (`y: phoneY`) now applies to the whole
@@ -171,7 +173,7 @@ export default function Overview() {
             independently-positioned images share a differently-shaped
             drift range. The one-time mount entrance (opacity/y/scale)
             still staggers per image via PHONE_ENTER_STAGGER. */}
-        <div className="relative mt-12 h-32 lg:mt-6 lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/520] lg:-mb-20">
+        <div className="relative mt-12 h-32 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[min(100%,119.1vh)] lg:aspect-[1200/520] lg:-mb-20">
           <motion.div
             className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]"
             style={reduceMotion ? undefined : { y: phoneY }}
@@ -181,7 +183,7 @@ export default function Overview() {
                 key={mockup.src}
                 src={mockup.src}
                 alt={mockup.alt}
-                className="w-[24.13%] h-auto drop-shadow-2xl"
+                className="w-[27.75%] h-auto drop-shadow-2xl"
                 initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={

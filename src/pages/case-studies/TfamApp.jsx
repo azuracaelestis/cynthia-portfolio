@@ -64,6 +64,7 @@ export default function TfamApp() {
         sections={SECTIONS}
         background="bg-paper"
         paddingTop="pt-12 lg:pt-[258px]"
+        paddingBottom="pb-8"
         sidebarVariant="mono"
         sidebarGridClassName="lg:grid-cols-[185px_1fr] lg:gap-[34px]"
       >
@@ -73,7 +74,7 @@ export default function TfamApp() {
         })}
       </CaseStudyLayout>
 
-      <MoreCaseStudies currentId="tfam" background="bg-paper" />
+      <MoreCaseStudies currentId="tfam" background="bg-paper" paddingTop="pt-10" />
     </>
   );
 }
