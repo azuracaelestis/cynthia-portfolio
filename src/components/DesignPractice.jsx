@@ -60,7 +60,7 @@ export default function DesignPractice() {
           <span className="inline-block -rotate-3 rounded-[8px] lg:rounded-[16px] bg-[#8CCFF3] text-black font-semibold text-[12px] lg:text-[16px] px-4 py-1 lg:px-6 lg:py-3">
             My Design Practice
           </span>
-          <h2 className="mt-3 lg:mt-8 font-extrabold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-normal text-ink">
+          <h2 className="mt-3 lg:mt-8 font-bold text-[32px] md:text-[36px] lg:text-[44px] leading-[34px] lg:leading-normal text-ink">
             Story-Driven, Collaborative, Curious
           </h2>
 

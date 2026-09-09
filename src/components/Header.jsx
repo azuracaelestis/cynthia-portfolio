@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import profilePicture from '../assets/hero/profile-picture/cynthia-profile-picture.svg';
+import hatIcon from '../assets/hero/character/hat-icon.svg';
 import { useHasScrolled } from '../hooks/useHasScrolled';
 import { useActiveSection } from '../hooks/useActiveSection';
 
@@ -56,8 +56,18 @@ export default function Header() {
       <header className={`absolute top-0 inset-x-0 z-40 ${isTfam ? '' : 'bg-paper/80 backdrop-blur-sm'}`}>
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5 flex items-center justify-between gap-6">
           <Link to="/" className="group flex items-center gap-3 shrink-0">
-            <span className="w-8 h-8 lg:w-[65px] lg:h-[65px] rounded-full bg-sky-100 flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-110">
-              <img src={profilePicture} alt="Cynthia Tanawi" className="w-full h-full rounded-full object-cover" />
+            {/* Icon tips right + grows on hover. Both are plain CSS driven by
+                the Link's `group`, so hovering the name tips the hat too —
+                with framer's `whileHover` on the img, the rotate only fired
+                when the cursor was over the image itself, while the scale
+                fired from anywhere on the link. `index.css`'s global
+                prefers-reduced-motion rule neutralises both transitions. */}
+            <span className="w-8 h-8 lg:w-[65px] lg:h-[65px] flex items-center justify-center shrink-0">
+              <img
+                src={hatIcon}
+                alt="Cynthia Tanawi"
+                className="w-full h-full object-contain origin-center transition-transform duration-200 ease-out group-hover:rotate-[20deg] group-hover:scale-110"
+              />
             </span>
             <span className="font-satoshi font-semibold text-[16px] lg:text-[20px] text-ink whitespace-nowrap transition-colors group-hover:text-about-blue">Cynthia Tanawi</span>
           </Link>

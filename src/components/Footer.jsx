@@ -41,7 +41,7 @@ export default function Footer() {
           transition={reduceMotion ? undefined : { duration: 7, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        <h2 className="font-satoshi font-extrabold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
+        <h2 className="font-satoshi font-bold text-[36px] leading-[40px] md:text-[48px] md:leading-[54px] lg:text-[64px] lg:leading-[70px] text-ink">
           {isCaseStudy ? (
             <>
               Still here?<br className="lg:hidden" /> That's a good sign.
