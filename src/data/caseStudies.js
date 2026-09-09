@@ -5,6 +5,8 @@ import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile
 import folderMobileBlue from '../assets/case study/folder-mobile/folder-mobile-blue.svg';
 import folderMobileBrown from '../assets/case study/folder-mobile/folder-mobile-brown.svg';
 import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
+import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
+import arrowRightBlack from '../assets/case study/folder/arrow-right-black.svg';
 import classroomQuestMockup from '../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
 import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-bird.svg';
 import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
@@ -16,10 +18,12 @@ export const CASE_STUDIES = [
     id: 'tfam',
     tag: 'Taipei Fine Art Museum',
     title: 'A companion for the whole museum visit',
-    body: 'TFAM already had an app, but low ratings and buried features meant most visitors never used it. I led an end-to-end redesign that reframed the brief from...',
+    body: 'TFAM built an app that looked good but was hard to use. I redesigned it around the whole museum visit.',
     folder: folderYellow,
     folderMobile: folderMobileYellow,
+    arrowRight: arrowRightBlack,
     rotate: -5,
+    link: '/work/tfam-app',
   },
   {
     id: 'classroom-quest',
@@ -29,6 +33,7 @@ export const CASE_STUDIES = [
     folder: folderBlue,
     folderMobile: folderMobileBlue,
     folderHover: folderBlueHover,
+    arrowRight,
     rotate: 4,
     link: '/work/classroom-quest',
     thumbnail: {

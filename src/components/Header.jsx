@@ -62,7 +62,7 @@ export default function Header() {
                 when the cursor was over the image itself, while the scale
                 fired from anywhere on the link. `index.css`'s global
                 prefers-reduced-motion rule neutralises both transitions. */}
-            <span className="w-8 h-8 lg:w-[65px] lg:h-[65px] flex items-center justify-center shrink-0">
+            <span className="w-[30.4px] h-[30.4px] lg:w-[61.75px] lg:h-[61.75px] flex items-center justify-center shrink-0">
               <img
                 src={hatIcon}
                 alt="Cynthia Tanawi"
