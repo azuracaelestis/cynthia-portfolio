@@ -5,6 +5,9 @@ import grainField from '../../../assets/case study/case-study-tfam-app/header/tf
 import mockupHome from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 2.png';
 import mockupWhatsOnList from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 4.png';
 import mockupWhatsOnDetail from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 3.png';
+import fanWhatsOn from '../../../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-whats-on.png';
+import fanHome from '../../../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-home.png';
+import fanExhibitionDetail from '../../../assets/case study/folder-thumnail/tfam-app-thumbnail/thumbnail-exhibition-detail.png';
 
 // Per Figma (node 312:1503, "Frame 3465598"): 3 flat, non-rotated mockups in
 // a row, bottom-aligned, 15px gap, each 316px of the page's 1440px width
@@ -15,6 +18,18 @@ const MOCKUPS = [
   { src: mockupHome, alt: "TFAM App, home screen mockup" },
   { src: mockupWhatsOnList, alt: "TFAM App, What's On list mockup" },
   { src: mockupWhatsOnDetail, alt: 'TFAM App, exhibition detail mockup' },
+];
+
+// Mobile-only: reuses the SAME tightly-cropped assets and fanned
+// left/center/right composition already built for the homepage folder
+// card's thumbnail (CaseStudies.jsx) — the hero's own MOCKUPS images have
+// generous white margin around the phone (fine for the desktop flat row),
+// which would look wrong with rounded-2xl corners; these are cropped
+// tight to the phone itself, which is what that corner treatment needs.
+const MOBILE_FAN = [
+  { src: fanWhatsOn, alt: "TFAM App, What's On list mockup" },
+  { src: fanHome, alt: 'TFAM App, home screen mockup' },
+  { src: fanExhibitionDetail, alt: 'TFAM App, exhibition detail mockup' },
 ];
 
 // The tuned "Grain Field — the one" look, straight from the shader lab's
@@ -168,8 +183,19 @@ export default function Overview() {
             image is 10% larger than Figma's raw 21.94% (316/1440) — 24.13%
             — per direct feedback that they read too small at 1:1, then a
             further 15% on top of that — 27.75% — per follow-up feedback.
-            Mobile:
-            hidden until a dedicated mobile pass, same as before.
+
+            Mobile reuses the fanned left/center/right composition (and its
+            tightly-cropped assets, MOBILE_FAN) already built for the
+            homepage folder card's thumbnail, and the same per-image
+            opacity/y/scale entrance staggered by `PHONE_ENTER_STAGGER` as
+            desktop — using each image's fan position (left/center/right,
+            0/1/2) as its stagger index rather than array order, so it reads
+            left-to-center-to-right. Unlike desktop, mobile does NOT get the
+            scroll-linked `y: phoneY` drift — removed per feedback, so the
+            outer wrapper here is a plain div, not a motion.div. First-pass
+            sizing (h-[220px]/-mb-10/bottom-[-114px] on the stage, w-[102%]
+            aspect-[6/5] on the fan itself), flagged for a tuning pass once
+            seen live, same as everything else in this block.
 
             The scroll-linked drift (`y: phoneY`) now applies to the whole
             row as one unit (a single wrapper) rather than per-image, since
@@ -178,7 +204,47 @@ export default function Overview() {
             independently-positioned images share a differently-shaped
             drift range. The one-time mount entrance (opacity/y/scale)
             still staggers per image via PHONE_ENTER_STAGGER. */}
-        <div className="relative mt-12 h-32 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
+        <div className="relative mt-12 h-[220px] -mb-10 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
+          <div className="flex lg:hidden absolute inset-x-0 bottom-[-114px] justify-center">
+            <div className="relative w-[102%] aspect-[6/5]">
+              <motion.img
+                src={MOBILE_FAN[0].src}
+                alt={MOBILE_FAN[0].alt}
+                className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg"
+                initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE }
+                }
+              />
+              <motion.img
+                src={MOBILE_FAN[2].src}
+                alt={MOBILE_FAN[2].alt}
+                className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg"
+                initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE, delay: 2 * PHONE_ENTER_STAGGER }
+                }
+              />
+              <motion.img
+                src={MOBILE_FAN[1].src}
+                alt={MOBILE_FAN[1].alt}
+                className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl"
+                initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: PHONE_ENTER_DURATION, ease: PHONE_ENTER_EASE, delay: 1 * PHONE_ENTER_STAGGER }
+                }
+              />
+            </div>
+          </div>
           <motion.div
             className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]"
             style={reduceMotion ? undefined : { y: phoneY }}

@@ -63,7 +63,7 @@ export default function TfamApp() {
       <CaseStudyLayout
         sections={SECTIONS}
         background="bg-paper"
-        paddingTop="pt-12 lg:pt-[258px]"
+        paddingTop="pt-[122px] lg:pt-[258px]"
         paddingBottom="pb-8"
         sidebarVariant="mono"
         sidebarGridClassName="lg:grid-cols-[185px_1fr] lg:gap-[34px]"

@@ -41,6 +41,13 @@ function StudyCard({ study, index }) {
               className="hidden lg:block mt-4 w-[48px] opacity-0 -translate-x-4 transition-[opacity,transform] duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
             />
           )}
+          {study.thumbnail?.phones && (
+            <div className="lg:hidden relative mt-11 w-full aspect-[6/5]">
+              <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+              <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+              <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
+            </div>
+          )}
         </div>
       </div>
 
@@ -90,24 +97,14 @@ function StudyCard({ study, index }) {
         </div>
       )}
 
-      {study.thumbnail && (
+      {study.thumbnail?.mockup && (
         <div className="lg:hidden absolute left-[5%] right-[5%] top-[calc(54%-24px)] flex flex-col items-center">
-          <div className={`relative w-[80%] ${study.thumbnail.phones ? 'aspect-[6/5]' : ''}`}>
-            {study.thumbnail.phones ? (
-              <>
-                <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
-                <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
-                <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
-              </>
-            ) : (
-              study.thumbnail.mockup && (
-                <img
-                  src={study.thumbnail.mockup}
-                  alt=""
-                  className="w-full h-auto rounded-xl object-contain drop-shadow-lg"
-                />
-              )
-            )}
+          <div className="relative w-[80%]">
+            <img
+              src={study.thumbnail.mockup}
+              alt=""
+              className="w-full h-auto rounded-xl object-contain drop-shadow-lg"
+            />
             {study.thumbnail.bubble && <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />}
             {study.thumbnail.birdLeft && (
               <motion.img
