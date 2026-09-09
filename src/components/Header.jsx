@@ -93,8 +93,10 @@ export default function Header() {
           keeps the center links group truly centered regardless of the
           logo and CTA columns having different widths. */}
       <motion.nav
-        className={`hidden md:flex fixed top-5 left-1/2 z-50 items-center gap-6 lg:gap-8 bg-sky-50 rounded-full h-[63px] lg:h-[68px] px-5 lg:px-6 transition-shadow duration-200 ${
-          hasScrolled ? 'shadow-md' : ''
+        className={`hidden md:flex fixed top-5 left-1/2 z-50 items-center gap-6 lg:gap-8 rounded-full h-[63px] lg:h-[68px] px-5 lg:px-6 border border-white/60 bg-white/70 backdrop-blur-2xl backdrop-saturate-150 transition-shadow duration-200 ${
+          hasScrolled
+            ? 'shadow-[0_12px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.6)]'
+            : 'shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.6)]'
         }`}
         animate={{ y: navHidden ? '-150%' : '0%', opacity: navHidden ? 0 : 1 }}
         initial={false}
