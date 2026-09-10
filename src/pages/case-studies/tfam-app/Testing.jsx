@@ -295,12 +295,12 @@ export default function Testing() {
                 <p className="font-satoshi font-bold text-[16px] text-ink">Observed</p>
                 <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.observed}</p>
               </div>
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-[42px]">
                 {finding.images.map((image) => {
                   const text =
                     image.label === 'Version 1' ? finding.version1 : image.label === 'Version 2' ? finding.version2 : null;
                   return (
-                    <div key={image.label} className="flex flex-col gap-3">
+                    <div key={image.label} className="flex flex-col gap-6">
                       <div className="flex flex-col items-center gap-3">
                         <p className="font-satoshi font-bold text-[16px] text-ink">{image.label}</p>
                         {image.video ? (
