@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, motion, useInView, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, animate, motion, useInView, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 import tryItYourself from '../../../assets/case study/case-study-tfam-app/solutions/try-it-yourself.png';
@@ -32,6 +32,24 @@ function DownArrow() {
   );
 }
 
+// Interactive affordance (not passive tree decoration like DownArrow), so
+// full text-ink rather than text-ink/30. Plain CSS rotate transition —
+// already neutralized by index.css's global prefers-reduced-motion rule.
+function ChevronIcon({ open }) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      className={`shrink-0 text-ink transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+    >
+      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 // Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms —
 // one fade+rise system across the whole page).
 const revealVariants = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } };
@@ -48,6 +66,8 @@ const STAT_STAGGER = 0.1;
 // polished, matching how Classroom Quest treats its own large diagram.
 function IaDiagram() {
   const reduceMotion = useReducedMotion();
+  const [openTab, setOpenTab] = useState(null);
+
   return (
     <motion.div
       initial="hidden"
@@ -57,10 +77,9 @@ function IaDiagram() {
       transition={reduceMotion ? revealTransitionReduced : revealTransition}
       className="mb-12"
     >
-      {/* Root pill + fan-out connector. The connector is a simplified,
-          edge-to-edge version of Figma's center-to-center bar — close enough
-          to read as the same tree, much simpler than tracing exact vector
-          paths. */}
+      {/* Desktop: root pill + fan-out connector (simplified, edge-to-edge
+          version of Figma's center-to-center bar) above all 5 branches
+          fully expanded side by side. */}
       <div className="hidden lg:flex flex-col items-center">
         <span className="bg-ink text-white font-satoshi font-bold text-[14px] rounded-full px-[18px] py-[9px]">
           TFAM App
@@ -77,22 +96,68 @@ function IaDiagram() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-[14px] lg:gap-[11px]">
+      <div className="hidden lg:grid lg:grid-cols-5 gap-[11px]">
         {IA_TABS.map((tab) => (
           <div key={tab.name} className="flex flex-col items-center gap-[7px]">
-            <div className="w-full bg-tfam-chip border border-tfam-chip rounded-2xl p-[14px] lg:p-[22px] text-center">
+            <div className="w-full bg-tfam-chip border border-tfam-chip rounded-2xl p-[22px] text-center">
               <p className="font-satoshi font-bold text-[13px] text-ink">{tab.name}</p>
             </div>
             {tab.screens.map((screen) => (
               <div key={screen} className="w-full flex flex-col items-center gap-[7px]">
                 <DownArrow />
-                <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-[11px] py-[14px] lg:py-[22px] text-center">
+                <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-[11px] py-[22px] text-center">
                   <p className="font-satoshi font-bold text-[13px] text-ink">{screen}</p>
                 </div>
               </div>
             ))}
           </div>
         ))}
+      </div>
+
+      {/* Mobile: single-open accordion — 5 collapsed tab rows, tap to
+          expand that tab's screen chain. No root pill/connector (see plan
+          notes); the diagram's job here is just to show the 5 branches
+          exist, deferring screen-level detail to a tap so the page stays
+          skimmable instead of forcing ~18 stacked boxes into view. */}
+      <div className="lg:hidden flex flex-col gap-3">
+        {IA_TABS.map((tab) => {
+          const isOpen = openTab === tab.name;
+          return (
+            <div key={tab.name}>
+              <button
+                type="button"
+                onClick={() => setOpenTab(isOpen ? null : tab.name)}
+                aria-expanded={isOpen}
+                className="w-full flex items-center justify-between bg-tfam-chip border border-tfam-chip rounded-2xl px-[14px] py-[14px]"
+              >
+                <span className="font-satoshi font-bold text-[16px] text-ink">{tab.name}</span>
+                <ChevronIcon open={isOpen} />
+              </button>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0, 0, 0.2, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col items-center gap-[7px] pt-[7px]">
+                      {tab.screens.map((screen) => (
+                        <div key={screen} className="w-full flex flex-col items-center gap-[7px]">
+                          <DownArrow />
+                          <div className="w-full bg-tfam-screen border border-tfam-chip rounded-2xl px-[11px] py-[14px] text-center">
+                            <p className="font-satoshi font-bold text-[16px] text-ink">{screen}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </div>
     </motion.div>
   );
@@ -115,7 +180,6 @@ const MOMENTS = [
         {
           title: 'Pre-Book a Tour or Class',
           body: 'Reserve in a few taps, right in the app, instead of an email or a phone call.',
-          target: '80%+ of people finish it in under 45 seconds.',
           video: activitiesMockup,
           videoScale: 'scale-110',
         },
@@ -137,7 +201,6 @@ const MOMENTS = [
         {
           title: 'Arrival and Audio Guide',
           body: 'The app opens on a clear "Start audio guide" button. No digging through menus.',
-          target: 'A 25% lift in audio guide use.',
           video: audioGuideMockup,
           videoScale: 'scale-110',
         },
@@ -286,19 +349,63 @@ function MockupVideo({ src, scaleClassName, active }) {
 // time the row scrolls into view — no sequential handoff, no looping. Each
 // video rests on its last frame when it finishes; the reader can replay any
 // one of them individually via its own play/pause button.
-function MockupRow({ features }) {
-  const rowRef = useRef(null);
-  const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
-
+function MockupRow({ features, active }) {
   return (
-    <div ref={rowRef} className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-[52px]">
       {features.map((f) =>
         f.video ? (
-          <MockupVideo key={f.title} src={f.video} scaleClassName={f.videoScale} active={isInView} />
+          <MockupVideo key={f.title} src={f.video} scaleClassName={f.videoScale} active={active} />
         ) : (
           <ImagePlaceholder key={f.title} label="Screenshot" className="w-full aspect-[317/396]" />
         ),
       )}
+    </div>
+  );
+}
+
+// A 2-feature row's layout differs by breakpoint: desktop shows both videos
+// side by side, THEN both title/body pairs below (Figma's own "row of
+// mockups, row of text" composition) — but that same DOM order on mobile
+// (grid-cols-1 collapses both grids to one column each) rendered as
+// video/video/text/text, breaking the asset-then-text pairing per feature.
+// So mobile gets its own per-feature stacked layout (video, then that same
+// feature's text, repeated) instead of reusing the desktop DOM order at a
+// narrower width. Both variants share one `useInView` trigger so a
+// feature's video plays once, the same "row entered view" moment, whichever
+// layout is actually rendered.
+function FeatureRow({ features }) {
+  const rowRef = useRef(null);
+  const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
+
+  return (
+    <div ref={rowRef}>
+      <div className="hidden lg:flex lg:flex-col gap-6">
+        <MockupRow features={features} active={isInView} />
+        <div className="grid grid-cols-2 gap-[32px]">
+          {features.map((f) => (
+            <div key={f.title} className="flex flex-col gap-4">
+              <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+              <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
+              {f.target && <TargetCallout>{f.target}</TargetCallout>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex lg:hidden flex-col gap-[52px]">
+        {features.map((f) => (
+          <div key={f.title} className="flex flex-col gap-4">
+            {f.video ? (
+              <MockupVideo src={f.video} scaleClassName={f.videoScale} active={isInView} />
+            ) : (
+              <ImagePlaceholder label="Screenshot" className="w-full aspect-[317/396]" />
+            )}
+            <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+            <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
+            {f.target && <TargetCallout>{f.target}</TargetCallout>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -374,18 +481,7 @@ export default function Solutions() {
                 row.length === 1 ? (
                   <SingleFeatureRow key={rowIndex} feature={row[0]} />
                 ) : (
-                  <div key={rowIndex} className="flex flex-col gap-6">
-                    <MockupRow features={row} />
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-[32px]">
-                      {row.map((f) => (
-                        <div key={f.title} className="flex flex-col gap-4">
-                          <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-                          <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
-                          {f.target && <TargetCallout>{f.target}</TargetCallout>}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <FeatureRow key={rowIndex} features={row} />
                 ),
               )}
             </div>
@@ -433,11 +529,12 @@ export default function Solutions() {
       </div>
 
       {/* Per Figma (node 258:1459), updated design: a real phone-mockup
-          screenshot beside a QR code + copy, not a dark CTA card. No
-          "Launch the Prototype" button — a QR code is meant to be scanned
-          with the visitor's own phone, so a button here would be redundant
-          on desktop. A mobile-specific button (scanning isn't useful there)
-          is a possible follow-up, not built yet. */}
+          screenshot beside a QR code + copy, not a dark CTA card. QR code
+          is desktop-only (`hidden lg:block`) — it's meant to be scanned
+          with the visitor's own phone, which is redundant/backwards on
+          mobile, where the visitor already IS on their phone; mobile gets
+          an "Open the Prototype" button linking directly to the live
+          prototype instead. */}
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -452,12 +549,20 @@ export default function Solutions() {
           className="w-full max-w-[259px] h-auto rounded-2xl shrink-0"
         />
         <div className="flex flex-col gap-3 items-center text-center lg:w-[292px]">
-          <img src={qrCode} alt="QR code linking to the TFAM app prototype" className="size-[103px]" />
+          <img src={qrCode} alt="QR code linking to the TFAM app prototype" className="hidden lg:block size-[103px]" />
           <p className="font-satoshi font-bold text-[20px] text-ink">Try it yourself</p>
           <p className="font-satoshi text-[14px] text-ink leading-[21px]">
             This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
             class, just like a visitor would. Please access it by using your phone.
           </p>
+          <a
+            href="https://tfam-app.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lg:hidden mt-2 flex items-center justify-center rounded-full bg-ink text-white font-satoshi font-semibold text-[16px] w-[calc(100vw-40px)] max-w-[400px] h-[48px]"
+          >
+            Open the Prototype
+          </a>
         </div>
       </motion.div>
     </Section>

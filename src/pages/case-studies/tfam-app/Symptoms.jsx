@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useActiveSection } from '../../../hooks/useActiveSection';
 import Section from '../../../components/case-study/Section';
 import existingNavDrawer from '../../../assets/case study/case-study-tfam-app/symptoms/existing-nav-drawer.jpg';
@@ -130,6 +130,7 @@ const CALLOUTS = {
       left: '52%',
       title: 'Consistency and Standards (H4)',
       body: 'Tapping Current, Upcoming, or Past exits the app to the website in a browser, instead of showing exhibitions in the app itself.',
+      calloutSide: 'right',
     },
   ],
   audioPlayer: [
@@ -212,19 +213,89 @@ function ScreenDots({ notes, hoveredId, reduceMotion }) {
 }
 
 // One screen's image + its dots, framed the same way at every use site.
-function ScreenImage({ screen, notes, hoveredId, reduceMotion, className = '' }) {
+// `dots` overrides the default ScreenDots render (used by the mobile
+// flaring/tappable dots below) — every other call site omits it and gets
+// today's exact ScreenDots behavior.
+function ScreenImage({ screen, notes, hoveredId, reduceMotion, className = '', dots }) {
   return (
     <div className={`relative w-full aspect-[213/463] ${className}`}>
       <div className="absolute inset-0 rounded-[32px] overflow-hidden shadow-[0px_0px_10px_0px_rgba(0,0,0,0.1)]">
         <img src={screen.src} alt={screen.alt} className="absolute inset-0 w-full h-full object-cover" />
       </div>
-      <ScreenDots notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} />
+      {dots ?? <ScreenDots notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} />}
     </div>
   );
 }
 
-// One screen's findings as title+body rows, shared by the desktop accordion
-// and the mobile fallback.
+// Mobile only: a numbered dot with a continuously pulsing halo (adapted
+// from Diagnosis.jsx's flaring-halo pattern) — every dot flares all the
+// time, since there's no separate findings list anymore hinting that
+// they're tappable. Tapping toggles this finding's callout.
+function FlaringDot({ note, isActive, onToggle, reduceMotion }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label={`Finding ${note.id}: ${note.title}`}
+      aria-expanded={isActive}
+      className="absolute flex items-center justify-center"
+      style={{ top: note.top, left: note.left, transform: 'translate(-50%, -50%)' }}
+    >
+      {!reduceMotion && (
+        <motion.span
+          className="absolute rounded-full bg-black"
+          style={{ width: 24, height: 24 }}
+          animate={{ scale: [1, 1.6], opacity: [0.3, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+        />
+      )}
+      <span className="relative size-6 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
+        {note.id}
+      </span>
+    </button>
+  );
+}
+
+// Mobile only: the tap-revealed callout bubble — opens bottom-center under
+// the number (the original leader-line design's own intent, per CALLOUTS'
+// comment above). `clamp(...)` keeps the 180px-wide bubble's center from
+// pushing it past the ~221px image's own edges for notes near 0%/90%+.
+function FindingCallout({ note, reduceMotion }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: reduceMotion ? 0 : 0.15 }}
+      className="absolute z-10 w-[180px] bg-white rounded-xl shadow-[0px_4px_16px_rgba(0,0,0,0.15)] p-3"
+      style={{
+        top: `calc(${note.top} + 8px)`,
+        // Left EDGE of the bubble anchored 12px left of the dot by default
+        // (not centered) — a fixed, predictable offset regardless of where
+        // the dot sits, clamped only to keep the bubble from overflowing
+        // the image's own left bound. The previous center+clamp approach
+        // forced far-left dots (2%) to snap the bubble's CENTER to a 90px
+        // floor, pushing the whole card noticeably right of the number
+        // instead of hugging it. `calloutSide: 'right'` (finding #6 only,
+        // per direct feedback) instead anchors the bubble's left edge
+        // right AT the dot, so it reads unambiguously to the number's
+        // right — no upper clamp, since the outer wrapper isn't
+        // overflow-hidden and there's page padding to bleed into if the
+        // 180px-wide card doesn't fit inside the ~221px image column.
+        left:
+          note.calloutSide === 'right'
+            ? `calc(${note.left} + 4px)`
+            : `clamp(4px, calc(${note.left} - 12px), calc(100% - 184px))`,
+      }}
+    >
+      <p className="font-satoshi font-bold text-[14px] leading-[19px] text-ink">{note.title}.</p>
+      <p className="font-satoshi text-[14px] leading-[19px] text-ink mt-1">{note.body}</p>
+    </motion.div>
+  );
+}
+
+// One screen's findings as title+body rows — desktop-only now (the mobile
+// fallback replaced this with tap-to-reveal callouts on the image itself).
 function FindingsList({ screen, notes, onHoverFinding }) {
   return (
     <div className="flex flex-col gap-5">
@@ -265,15 +336,41 @@ function HeuristicBlock({ screen, isActive, onHoverFinding, reduceMotion }) {
   );
 }
 
-// Mobile/tablet fallback (below `lg:`): no pin at this width, so every
-// screen renders in normal flow, always expanded, with its own image inline.
-function HeuristicMobileBlock({ screen, hoveredId, onHoverFinding, reduceMotion }) {
+// Mobile/tablet fallback (below `lg:`): no pin at this width, and no
+// separate findings list either — every finding's numbered dot flares
+// continuously on the screenshot itself, and tapping one reveals its
+// title/body as an inline callout, one at a time, scoped to this screen's
+// own image only (doesn't affect any other screen's open callout).
+function HeuristicMobileBlock({ screen, reduceMotion }) {
   const notes = CALLOUTS[screen.key];
+  const [activeId, setActiveId] = useState(null);
+  const activeNote = notes.find((n) => n.id === activeId);
+
   return (
     <div className="py-8 first:pt-0">
-      <p className="font-satoshi font-bold text-[20px] text-ink mb-4">{screen.label}</p>
-      <FindingsList screen={screen} notes={notes} onHoverFinding={onHoverFinding} />
-      <ScreenImage screen={screen} notes={notes} hoveredId={hoveredId} reduceMotion={reduceMotion} className="mt-5 max-w-[221px]" />
+      <p className="font-satoshi font-bold text-[16px] text-ink mb-4">{screen.label}</p>
+      <ScreenImage
+        screen={screen}
+        notes={notes}
+        reduceMotion={reduceMotion}
+        className="max-w-[221px] mx-auto"
+        dots={
+          <>
+            {notes.map((note) => (
+              <FlaringDot
+                key={note.id}
+                note={note}
+                isActive={note.id === activeId}
+                onToggle={() => setActiveId(activeId === note.id ? null : note.id)}
+                reduceMotion={reduceMotion}
+              />
+            ))}
+            <AnimatePresence>
+              {activeNote && <FindingCallout key={activeNote.id} note={activeNote} reduceMotion={reduceMotion} />}
+            </AnimatePresence>
+          </>
+        }
+      />
     </div>
   );
 }
@@ -410,13 +507,11 @@ export default function Symptoms() {
           </div>
         </div>
 
-        <div className="lg:hidden flex flex-col divide-y divide-ink/10">
+        <div className="lg:hidden flex flex-col">
           {ANNOTATED_SCREENS.map((screen) => (
             <HeuristicMobileBlock
               key={screen.key}
               screen={screen}
-              hoveredId={hoveredByScreen[screen.key]}
-              onHoverFinding={handleHoverFinding}
               reduceMotion={reduceMotion}
             />
           ))}

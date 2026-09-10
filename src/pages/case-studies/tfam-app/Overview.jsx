@@ -116,11 +116,12 @@ export default function Overview() {
           style={reduceMotion ? undefined : { opacity: veilOpacity }}
         />
       </div>
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-16 lg:pb-0">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-0">
+        <div className="-translate-y-6 lg:translate-y-0">
         <span className="font-satoshi font-bold text-[16px] lg:text-[24px] text-white/70">
           Taipei Fine Arts Museum (TFAM)
         </span>
-        <h1 className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] lg:text-[48px] lg:leading-[60px] text-white">
+        <h1 className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-white">
           TFAM built a branding campaign, not a companion.
         </h1>
 
@@ -152,6 +153,7 @@ export default function Overview() {
               (2.5 month)
             </p>
           </div>
+        </div>
         </div>
 
         {/* Mockup row, per Figma (node 312:1503, "Frame 3465598"): 3 flat,
@@ -193,7 +195,7 @@ export default function Overview() {
             left-to-center-to-right. Unlike desktop, mobile does NOT get the
             scroll-linked `y: phoneY` drift — removed per feedback, so the
             outer wrapper here is a plain div, not a motion.div. First-pass
-            sizing (h-[220px]/-mb-10/bottom-[-114px] on the stage, w-[102%]
+            sizing (h-[220px]/-mb-10/bottom-[-60px] on the stage, w-[102%]
             aspect-[6/5] on the fan itself), flagged for a tuning pass once
             seen live, same as everything else in this block.
 
@@ -204,9 +206,9 @@ export default function Overview() {
             independently-positioned images share a differently-shaped
             drift range. The one-time mount entrance (opacity/y/scale)
             still staggers per image via PHONE_ENTER_STAGGER. */}
-        <div className="relative mt-12 h-[220px] -mb-10 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
-          <div className="flex lg:hidden absolute inset-x-0 bottom-[-114px] justify-center">
-            <div className="relative w-[102%] aspect-[6/5]">
+        <div className="relative mt-8 h-[220px] -mb-10 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
+          <div className="flex lg:hidden absolute inset-x-0 bottom-[-60px] justify-center">
+            <div className="relative w-[107.1%] aspect-[6/5]">
               <motion.img
                 src={MOBILE_FAN[0].src}
                 alt={MOBILE_FAN[0].alt}

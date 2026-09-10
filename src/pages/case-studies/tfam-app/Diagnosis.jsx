@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import Section from '../../../components/case-study/Section';
 import yuChenLinPhoto from '../../../assets/case study/case-study-tfam-app/diagnosis/yu-chen-lin.jpg';
@@ -175,20 +175,37 @@ export default function Diagnosis() {
 
       {/* Timeline, per Figma (node 258:1090): a rail with a dot above each
           moment — the first ringed — over three cards. The block is capped at
-          the design's own 711px so the dots stay centered over their cards;
-          the rail is hidden on mobile, where the cards stack. Dot/halo sizes
-          are the design's own, scaled down 20%.
+          the design's own 711px so the dots stay centered over their cards.
+          Dot/halo sizes are the design's own, scaled down 20%.
 
           The ringed dot is an active-state indicator, not just decoration:
           as the three cards reveal one by one on scroll-in, the flaring halo
           advances to each card right as it appears, then stops and keeps
           pulsing on the last one (Remember) — it never loops back to Plan.
           Hovering/focusing a card cancels the sequence for good and moves
-          the halo there instead — it stays on the last moment looked at. */}
+          the halo there instead — it stays on the last moment looked at.
+
+          Mobile gets its OWN vertical rail (desktop's horizontal SVG, tied
+          to fixed `cx` pixel values, doesn't translate to stacked cards of
+          variable text-driven height) rather than hiding the rail outright.
+          It's a 2-column CSS Grid (rail | card), one explicit row per
+          FRICTION item via inline `gridRow`/`gridColumn` — not Tailwind's
+          row-start-N utilities, since those would need a dynamic class
+          string the JIT scanner can't see — so each dot cell's height
+          automatically matches its sibling card's real rendered height,
+          with no pixel math needed. A single bar spans `gridRow: '1 / span 3'`
+          (not `1 / -1` — that only resolves against an EXPLICIT grid row
+          template, which this grid doesn't have; `span 3` works regardless)
+          in the rail column, sitting BEHIND the dots (z-index), reusing the
+          exact same DOT_R/BASE_HALO_R/PULSE_R/PULSE_OPACITY/PULSE_TRANSITION
+          values as desktop — just rendered as plain circles per active row
+          instead of one shared circle sliding between fixed x coordinates,
+          since that slide has no equivalent y-coordinate to slide to across
+          variable-height rows. */}
       <div className="mb-[52px] w-full max-w-[711px] mx-auto flex flex-col items-center gap-8">
         <p className="font-satoshi font-bold text-[20px] text-ink w-full">Friction showed up at three moments of the visit</p>
         <svg viewBox="0 0 700 44" className="hidden lg:block w-[700px] h-[44px]" aria-hidden="true">
-          <rect y="19" width="700" height="5" rx="2.5" fill="black" />
+          <rect y="21" width="700" height="3" rx="1.5" fill="black" />
           {!reduceMotion && (
             <motion.circle
               cy="22.5"
@@ -209,26 +226,74 @@ export default function Diagnosis() {
             <circle key={f.title} cx={f.cx} cy="22.5" r={DOT_R} fill="black" />
           ))}
         </svg>
-        <div ref={cardsRowRef} className="w-full flex flex-col lg:flex-row lg:items-stretch lg:justify-between gap-6">
-          {FRICTION.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '0px 0px -20% 0px' }}
-              variants={reduceMotion ? cardVariantsReduced : cardVariants}
-              transition={{
-                ...(reduceMotion ? cardTransitionReduced : cardTransition),
-                delay: reduceMotion ? 0 : (i * REVEAL_STAGGER_MS) / 1000,
-              }}
-              onMouseEnter={() => handleMomentActive(i)}
-              onFocus={() => handleMomentActive(i)}
-              className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 lg:w-[221px] flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
-            >
-              <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-              <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
-            </motion.div>
-          ))}
+        <div ref={cardsRowRef} className="w-full">
+          <div className="hidden lg:flex lg:items-stretch lg:justify-between gap-6">
+            {FRICTION.map((f, i) => (
+              <motion.div
+                key={f.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '0px 0px -20% 0px' }}
+                variants={reduceMotion ? cardVariantsReduced : cardVariants}
+                transition={{
+                  ...(reduceMotion ? cardTransitionReduced : cardTransition),
+                  delay: reduceMotion ? 0 : (i * REVEAL_STAGGER_MS) / 1000,
+                }}
+                onMouseEnter={() => handleMomentActive(i)}
+                onFocus={() => handleMomentActive(i)}
+                className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 lg:w-[221px] flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
+              >
+                <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="lg:hidden grid grid-cols-[32px_1fr] gap-x-4 gap-y-6">
+            <div
+              className="w-[3px] mx-auto bg-black rounded-full"
+              style={{ gridColumn: 1, gridRow: '1 / span 3' }}
+              aria-hidden="true"
+            />
+            {FRICTION.map((f, i) => (
+              <Fragment key={f.title}>
+                <div className="relative z-10 flex items-center justify-center" style={{ gridColumn: 1, gridRow: i + 1 }}>
+                  {!reduceMotion && activeIndex === i && (
+                    <motion.div
+                      className="absolute rounded-full bg-black"
+                      style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
+                      animate={{ scale: [1, (PULSE_R[1] * 2) / (BASE_HALO_R * 2)], opacity: PULSE_OPACITY }}
+                      transition={PULSE_TRANSITION}
+                    />
+                  )}
+                  {activeIndex === i && (
+                    <div
+                      className="absolute rounded-full bg-black/20"
+                      style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
+                    />
+                  )}
+                  <div className="relative rounded-full bg-black" style={{ width: DOT_R * 2, height: DOT_R * 2 }} />
+                </div>
+                <motion.div
+                  style={{ gridColumn: 2, gridRow: i + 1 }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '0px 0px -20% 0px' }}
+                  variants={reduceMotion ? cardVariantsReduced : cardVariants}
+                  transition={{
+                    ...(reduceMotion ? cardTransitionReduced : cardTransition),
+                    delay: reduceMotion ? 0 : (i * REVEAL_STAGGER_MS) / 1000,
+                  }}
+                  onMouseEnter={() => handleMomentActive(i)}
+                  onFocus={() => handleMomentActive(i)}
+                  className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
+                >
+                  <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                  <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
+                </motion.div>
+              </Fragment>
+            ))}
+          </div>
         </div>
       </div>
 
