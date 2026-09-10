@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useActiveSection } from '../../../hooks/useActiveSection';
 import Section from '../../../components/case-study/Section';
@@ -244,12 +244,12 @@ function FlaringDot({ note, isActive, onToggle, reduceMotion }) {
       {!reduceMotion && (
         <motion.span
           className="absolute rounded-full bg-black"
-          style={{ width: 24, height: 24 }}
+          style={{ width: 40, height: 40 }}
           animate={{ scale: [1, 1.6], opacity: [0.3, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
         />
       )}
-      <span className="relative size-6 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
+      <span className="relative size-10 rounded-full bg-black flex items-center justify-center text-white font-satoshi font-bold text-[12px]">
         {note.id}
       </span>
     </button>
@@ -340,14 +340,30 @@ function HeuristicBlock({ screen, isActive, onHoverFinding, reduceMotion }) {
 // separate findings list either — every finding's numbered dot flares
 // continuously on the screenshot itself, and tapping one reveals its
 // title/body as an inline callout, one at a time, scoped to this screen's
-// own image only (doesn't affect any other screen's open callout).
+// own image only (doesn't affect any other screen's open callout). Any tap
+// outside this screen's own block (elsewhere on the page, another screen's
+// image, etc.) closes an open callout too — standard "tap outside to
+// dismiss" behavior, via a document-level pointerdown listener rather than
+// requiring a second tap on the same dot.
 function HeuristicMobileBlock({ screen, reduceMotion }) {
   const notes = CALLOUTS[screen.key];
   const [activeId, setActiveId] = useState(null);
   const activeNote = notes.find((n) => n.id === activeId);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (activeId === null) return undefined;
+    function handlePointerDown(event) {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setActiveId(null);
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [activeId]);
 
   return (
-    <div className="py-8 first:pt-0">
+    <div className="py-8 first:pt-0" ref={containerRef}>
       <p className="font-satoshi font-bold text-[16px] text-ink mb-4">{screen.label}</p>
       <ScreenImage
         screen={screen}

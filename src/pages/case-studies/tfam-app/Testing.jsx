@@ -205,7 +205,13 @@ export default function Testing() {
             <p className="font-satoshi font-bold text-[20px] text-ink">
               Finding {i + 1}: {finding.title}
             </p>
-            <div className="flex flex-col gap-[48px]">
+            {/* Desktop: media row, then a separate text row below (Figma's
+                own composition). Mobile gets its own block further down —
+                pairing each image directly with its own text reads better
+                than forcing the reader to scroll past 2-3 stacked images
+                before reaching any text (same fix as Solutions.jsx's
+                FeatureRow). */}
+            <div className="hidden lg:flex lg:flex-col gap-[48px]">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -282,6 +288,45 @@ export default function Testing() {
                   <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
                 </motion.div>
               )}
+            </div>
+
+            <div className="lg:hidden flex flex-col gap-[48px]">
+              <div className="flex flex-col gap-2">
+                <p className="font-satoshi font-bold text-[16px] text-ink">Observed</p>
+                <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.observed}</p>
+              </div>
+              <div className="flex flex-col gap-8">
+                {finding.images.map((image) => {
+                  const text =
+                    image.label === 'Version 1' ? finding.version1 : image.label === 'Version 2' ? finding.version2 : null;
+                  return (
+                    <div key={image.label} className="flex flex-col gap-3">
+                      <div className="flex flex-col items-center gap-3">
+                        <p className="font-satoshi font-bold text-[16px] text-ink">{image.label}</p>
+                        {image.video ? (
+                          <FindingVideo src={image.video} className="w-full max-w-[221px] aspect-[221/396]" videoScale={image.videoScale} />
+                        ) : image.image ? (
+                          <FindingImage
+                            src={image.image}
+                            alt={`${image.label} of the arrival screen`}
+                            className="w-full max-w-[221px] aspect-[221/396]"
+                            enlarge={image.enlarge}
+                          />
+                        ) : (
+                          <ImagePlaceholder label="" className="w-full max-w-[221px] aspect-[221/396]" />
+                        )}
+                      </div>
+                      {text && <p className="font-satoshi text-[16px] text-ink leading-[25px] w-full">{text}</p>}
+                    </div>
+                  );
+                })}
+                {!(finding.version1 && finding.version2) && (
+                  <div className="flex flex-col gap-2">
+                    <p className="font-satoshi font-bold text-[16px] text-ink">Changed</p>
+                    <p className="font-satoshi text-[16px] text-ink leading-[25px]">{finding.changed}</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
