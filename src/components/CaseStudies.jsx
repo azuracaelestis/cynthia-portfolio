@@ -42,10 +42,34 @@ function StudyCard({ study, index }) {
             />
           )}
           {study.thumbnail?.phones && (
-            <div className="lg:hidden relative mt-11 w-full aspect-[6/5]">
-              <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
-              <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
-              <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
+            <div className="lg:hidden relative mt-[25px] w-full aspect-[6/5]">
+              <motion.img
+                src={study.thumbnail.phones[0]}
+                alt=""
+                className="absolute left-0 top-[calc(15%-32px)] w-[34.2%] rounded-2xl drop-shadow-lg"
+                initial={{ y: 0, rotate: 0 }}
+                whileInView={reduceMotion ? undefined : { y: -12, rotate: -10 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
+              <motion.img
+                src={study.thumbnail.phones[2]}
+                alt=""
+                className="absolute right-0 top-[calc(15%-32px)] w-[34.2%] rounded-2xl drop-shadow-lg"
+                initial={{ y: 0, rotate: 0 }}
+                whileInView={reduceMotion ? undefined : { y: -12, rotate: 10 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
+              <motion.img
+                src={study.thumbnail.phones[1]}
+                alt=""
+                className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[37.8%] rounded-2xl drop-shadow-2xl"
+                initial={{ y: 0 }}
+                whileInView={reduceMotion ? undefined : { y: -10 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
             </div>
           )}
         </div>
