@@ -12,6 +12,7 @@ export default function Home() {
     <>
       <Helmet>
         <title>Cynthia Tanawi — Product & Graphic Designer</title>
+        <link rel="canonical" href="https://cynthiatanawi.design/" />
         <meta
           name="description"
           content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
@@ -22,8 +23,14 @@ export default function Home() {
           property="og:description"
           content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
         />
-        {/* Placeholder path — drop the real social-preview image at public/og-image.png before launch. */}
-        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image" content="/cynthia-og-image.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Cynthia Tanawi — Product & Graphic Designer" />
+        <meta
+          name="twitter:description"
+          content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
+        />
+        <meta name="twitter:image" content="/cynthia-og-image.jpg" />
       </Helmet>
       <Hero />
       <DesignPractice />

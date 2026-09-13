@@ -33,6 +33,7 @@ export default function TfamApp() {
     <>
       <Helmet>
         <title>TFAM App — Cynthia Tanawi</title>
+        <link rel="canonical" href="https://cynthiatanawi.design/work/tfam-app" />
         <meta
           name="description"
           content="TFAM built a branding campaign, not a companion. An end-to-end redesign of the Taipei Fine Arts Museum app, focused on surfacing what was already there."
@@ -43,6 +44,7 @@ export default function TfamApp() {
           property="og:description"
           content="TFAM built a branding campaign, not a companion. An end-to-end redesign of the Taipei Fine Arts Museum app, focused on surfacing what was already there."
         />
+        <meta property="og:image" content="/tfam-app-og-image.jpg" />
       </Helmet>
 
       <Overview />

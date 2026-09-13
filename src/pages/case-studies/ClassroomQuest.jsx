@@ -12,7 +12,6 @@ import CharacterSystem from './classroom-quest/CharacterSystem';
 import Exploration from './classroom-quest/Exploration';
 import Design from './classroom-quest/Design';
 import ImpactReflection from './classroom-quest/ImpactReflection';
-import classroomQuestMockup from '../../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
 
 const CUSTOM_SECTIONS = {
   context: Context,
@@ -42,6 +41,7 @@ export default function ClassroomQuest() {
     <>
       <Helmet>
         <title>Classroom Quest — Cynthia Tanawi</title>
+        <link rel="canonical" href="https://cynthiatanawi.design/work/classroom-quest" />
         <meta
           name="description"
           content="A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play."
@@ -52,7 +52,7 @@ export default function ClassroomQuest() {
           property="og:description"
           content="A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play."
         />
-        <meta property="og:image" content={classroomQuestMockup} />
+        <meta property="og:image" content="/classroom-quest-og-image.jpg" />
       </Helmet>
 
       <Overview />
