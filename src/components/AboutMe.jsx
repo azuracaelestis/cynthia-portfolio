@@ -76,8 +76,7 @@ export default function AboutMe() {
             <p className="mt-6 font-satoshi font-light text-[16px] leading-[24px] text-white">
               Hi, I'm Cynthia. I'm a product designer with a foundation in brand design, visual craft, and
               pedagogy in language learning. I'm originally from Indonesia, based in Taipei, Taiwan for the
-              past ten years, and now looking for a new opportunity in Vancouver — open to the right team
-              anywhere.
+              past ten years, and now looking for a new opportunity — open to the right team anywhere.
             </p>
             <p className="mt-4 font-satoshi font-light text-[16px] leading-[24px] text-white">
               Beyond the craft itself, education and technology are what I care about most. I believe design
