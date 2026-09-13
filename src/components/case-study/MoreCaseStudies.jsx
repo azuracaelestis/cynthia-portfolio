@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useAnimation, useReducedMotion } from 'framer-motion';
 import { CASE_STUDIES } from '../../data/caseStudies';
@@ -83,23 +83,32 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
         <div className="relative w-full lg:max-w-[900px] mt-[60px]">
           {stackPeeks.map((peek, i) => {
             const depth = PEEK_COUNT - i;
+            const peekStyle = {
+              top: `-${depth * 14}px`,
+              left: `${depth * 10}px`,
+              right: `${depth * 10}px`,
+              width: `calc(100% - ${depth * 20}px)`,
+              opacity: 1 - depth * 0.1,
+              zIndex: i + 1,
+              transform: `rotate(${peek.rotate * TILT_SCALE}deg)`,
+            };
             return (
-              <img
-                key={`${peek.id}-${i}`}
-                src={peek.folder}
-                alt=""
-                aria-hidden="true"
-                className="absolute w-full h-auto drop-shadow-lg"
-                style={{
-                  top: `-${depth * 14}px`,
-                  left: `${depth * 10}px`,
-                  right: `${depth * 10}px`,
-                  width: `calc(100% - ${depth * 20}px)`,
-                  opacity: 1 - depth * 0.1,
-                  zIndex: i + 1,
-                  transform: `rotate(${peek.rotate * TILT_SCALE}deg)`,
-                }}
-              />
+              <Fragment key={`${peek.id}-${i}`}>
+                <img
+                  src={peek.folderMobile}
+                  alt=""
+                  aria-hidden="true"
+                  className="lg:hidden absolute w-full h-auto drop-shadow-lg"
+                  style={peekStyle}
+                />
+                <img
+                  src={peek.folder}
+                  alt=""
+                  aria-hidden="true"
+                  className="hidden lg:block absolute w-full h-auto drop-shadow-lg"
+                  style={peekStyle}
+                />
+              </Fragment>
             );
           })}
 
@@ -115,25 +124,78 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
               }`}
               style={{ '--r': `${study.rotate * TILT_SCALE}deg` }}
             >
-              <img src={study.folder} alt="" className="w-full h-auto drop-shadow-2xl" />
+              <img src={study.folderMobile} alt="" className="lg:hidden w-full h-auto drop-shadow-2xl" />
+              <img src={study.folder} alt="" className="hidden lg:block w-full h-auto drop-shadow-2xl" />
 
-              <span className="hidden lg:block absolute top-[3.7%] left-[3.4%] w-[17%] text-ink text-[14px] font-satoshi font-bold">
+              <span className="absolute top-[51px] left-[24px] text-ink text-[12px] lg:top-[3.7%] lg:left-[3.4%] lg:w-[17%] lg:text-[14px] font-satoshi font-bold">
                 {study.tag}
               </span>
 
-              <div className="absolute top-[calc(24%+4px)] left-[calc(5.3%+94px)] lg:top-[calc(24%+24px)] lg:left-[5.3%] w-[42%]">
-                {!study.link && (
-                  <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-satoshi font-semibold px-3 py-1">
-                    Coming soon
-                  </span>
-                )}
-                <h3 className="font-satoshi font-bold text-[18px] lg:text-[32px] text-ink leading-tight">
-                  {study.title}
-                </h3>
-                <p className="hidden lg:block mt-4 font-satoshi font-light text-[18px] text-ink/80 leading-snug">
-                  {study.body}
-                </p>
+              <div className="absolute top-[51px] left-[24px] right-[24px] lg:top-[calc(24%+24px)] lg:left-[5.3%] lg:right-auto lg:w-[42%]">
+                <div className="max-w-[440px] translate-y-[28px] lg:translate-y-0">
+                  {!study.link && (
+                    <span className="mb-3 inline-block rounded-full bg-ink/80 text-white text-[11px] lg:text-[13px] font-satoshi font-semibold px-3 py-1">
+                      Coming soon
+                    </span>
+                  )}
+                  <h3 className="font-satoshi font-bold text-[24px] lg:text-[32px] text-ink leading-tight">
+                    {study.title}
+                  </h3>
+                  <p className="mt-4 font-satoshi font-normal text-[16px] lg:text-[18px] text-ink/80 leading-snug">
+                    {study.body}
+                  </p>
+
+                  {study.thumbnail?.phones && (
+                    <div className="lg:hidden relative mt-11 w-full aspect-[6/5]">
+                      <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                      <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                      <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
+                    </div>
+                  )}
+                </div>
               </div>
+
+              {study.thumbnail?.mockup && (
+                <div className="lg:hidden absolute left-[5%] right-[5%] top-[calc(54%+20px)] flex flex-col items-center">
+                  <div className="relative w-[80%]">
+                    <img src={study.thumbnail.mockup} alt="" className="w-full h-auto rounded-xl object-contain drop-shadow-lg" />
+                    {study.thumbnail.bubble && <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />}
+                    {study.thumbnail.birdLeft && (
+                      <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12" />
+                    )}
+                    {study.thumbnail.book && <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />}
+                    {study.thumbnail.birdRight && (
+                      <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg]" />
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {study.thumbnail && (
+                <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center">
+                  <div className="relative h-full w-full flex items-center justify-center">
+                    {study.thumbnail.phones ? (
+                      <>
+                        <img src={study.thumbnail.phones[0]} alt="" className="absolute left-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                        <img src={study.thumbnail.phones[2]} alt="" className="absolute right-0 top-[calc(15%-32px)] w-[38%] rounded-2xl drop-shadow-lg" />
+                        <img src={study.thumbnail.phones[1]} alt="" className="absolute left-1/2 -translate-x-1/2 top-[-8px] w-[42%] rounded-2xl drop-shadow-2xl" />
+                      </>
+                    ) : (
+                      study.thumbnail.mockup && (
+                        <img src={study.thumbnail.mockup} alt="" className="w-full max-h-full rounded-xl object-contain drop-shadow-lg" />
+                      )
+                    )}
+                    {study.thumbnail.bubble && <img src={study.thumbnail.bubble} alt="" className="absolute top-[16%] left-[5%] w-[15%]" />}
+                    {study.thumbnail.birdLeft && (
+                      <img src={study.thumbnail.birdLeft} alt="" className="absolute top-[30%] -left-[5%] w-[27%] rotate-12" />
+                    )}
+                    {study.thumbnail.book && <img src={study.thumbnail.book} alt="" className="absolute top-[22%] right-[4%] w-[9%]" />}
+                    {study.thumbnail.birdRight && (
+                      <img src={study.thumbnail.birdRight} alt="" className="absolute top-[36%] -right-[6%] w-[25%] -rotate-[30deg]" />
+                    )}
+                  </div>
+                </div>
+              )}
             </Wrapper>
           </motion.div>
         </div>

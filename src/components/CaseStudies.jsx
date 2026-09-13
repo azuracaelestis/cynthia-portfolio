@@ -116,8 +116,10 @@ function StudyCard({ study, index }) {
           </div>
         </div>
       ) : (
-        <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center rounded-2xl border-2 border-dashed border-ink/30 bg-ink/5 text-ink/50 font-satoshi text-sm">
-          Image placeholder
+        <div className="hidden lg:flex absolute top-[28%] bottom-[10%] right-[6%] w-[42%] items-center justify-center">
+          <span className="inline-flex items-center justify-center rounded-full bg-ink/30 text-white font-satoshi font-bold text-[16px] px-8 h-[45px]">
+            Coming Soon
+          </span>
         </div>
       )}
 

@@ -363,6 +363,29 @@ function MockupRow({ features, active }) {
   );
 }
 
+// A single mobile feature (video + its own text), with its OWN useInView
+// trigger scoped to just this item's container — so on mobile, where a
+// 2-feature row stacks vertically, the second feature's video only plays
+// once IT actually scrolls into view, not the instant the row (and its
+// row-mate above it) does.
+function FeatureRowItem({ feature }) {
+  const itemRef = useRef(null);
+  const isInView = useInView(itemRef, { once: true, margin: '0px 0px -20% 0px' });
+
+  return (
+    <div ref={itemRef} className="flex flex-col gap-4">
+      {feature.video ? (
+        <MockupVideo src={feature.video} scaleClassName={feature.videoScale} active={isInView} />
+      ) : (
+        <ImagePlaceholder label="Screenshot" className="w-full aspect-[317/396]" />
+      )}
+      <p className="font-satoshi font-bold text-[16px] text-ink">{feature.title}</p>
+      <p className="font-satoshi text-[16px] text-ink leading-[25px]">{feature.body}</p>
+      {feature.target && <TargetCallout>{feature.target}</TargetCallout>}
+    </div>
+  );
+}
+
 // A 2-feature row's layout differs by breakpoint: desktop shows both videos
 // side by side, THEN both title/body pairs below (Figma's own "row of
 // mockups, row of text" composition) — but that same DOM order on mobile
@@ -370,9 +393,13 @@ function MockupRow({ features, active }) {
 // video/video/text/text, breaking the asset-then-text pairing per feature.
 // So mobile gets its own per-feature stacked layout (video, then that same
 // feature's text, repeated) instead of reusing the desktop DOM order at a
-// narrower width. Both variants share one `useInView` trigger so a
-// feature's video plays once, the same "row entered view" moment, whichever
-// layout is actually rendered.
+// narrower width. Desktop keeps ONE shared `useInView` trigger so both
+// videos start together (they're visually side by side, so that reads as
+// one moment) — but mobile can't share that: the row's own bounding box
+// spans BOTH stacked features, so the shared trigger used to fire the
+// instant the row's top (i.e. the FIRST feature) appeared, auto-playing
+// the second feature's video long before it had actually scrolled into
+// view. Mobile now gives each feature (`FeatureRowItem`) its own trigger.
 function FeatureRow({ features }) {
   const rowRef = useRef(null);
   const isInView = useInView(rowRef, { once: true, margin: '0px 0px -20% 0px' });
@@ -394,16 +421,7 @@ function FeatureRow({ features }) {
 
       <div className="flex lg:hidden flex-col gap-[52px]">
         {features.map((f) => (
-          <div key={f.title} className="flex flex-col gap-4">
-            {f.video ? (
-              <MockupVideo src={f.video} scaleClassName={f.videoScale} active={isInView} />
-            ) : (
-              <ImagePlaceholder label="Screenshot" className="w-full aspect-[317/396]" />
-            )}
-            <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-            <p className="font-satoshi text-[16px] text-ink leading-[25px]">{f.body}</p>
-            {f.target && <TargetCallout>{f.target}</TargetCallout>}
-          </div>
+          <FeatureRowItem key={f.title} feature={f} />
         ))}
       </div>
     </div>
