@@ -78,7 +78,9 @@ export default function Footer() {
             LinkedIn
           </a>
           <a
-            href="/resume.pdf"
+            href="https://drive.google.com/file/d/1V_B6y68jByI4LLJNXn_PNNCMN525ZXL2/view?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
             className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
           >
             <img src={resumeIcon} alt="" className="w-6 h-6 lg:w-4 lg:h-4" />

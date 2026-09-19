@@ -167,7 +167,9 @@ export default function Hero() {
             View Work
           </motion.a>
           <motion.a
-            href="/resume.pdf"
+            href="https://drive.google.com/file/d/1V_B6y68jByI4LLJNXn_PNNCMN525ZXL2/view?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
             onMouseEnter={() => setIsHoveringResume(true)}
             onMouseLeave={() => setIsHoveringResume(false)}
             className="h-12 w-full lg:w-auto flex items-center justify-center rounded-full border border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
