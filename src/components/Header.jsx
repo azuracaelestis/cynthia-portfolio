@@ -156,16 +156,48 @@ export default function Header() {
           })}
         </div>
 
-        <a
+        <motion.a
           href="mailto:azuracaelestis@outlook.com?subject=Let%27s%20connect&body=Hi%20Cynthia%2C%0A%0A"
-          className="font-satoshi h-9 lg:h-[42px] rounded-full bg-ink hover:bg-charcoal active:bg-charcoal transition-colors px-3 lg:px-5 text-xs lg:text-sm font-semibold text-white flex items-center gap-1.5 shrink-0"
+          initial="rest"
+          whileHover="hover"
+          className="font-satoshi h-9 lg:h-[42px] rounded-full bg-ink active:bg-charcoal transition-colors px-3 lg:px-5 text-xs lg:text-sm font-semibold text-white flex items-center shrink-0"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="M3 7l9 6 9-6" />
-          </svg>
+          {/* Hidden and collapsed at rest, grows in on hover — desktop only
+              (this is the pointer-driven nav; the mobile header's own Let's
+              Talk button keeps its icon always visible, since touch has no
+              hover state). Unlike the CTA chevrons, this one is allowed to
+              widen the button — the reference (interaction-2.mov) shows the
+              pill itself extending as the icon appears, not a fixed slot
+              fading in, so the wrapper's width/margin animate together with
+              the icon's own scale/opacity.
+              Numbers measured directly off the reference, frame-by-frame:
+              the icon grows from fully hidden (not a subtle partial scale)
+              to full size, settling ~18 frames after the cursor arrives at
+              30fps → 0.6s, with a long, gentle deceleration rather than a
+              snappy pop. `initial=false` isn't needed since `whileHover`
+              only ever animates FROM the `rest` variant, never on mount. */}
+          <motion.span
+            className="inline-flex items-center overflow-hidden"
+            variants={{ rest: { width: 0, marginRight: 0 }, hover: { width: 16, marginRight: 6 } }}
+            transition={{ duration: reduceMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="shrink-0"
+              variants={{ rest: { opacity: 0, scale: 0 }, hover: { opacity: 1, scale: 1 } }}
+              transition={{ duration: reduceMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="M3 7l9 6 9-6" />
+            </motion.svg>
+          </motion.span>
           Let's Talk
-        </a>
+        </motion.a>
       </motion.nav>
 
       <nav

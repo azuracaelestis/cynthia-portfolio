@@ -21,6 +21,90 @@ const WORD_ROTATIONS = [-8, 6, -4];
 
 const fadeUpVariants = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } };
 
+function ChevronIcon({ className = '' }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={className} aria-hidden="true">
+      <path d="M6 3.5l5 4.5-5 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// CTA chevron micro-interaction. On hover the trailing chevron accelerates
+// out past the pill's right edge while a second one arrives from the left
+// slightly later and settles, and the label glides right to make room —
+// mirrored on hover-out.
+//
+// Measured off the reference capture, which is what the numbers below encode:
+// the pill never reflows (only transforms move), the chevrons don't fade —
+// they slide out and are CLIPPED at the pill edge, which is what makes the
+// motion read as physical — and the two chevrons are staggered rather than
+// crossfading, the leaving one fast and accelerating, the arriving one
+// delayed and decelerating into place.
+//
+// Geometry is derived from the button's own px-6 padding, so it stays
+// self-consistent: the chevron is 16px and the gap 12px, so the label shifts
+// by exactly 28px, and the chevrons travel 24 + 16 = 40px — precisely far
+// enough to clear the pill edge.
+const LABEL_SHIFT = 28;
+const CHEVRON_TRAVEL = 40;
+
+function CtaLabel({ children, hovered, reduceMotion }) {
+  const d = reduceMotion ? 0 : 1;
+  const exit = { duration: 0.25 * d, ease: [0.5, 0, 0.75, 0] };
+  const enter = { duration: 0.35 * d, delay: 0.15 * d, ease: [0.16, 1, 0.3, 1] };
+  const state = hovered ? 'hover' : 'rest';
+
+  return (
+    // The negative margins cancel the padding, so this adds a 40px runway for
+    // `overflow-hidden` to clip against without changing the row's footprint.
+    // It keeps the chevrons disappearing correctly on the full-width (mobile)
+    // button too, where the pill's own edge is far away.
+    <span className="relative flex items-center gap-3 overflow-hidden -mx-10 px-10 -my-2 py-2">
+      <motion.span
+        initial={false}
+        animate={state}
+        variants={{ rest: { x: 0 }, hover: { x: LABEL_SHIFT } }}
+        transition={{ duration: 0.45 * d, ease: [0.65, 0, 0.35, 1] }}
+      >
+        {children}
+      </motion.span>
+      {/* Holds the chevron's width so the pill's own width never changes. */}
+      <span className="w-4 shrink-0" aria-hidden="true" />
+
+      {/* Both chevrons sit out of flow. They're centred by these wrappers, not
+          by a -translate-y-1/2 class, which Framer would overwrite when it
+          takes over the transform to animate x.
+          The left-10/right-10 insets match the px-10 runway above: absolute
+          offsets resolve against the padding box, so left-0 would park them
+          40px outside the content edge — permanently clipped out of sight. */}
+      <span className="absolute inset-y-0 left-10 flex items-center" aria-hidden="true">
+        <motion.span
+          initial={false}
+          animate={state}
+          variants={{
+            rest: { x: -CHEVRON_TRAVEL, transition: exit },
+            hover: { x: 0, transition: enter },
+          }}
+        >
+          <ChevronIcon />
+        </motion.span>
+      </span>
+      <span className="absolute inset-y-0 right-10 flex items-center" aria-hidden="true">
+        <motion.span
+          initial={false}
+          animate={state}
+          variants={{
+            rest: { x: 0, transition: enter },
+            hover: { x: CHEVRON_TRAVEL, transition: exit },
+          }}
+        >
+          <ChevronIcon />
+        </motion.span>
+      </span>
+    </span>
+  );
+}
+
 export default function Hero() {
   const sectionRef = useRef(null);
   const frameRef = useRef(null);
@@ -158,13 +242,15 @@ export default function Hero() {
             href="#work"
             onMouseEnter={() => setIsHoveringWork(true)}
             onMouseLeave={() => setIsHoveringWork(false)}
-            className="h-12 w-full lg:w-auto flex items-center justify-center rounded-full bg-[#f8ab1c] hover:bg-[#FACC61] active:bg-[#F18F06] transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-ink"
+            className="h-12 w-full lg:w-auto flex items-center justify-center overflow-hidden rounded-full bg-ink active:bg-charcoal transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-white"
             variants={fadeUpVariants}
             initial="hidden"
             animate={entranceSettled ? 'visible' : 'hidden'}
             transition={entranceDelay(0.12)}
           >
-            View Work
+            <CtaLabel hovered={isHoveringWork} reduceMotion={reduceMotion}>
+              View Work
+            </CtaLabel>
           </motion.a>
           <motion.a
             href="https://drive.google.com/file/d/1V_B6y68jByI4LLJNXn_PNNCMN525ZXL2/view?usp=sharing"
@@ -172,13 +258,15 @@ export default function Hero() {
             rel="noreferrer"
             onMouseEnter={() => setIsHoveringResume(true)}
             onMouseLeave={() => setIsHoveringResume(false)}
-            className="h-12 w-full lg:w-auto flex items-center justify-center rounded-full border border-black hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
+            className="h-12 w-full lg:w-auto flex items-center justify-center overflow-hidden rounded-full border border-black active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
             variants={fadeUpVariants}
             initial="hidden"
             animate={entranceSettled ? 'visible' : 'hidden'}
             transition={entranceDelay(0.18)}
           >
-            Download Resume
+            <CtaLabel hovered={isHoveringResume} reduceMotion={reduceMotion}>
+              Download Resume
+            </CtaLabel>
           </motion.a>
         </div>
       </div>

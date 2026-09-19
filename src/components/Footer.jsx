@@ -1,13 +1,43 @@
 import { useLocation } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import yellowSunburst from '../assets/footer/element10.svg';
 import blueFlower from '../assets/footer/element9.svg';
 import linkedinIcon from '../assets/footer/icon/linkedin.svg';
 import resumeIcon from '../assets/footer/icon/resume.svg';
 
+// Same reveal as the header's "Let's Talk" icon: hidden and collapsed at
+// rest, grows in on hover — the wrapper's width/margin animate alongside the
+// icon's own scale/opacity, so the button visibly widens rather than the
+// icon just fading into a fixed slot. Desktop (pointer) only: below `lg`,
+// touch has no hover state, so the icon stays exactly as it always was —
+// always visible, sized by the footer's own w-6/h-6 mobile classes.
+function FooterIcon({ children, isDesktopHover, reduceMotion }) {
+  if (!isDesktopHover) {
+    return <span className="inline-flex w-6 h-6">{children}</span>;
+  }
+  const transition = { duration: reduceMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] };
+  return (
+    <motion.span
+      className="inline-flex items-center overflow-hidden"
+      variants={{ rest: { width: 0, marginRight: 0 }, hover: { width: 16, marginRight: 8 } }}
+      transition={transition}
+    >
+      <motion.span
+        className="inline-flex w-4 h-4 shrink-0"
+        variants={{ rest: { opacity: 0, scale: 0 }, hover: { opacity: 1, scale: 1 } }}
+        transition={transition}
+      >
+        {children}
+      </motion.span>
+    </motion.span>
+  );
+}
+
 export default function Footer() {
   const location = useLocation();
   const isCaseStudy = location.pathname.startsWith('/work/');
+  const isDesktopHover = useMediaQuery('(min-width: 1024px)');
   // TFAM's own page background is white (bg-paper, see TfamApp.jsx), not the
   // cream every other case-study page defaults to — so its footer shouldn't
   // pick up the cream tint either. Other case-study pages (e.g. Classroom
@@ -58,34 +88,46 @@ export default function Footer() {
         </h2>
 
         <div className="mt-8 flex flex-col gap-[15px] px-[18px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-4 lg:px-0">
-          <a
+          <motion.a
             href="mailto:azuracaelestis@outlook.com?subject=Let%27s%20connect&body=Hi%20Cynthia%2C%0A%0A"
-            className="font-satoshi h-12 w-full lg:w-auto rounded-full bg-amber-400 hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            initial="rest"
+            whileHover="hover"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full bg-ink active:bg-charcoal transition-colors px-6 py-3 font-semibold text-white flex items-center justify-center gap-[10px] lg:gap-0"
           >
-            <svg className="w-6 h-6 lg:w-4 lg:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="5" width="18" height="14" rx="2" />
-              <path d="M3 7l9 6 9-6" />
-            </svg>
+            <FooterIcon isDesktopHover={isDesktopHover} reduceMotion={reduceMotion}>
+              <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+            </FooterIcon>
             Email
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="https://www.linkedin.com/in/cynthia-tanawi/"
             target="_blank"
             rel="noreferrer"
-            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            initial="rest"
+            whileHover="hover"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-0"
           >
-            <img src={linkedinIcon} alt="" className="w-6 h-6 lg:w-4 lg:h-4" />
+            <FooterIcon isDesktopHover={isDesktopHover} reduceMotion={reduceMotion}>
+              <img src={linkedinIcon} alt="" className="w-full h-full" />
+            </FooterIcon>
             LinkedIn
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="https://drive.google.com/file/d/1V_B6y68jByI4LLJNXn_PNNCMN525ZXL2/view?usp=sharing"
             target="_blank"
             rel="noreferrer"
-            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white hover:bg-amber-350 active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-2"
+            initial="rest"
+            whileHover="hover"
+            className="font-satoshi h-12 w-full lg:w-auto rounded-full border border-black bg-white active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-ink flex items-center justify-center gap-[10px] lg:gap-0"
           >
-            <img src={resumeIcon} alt="" className="w-6 h-6 lg:w-4 lg:h-4" />
+            <FooterIcon isDesktopHover={isDesktopHover} reduceMotion={reduceMotion}>
+              <img src={resumeIcon} alt="" className="w-full h-full" />
+            </FooterIcon>
             Resume
-          </a>
+          </motion.a>
         </div>
 
         <div className="font-satoshi mt-[52px] sm:mt-20 flex flex-col sm:flex-row items-center justify-between gap-[40px] sm:gap-4 text-sm text-black sm:pt-6">
