@@ -39,7 +39,7 @@ export default function Hypothesis() {
         </div>
         <div className="flex flex-col gap-5">
           <p className="font-satoshi font-bold text-[16px] text-black">Our Strategy</p>
-          <p className="font-satoshi font-extrabold text-[28px] lg:text-[32px] text-black leading-tight">
+          <p className="font-satoshi font-bold text-[28px] lg:text-[32px] text-black leading-tight">
             Don&apos;t demo the tool. Make them need it.
           </p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
