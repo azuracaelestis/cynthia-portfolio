@@ -45,8 +45,19 @@ function ChevronIcon({ className = '' }) {
 // self-consistent: the chevron is 16px and the gap 12px, so the label shifts
 // by exactly 28px, and the chevrons travel 24 + 16 = 40px — precisely far
 // enough to clear the pill edge.
+//
+// The clip region is CtaLabel's own runway (below), sized independently of
+// the button — this must stay strictly SMALLER than CHEVRON_TRAVEL, not
+// equal to it. Equal was the actual bug: a chevron animating to `x: -TRAVEL`
+// from a wrapper inset by `RUNWAY` lands at `RUNWAY - TRAVEL` from the clip
+// edge — at RUNWAY === TRAVEL (both were 40) that's exactly 0, i.e. flush
+// with the boundary, not past it, so it was never really clipped. On desktop
+// (`lg:w-auto`) this was invisibly papered over by the *button's own* tight
+// overflow-hidden edge sitting closer in than the runway's; on mobile
+// (`w-full`) that outer edge is far away, exposing both chevrons at rest.
 const LABEL_SHIFT = 28;
 const CHEVRON_TRAVEL = 40;
+const RUNWAY = 24;
 
 function CtaLabel({ children, hovered, reduceMotion }) {
   const d = reduceMotion ? 0 : 1;
@@ -55,11 +66,13 @@ function CtaLabel({ children, hovered, reduceMotion }) {
   const state = hovered ? 'hover' : 'rest';
 
   return (
-    // The negative margins cancel the padding, so this adds a 40px runway for
-    // `overflow-hidden` to clip against without changing the row's footprint.
-    // It keeps the chevrons disappearing correctly on the full-width (mobile)
-    // button too, where the pill's own edge is far away.
-    <span className="relative flex items-center gap-3 overflow-hidden -mx-10 px-10 -my-2 py-2">
+    // The negative margins cancel the padding, so this adds a RUNWAY-px
+    // horizontal bleed for `overflow-hidden` to clip against, without
+    // changing the row's own footprint.
+    <span
+      className="relative flex items-center gap-3 overflow-hidden -my-2 py-2"
+      style={{ marginLeft: -RUNWAY, marginRight: -RUNWAY, paddingLeft: RUNWAY, paddingRight: RUNWAY }}
+    >
       <motion.span
         initial={false}
         animate={state}
@@ -74,10 +87,13 @@ function CtaLabel({ children, hovered, reduceMotion }) {
       {/* Both chevrons sit out of flow. They're centred by these wrappers, not
           by a -translate-y-1/2 class, which Framer would overwrite when it
           takes over the transform to animate x.
-          The left-10/right-10 insets match the px-10 runway above: absolute
-          offsets resolve against the padding box, so left-0 would park them
-          40px outside the content edge — permanently clipped out of sight. */}
-      <span className="absolute inset-y-0 left-10 flex items-center" aria-hidden="true">
+          The inset matches the RUNWAY padding above: absolute offsets
+          resolve against the padding box, so left:0 would park them
+          RUNWAY-px outside the content edge — permanently clipped out of
+          sight (this is a different bug from the one described above it:
+          this one is about which box `left`/`right` resolve against, not
+          about how far CHEVRON_TRAVEL needs to exceed RUNWAY). */}
+      <span className="absolute inset-y-0 flex items-center" style={{ left: RUNWAY }} aria-hidden="true">
         <motion.span
           initial={false}
           animate={state}
@@ -89,7 +105,7 @@ function CtaLabel({ children, hovered, reduceMotion }) {
           <ChevronIcon />
         </motion.span>
       </span>
-      <span className="absolute inset-y-0 right-10 flex items-center" aria-hidden="true">
+      <span className="absolute inset-y-0 flex items-center" style={{ right: RUNWAY }} aria-hidden="true">
         <motion.span
           initial={false}
           animate={state}
@@ -121,6 +137,12 @@ export default function Hero() {
   const [isHoveringResume, setIsHoveringResume] = useState(false);
 
   const isMobileViewport = useMediaQuery('(max-width: 1023px)'); // below lg
+  // Touch browsers fire a synthetic mouseenter on tap with no matching
+  // mouseleave, so gating on real mouse events alone left the CTA chevron
+  // swap (and the character's hover-driven mood) permanently stuck "hovered"
+  // after the first tap. Gate the state itself, not just the animation, so
+  // both are fixed at the source.
+  const canHover = useMediaQuery('(hover: hover)');
   const isCharacterRevealed = useSeenAtRest(frameRef, isScrollingQuick, { amount: 0.6 });
   const mobileGateOpen = !isMobileViewport || isCharacterRevealed;
 
@@ -240,8 +262,8 @@ export default function Hero() {
         <div className="mt-[43px] lg:mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
           <motion.a
             href="#work"
-            onMouseEnter={() => setIsHoveringWork(true)}
-            onMouseLeave={() => setIsHoveringWork(false)}
+            onMouseEnter={() => canHover && setIsHoveringWork(true)}
+            onMouseLeave={() => canHover && setIsHoveringWork(false)}
             className="h-12 w-full lg:w-auto flex items-center justify-center overflow-hidden rounded-full bg-ink active:bg-charcoal transition-colors px-6 py-3 font-bold text-lg lg:text-xl text-white"
             variants={fadeUpVariants}
             initial="hidden"
@@ -256,8 +278,8 @@ export default function Hero() {
             href="https://drive.google.com/file/d/1V_B6y68jByI4LLJNXn_PNNCMN525ZXL2/view?usp=sharing"
             target="_blank"
             rel="noreferrer"
-            onMouseEnter={() => setIsHoveringResume(true)}
-            onMouseLeave={() => setIsHoveringResume(false)}
+            onMouseEnter={() => canHover && setIsHoveringResume(true)}
+            onMouseLeave={() => canHover && setIsHoveringResume(false)}
             className="h-12 w-full lg:w-auto flex items-center justify-center overflow-hidden rounded-full border border-black active:bg-amber-550 transition-colors px-6 py-3 font-semibold text-lg lg:text-xl text-ink"
             variants={fadeUpVariants}
             initial="hidden"
