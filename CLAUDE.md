@@ -55,8 +55,9 @@ are, a task is complete ONLY when:
                           eye tracking, mood). Keep them single-purpose.
 - `src/assets/`        — SVGs and images, grouped by feature.
 - `src/index.css`      — global styles AND the `@theme` design tokens.
-- `scripts/`           — one-off maintenance scripts (e.g. SVG normalization).
-                          Not part of the app build.
+- `scripts/`           — maintenance scripts. `normalize-character-svgs.mjs` is
+                          one-off; `prerender.mjs` runs as part of `npm run
+                          build` (see SEO).
 
 ## Conventions
 - **Style with theme tokens, not raw values.** Use `bg-paper`, `text-ink`,
@@ -87,6 +88,16 @@ preview nicely when the link is shared. SEO tags are managed with
 - Deploy-time SEO files (`robots.txt`, `sitemap.xml`, final preview image) are
   handled near launch, not per-page — but keep the sitemap in mind when adding
   new routes.
+- **The site is a client-rendered SPA, so crawlers and AI fetchers (which read
+  the raw HTML without running JS) would see an empty page.** `npm run build`
+  runs `scripts/prerender.mjs` after `vite build`: for each route it writes a
+  static `dist/<route>/index.html` containing the route's meta tags AND its
+  real content (rendered by the actual components via `src/entry-server.jsx`)
+  in a hidden `#prerender` block. **Every new route must be added to `ROUTES`
+  in `scripts/prerender.mjs`** (mirroring its Helmet block) and to
+  `sitemap.xml`, or it ships as an empty shell to crawlers. Components must
+  not touch `window`/`document` during render (effects are fine) or the
+  prerender will break.
 
 ## Patterns to AVOID
 - Do NOT add TypeScript or a state-management library — this project is
