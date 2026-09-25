@@ -21,8 +21,8 @@ export const CASE_STUDIES = [
   {
     id: 'tfam',
     tag: 'Taipei Fine Art Museum',
-    title: 'A Companion for the Whole Museum Visit',
-    body: 'TFAM built an app that looked good but was hard to use. I researched, redesigned, and prototyped it around the whole museum visit.',
+    title: 'Redesigning a museum app around what visitors need, when they need it',
+    body: 'I redesigned the TFAM app around three moments in the museum journey: plan, wander, and remember.',
     folder: folderYellow,
     folderMobile: folderMobileYellow,
     folderHover: folderYellowHover,
@@ -38,8 +38,8 @@ export const CASE_STUDIES = [
   {
     id: 'classroom-quest',
     tag: 'ViewSonic Education',
-    title: 'A product Update Teachers Actually Wanted to Play',
-    body: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
+    title: 'Designing a product update teachers could learn by playing',
+    body: 'A gamified experience that helped teachers discover myViewBoard 3.0 through familiar classroom challenges.',
     folder: folderBlue,
     folderMobile: folderMobileBlue,
     folderHover: folderBlueHover,

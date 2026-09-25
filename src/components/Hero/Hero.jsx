@@ -237,7 +237,7 @@ export default function Hero() {
             animate={entranceSettled ? 'visible' : 'hidden'}
             transition={entranceDelay(0)}
           >
-            Product Designer
+            I design how
           </motion.span>
           <br />
           <motion.span
@@ -247,7 +247,7 @@ export default function Hero() {
             animate={entranceSettled ? 'visible' : 'hidden'}
             transition={entranceDelay(0.04)}
           >
-            &amp; Storyteller.
+            people learn.
           </motion.span>
         </h1>
         <motion.p
@@ -257,7 +257,7 @@ export default function Hero() {
           animate={entranceSettled ? 'visible' : 'hidden'}
           transition={entranceDelay(0)}
         >
-          Product Designer with a visual design background. Designing and building product experiences that simplify complexity, from brand systems to shipped&nbsp;code.
+          Product designer with a visual design background, from brand systems to shipped&nbsp;code.
         </motion.p>
         <div className="mt-[43px] lg:mt-12 flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:gap-6">
           <motion.a
