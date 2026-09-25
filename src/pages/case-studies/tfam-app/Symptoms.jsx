@@ -121,8 +121,8 @@ const CALLOUTS = {
       id: 5,
       top: 'calc(68% - 48px)',
       left: '88%',
-      title: 'Key links take visitors outside the app',
-      body: '“Hours/Tickets” and “Current/Upcoming/Past” open the TFAM website instead of keeping visitors in the app.',
+      title: 'Visual hierarchy is inconsistent',
+      body: 'Spacing and alignment change throughout the sidebar, making related information feel disconnected and harder to scan.',
     },
     {
       id: 6,
