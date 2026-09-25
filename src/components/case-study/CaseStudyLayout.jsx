@@ -60,13 +60,14 @@ export default function CaseStudyLayout({
   paddingBottom = 'pb-28',
   sidebarVariant = 'blue',
   sidebarGridClassName = 'lg:grid-cols-[250px_1fr] lg:gap-[34px]',
+  navStartLine,
 }) {
   const ids = sections.map((s) => s.id);
   const activeId = useActiveSection(ids);
   const reduceMotion = useReducedMotion();
   const startSentinelRef = useRef(null);
   const endSentinelRef = useRef(null);
-  const navPhase = useNavScrollPhase(startSentinelRef, endSentinelRef);
+  const navPhase = useNavScrollPhase(startSentinelRef, endSentinelRef, navStartLine);
   const isMono = sidebarVariant === 'mono';
 
   return (

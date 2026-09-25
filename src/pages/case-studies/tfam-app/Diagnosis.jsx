@@ -7,17 +7,17 @@ import arrowRight from '../../../assets/case study/case-study-tfam-app/diagnosis
 
 const FRICTION = [
   {
-    title: 'Plan (Before the visit)',
+    title: 'Plan (Before the Visit)',
     body: 'Exhibition details are hard to find, and booking means an email or a phone call.',
     cx: 108.5,
   },
   {
-    title: 'Wander (During the visit)',
+    title: 'Wander (During the Visit)',
     body: 'The audio guide has no clear way in. Visitors lean on staff and signage instead.',
     cx: 350,
   },
   {
-    title: 'Remember (After the visit)',
+    title: 'Remember (After the Visit)',
     body: "Nothing carries the visit home. There's no way to keep the pieces you loved.",
     cx: 595,
   },

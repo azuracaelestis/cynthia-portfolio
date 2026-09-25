@@ -9,7 +9,13 @@ const BUFFER = 8;
 // tracked content is in relative to the viewport, based on scroll direction
 // and two sentinel elements marking its start/end. A hysteresis buffer keeps
 // the phase from flickering when scroll settles near a boundary.
-export function useNavScrollPhase(startRef, endRef) {
+//
+// `startLine` is where the START sentinel triggers the reveal, as px from the
+// viewport top (or a function returning it, for viewport-relative values).
+// Default is REFERENCE_LINE — the nav appears once its section has reached the
+// top of the screen. A page can pass a larger line to reveal it earlier, as
+// its slot scrolls into view, so the slide-in is actually seen.
+export function useNavScrollPhase(startRef, endRef, startLine = REFERENCE_LINE) {
   const [phase, setPhase] = useState('before');
   const lastScrollY = useRef(typeof window === 'undefined' ? 0 : window.scrollY);
   const lastDir = useRef('down');
@@ -26,15 +32,16 @@ export function useNavScrollPhase(startRef, endRef) {
       const startTop = startRef.current?.getBoundingClientRect().top;
       const endTop = endRef.current?.getBoundingClientRect().top;
       if (startTop == null || endTop == null) return;
+      const startAt = typeof startLine === 'function' ? startLine() : startLine;
 
       setPhase((prev) => {
         if (dir === 'down') {
-          if (prev === 'before' && startTop <= REFERENCE_LINE - BUFFER) return 'visible';
+          if (prev === 'before' && startTop <= startAt - BUFFER) return 'visible';
           if (prev === 'visible' && endTop <= REFERENCE_LINE - BUFFER) return 'after';
           return prev;
         }
         if (prev === 'after' && endTop >= REFERENCE_LINE + BUFFER) return 'visible';
-        if (prev === 'visible' && startTop >= REFERENCE_LINE + BUFFER) return 'before';
+        if (prev === 'visible' && startTop >= startAt + BUFFER) return 'before';
         return prev;
       });
     }
@@ -50,7 +57,7 @@ export function useNavScrollPhase(startRef, endRef) {
       window.removeEventListener('scroll', handleScroll);
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  }, [startRef, endRef]);
+  }, [startRef, endRef, startLine]);
 
   return phase;
 }

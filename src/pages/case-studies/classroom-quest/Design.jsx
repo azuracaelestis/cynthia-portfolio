@@ -81,7 +81,7 @@ function AutoplayVideo({ src, ariaLabel }) {
 
 export default function Design() {
   return (
-    <Section id="design" eyebrow="DESIGN" eyebrowClassName="mb-4">
+    <Section id="design" eyebrow="FINAL EXPERIENCE" eyebrowClassName="mb-4">
       <div className="flex flex-col gap-12 lg:gap-[90px]">
         <div>
           <p className="font-satoshi font-bold text-[20px] text-black mb-8 lg:mb-4">Landing Page</p>

@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ShaderBackground } from '../../../shader/ShaderBackground';
 import grainField from '../../../assets/case study/case-study-tfam-app/header/tfam-grain-field-2744.80.png';
 import mockupHome from '../../../assets/case study/case-study-tfam-app/header/mockup-visual_Artboard 2 copy 2.png';
@@ -48,16 +47,11 @@ const GRAIN_FIELD_PARAMS = {
   stipple: 0.93, grain2: 0.455, renderScale: 1,
 };
 
-// Continuous scroll-linked parallax for the background + phone drift.
-// Expressed as a fraction of THIS section's scroll range (0 = its top hits
-// the viewport top, 1 = its bottom does), not of the page, so the timing
-// holds at any height. The phones' initial appearance is a separate,
-// mount-time cascade (see PHONE_ENTER_* below) — scroll-linking that entrance
-// meant it played out over whatever few percent of the scroll range the user
-// happened to cross, which read as a snap/blink rather than an ease-in.
-const PHONE_DRIFT = -120;    // px the phones travel PAST their resting spot
-const GRAIN_DRIFT = 40;      // px the shader counter-drifts, the other way
-const VEIL_REST = 0.65;      // the black veil thins as the field comes forward
+// The hero has no scroll-linked motion: the phones used to float upward by up
+// to 120px as the section scrolled, and the background used to counter-drift
+// with a lifting veil — both were removed on purpose (the shader's own
+// time-based flow is unaffected). The phones' only motion is the mount-time
+// cascade below, which is independent of scroll.
 
 // One-time entrance cascade for the phones, independent of scroll — plays
 // once on mount, so it always takes its full slow duration regardless of
@@ -68,24 +62,8 @@ const PHONE_ENTER_STAGGER = 0.35;
 
 export default function Overview() {
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  });
-
-  // The phones keep rising as the section scrolls, so they read as floating
-  // in front of the field rather than pinned to it.
-  const phoneY = useTransform(scrollYProgress, [0, 1], [0, PHONE_DRIFT]);
-
-  // The background moves the opposite way and the veil lifts — the two halves
-  // of what makes this read as depth rather than as two sliding layers.
-  const grainY = useTransform(scrollYProgress, [0, 1], [0, GRAIN_DRIFT]);
-  const veilOpacity = useTransform(scrollYProgress, [0, 1], [1, VEIL_REST]);
-
   return (
-    <div ref={sectionRef} id="overview" className="scroll-mt-28 relative z-10 bg-ink">
+    <div id="overview" className="scroll-mt-28 relative z-10 bg-ink">
       {/* Background layers get their OWN overflow-hidden box, clipped to the
           section's real bounds. The field is overscanned 48px top/bottom so
           its counter-drift never exposes an edge — but that overscan must
@@ -96,10 +74,7 @@ export default function Overview() {
           painting past that edge too, showing as a stray strip over the
           white content below. */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute inset-x-0 -top-12 -bottom-12"
-          style={reduceMotion ? undefined : { y: grainY }}
-        >
+        <div className="absolute inset-x-0 -top-12 -bottom-12">
           {reduceMotion ? (
             <img src={grainField} alt="" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
@@ -110,11 +85,8 @@ export default function Overview() {
               className="absolute inset-0"
             />
           )}
-        </motion.div>
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"
-          style={reduceMotion ? undefined : { opacity: veilOpacity }}
-        />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
       </div>
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-[140px] lg:pt-40 pb-0">
         <div className="-translate-y-6 lg:translate-y-0">
@@ -122,35 +94,33 @@ export default function Overview() {
           Taipei Fine Arts Museum (TFAM)
         </span>
         <h1 className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-white">
-          TFAM built a branding campaign, not a companion.
+          Redesigning a museum app around what visitors need, when they need it
         </h1>
 
-        <div className="mt-6 lg:mt-6 flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-x-8 rounded-2xl border border-white/25 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] px-6 py-6 lg:pl-8 lg:pr-10 lg:py-8">
+        <div className="mt-6 lg:mt-6 flex flex-col gap-6 lg:flex-row lg:justify-start lg:gap-x-12 rounded-2xl border border-white/25 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] px-6 py-6 lg:pl-8 lg:pr-10 lg:py-8">
           <div>
-            <p className="font-satoshi font-medium text-[20px] text-white">Overview</p>
+            <p className="font-satoshi font-bold text-[16px] lg:font-medium lg:text-[20px] text-white">Overview</p>
             <p className="mt-2 font-satoshi text-[16px] text-white/80 lg:max-w-[390px]">
-              TFAM&apos;s app had plenty of features, but they were hard to reach because looks came before use. My
-              redesign surfaced what was there and made it easier to use.
+              TFAM&apos;s mobile guide had useful features, but key tasks were scattered across different
+              touchpoints. I redesigned the experience around three moments: plan, wander, and remember.
             </p>
           </div>
           <div>
-            <p className="font-satoshi font-medium text-[20px] text-white">Role</p>
-            <p className="mt-2 font-satoshi text-[16px] text-white/80 lg:max-w-[220px]">
-              Solo UX Designer, Product Redesign
-            </p>
+            <p className="font-satoshi font-bold text-[16px] lg:font-medium lg:text-[20px] text-white">Role</p>
+            <p className="mt-2 font-satoshi text-[16px] text-white/80 lg:max-w-[220px]">Product Designer</p>
           </div>
           <div>
-            <p className="font-satoshi font-medium text-[20px] text-white">The Team</p>
+            <p className="font-satoshi font-bold text-[16px] lg:font-medium lg:text-[20px] text-white">Scope</p>
             <p className="mt-2 font-satoshi text-[16px] text-white/80 lg:max-w-[260px]">
-              Self-initiated solo project: research, define, ideation, IA, wireframing, prototyping
+              Research, product strategy, UX/UI, prototyping, testing
             </p>
           </div>
           <div>
-            <p className="font-satoshi font-medium text-[20px] text-white">Timeline</p>
+            <p className="font-satoshi font-bold text-[16px] lg:font-medium lg:text-[20px] text-white">Timeline</p>
             <p className="mt-2 font-satoshi text-[16px] text-white/80">
               Q2–Q3 2026
               <br />
-              (2.5 month)
+              (10 weeks)
             </p>
           </div>
         </div>
@@ -192,20 +162,15 @@ export default function Overview() {
             opacity/y/scale entrance staggered by `PHONE_ENTER_STAGGER` as
             desktop — using each image's fan position (left/center/right,
             0/1/2) as its stagger index rather than array order, so it reads
-            left-to-center-to-right. Unlike desktop, mobile does NOT get the
-            scroll-linked `y: phoneY` drift — removed per feedback, so the
-            outer wrapper here is a plain div, not a motion.div. First-pass
+            left-to-center-to-right. Neither breakpoint has scroll-linked
+            drift any more (removed per feedback), so both outer wrappers are
+            plain divs, not motion.divs. First-pass
             sizing (h-[220px]/-mb-10/bottom-[-60px] on the stage, w-[102%]
             aspect-[6/5] on the fan itself), flagged for a tuning pass once
             seen live, same as everything else in this block.
 
-            The scroll-linked drift (`y: phoneY`) now applies to the whole
-            row as one unit (a single wrapper) rather than per-image, since
-            all 3 move together at the same rate in this layout — simpler
-            than the old per-phone wrappers, which existed to let 2
-            independently-positioned images share a differently-shaped
-            drift range. The one-time mount entrance (opacity/y/scale)
-            still staggers per image via PHONE_ENTER_STAGGER. */}
+            The one-time mount entrance (opacity/y/scale) staggers per image
+            via PHONE_ENTER_STAGGER. */}
         <div className="relative mt-8 h-[220px] -mb-10 lg:mt-[84px] lg:h-auto lg:mx-auto lg:w-[clamp(900px,119.1vh,100%)] lg:aspect-[1200/520] lg:-mb-20">
           <div className="flex lg:hidden absolute inset-x-0 bottom-[-60px] justify-center">
             <div className="relative w-[107.1%] aspect-[6/5]">
@@ -247,10 +212,7 @@ export default function Overview() {
               />
             </div>
           </div>
-          <motion.div
-            className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]"
-            style={reduceMotion ? undefined : { y: phoneY }}
-          >
+          <div className="hidden lg:flex absolute inset-x-0 bottom-[-90px] items-end justify-center gap-[15px]">
             {MOCKUPS.map((mockup, i) => (
               <motion.img
                 key={mockup.src}
@@ -266,7 +228,7 @@ export default function Overview() {
                 }
               />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

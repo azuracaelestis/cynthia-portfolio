@@ -44,7 +44,7 @@ export default function Experience() {
     <Section
       id="the-experience"
       eyebrow="THE EXPERIENCE"
-      title="A five-minute quest, built to feel effortless."
+      title="A five-minute quest, built to feel effortless"
       titleClassName="mb-8 lg:mb-6"
     >
       <div className="relative">

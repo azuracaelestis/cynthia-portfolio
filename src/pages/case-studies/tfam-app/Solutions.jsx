@@ -519,7 +519,7 @@ export default function Solutions() {
         <p className="font-satoshi font-bold text-[14px] text-ink">Note on the numbers below</p>
         <p className="font-satoshi text-[14px] text-ink leading-[21px]">
           This is a self-initiated passion project, so these are design targets I&apos;d measure against, not results
-          from real usage. I&apos;m labelling them that way on purpose. Validating them against real visitor data is
+          from real usage. I&apos;m labeling them that way on purpose. Validating them against real visitor data is
           the natural next step once the museum&apos;s booking system exists.
         </p>
       </div>
@@ -571,7 +571,7 @@ export default function Solutions() {
           <p className="font-satoshi font-bold text-[20px] text-ink">Try it yourself</p>
           <p className="font-satoshi text-[14px] text-ink leading-[21px]">
             This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
-            class, just like a visitor would. Please access it by using your phone.
+            class, just like a visitor would. Please open it on your phone.
           </p>
           <a
             href="https://tfam-app.vercel.app/"

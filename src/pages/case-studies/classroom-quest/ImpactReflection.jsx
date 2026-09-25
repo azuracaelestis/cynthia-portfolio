@@ -13,7 +13,7 @@ const LESSONS = [
     body: "Some languages, like Arabic, needed extra care: the text reads right to left, and it's often longer than English. This need came in late, so I used Canva, a quick and simple tool, letting our local partners in each country adjust the layout themselves.",
   },
   {
-    title: 'Time Constrains',
+    title: 'Time Constraints',
     body: 'We had five weeks to define, ideate, prototype, iterate, and deploy. That left less time to refine any single piece than I would have liked. Leading through this meant making fast decisions with incomplete information, and trusting that the most important ones would hold up.',
   },
 ];
@@ -123,23 +123,19 @@ export default function ImpactReflection() {
     <Section id="impact-reflection" eyebrow="IMPACT & REFLECTION" title="The direct hand-off">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          <p className="font-satoshi font-bold text-[20px] text-black">Status</p>
+          <p className="font-satoshi font-bold text-[20px] text-black">Shipped, but promotion was paused</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
-            The game was designed, built, and put online. It&apos;s live on ViewSonic&apos;s website today. What
-            never happened was the marketing push around it. Before that could start, myViewBoard 3.0 failed its
-            usability testing, so the product team pulled it back to fix it. Because of that, the whole promotion
-            plan, including the exhibition event this was built for, was put on hold too. The game is out there, but
-            almost no one has been told about it. So there&apos;s no real data on how many people played it or
-            downloaded the update.
+            Classroom Quest was completed and launched on ViewSonic&apos;s website. Before the planned campaign began,
+            the myViewBoard 3.0 product team paused promotion to address usability issues in the core product. As a
+            result, the campaign did not generate enough traffic to evaluate conversion or adoption reliably.
           </p>
         </div>
         <div className="flex flex-col gap-4">
-          <p className="font-satoshi font-bold text-[20px] text-black">What I&apos;d have measured</p>
+          <p className="font-satoshi font-bold text-[20px] text-black">What I’d measure after launch</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
-            If it had launched, I&apos;d have tracked three things: how many teachers finished all five scenes, how
-            many clicked from the Result Page to the download page, and how long they spent on each scenario.
-            Together, these would show whether the &quot;feel the problem, then reveal the tool&quot; idea actually
-            got people to act, not just pay attention.
+            I’d track three signals: completion across all five scenes, clicks from the Result Page to the download
+            page, and time spent in each scenario. Together, they would show whether the experience moved teachers
+            from engagement to action.
           </p>
         </div>
       </div>
@@ -220,7 +216,7 @@ export default function ImpactReflection() {
       </div>
 
       <div className="mt-12 lg:mt-8 flex flex-col gap-4">
-        <p className="font-satoshi font-extrabold text-[28px] lg:text-[32px] text-black leading-tight">Play it yourself</p>
+        <p className="font-satoshi font-bold text-[28px] lg:text-[36px] text-ink leading-tight">Play it yourself</p>
         <p className="font-satoshi text-[16px] text-black leading-[23px]">
           This is the real game — it&apos;s live, but no one ever got to hear about it. Try it yourself.
         </p>

@@ -45,7 +45,7 @@ const FINDINGS = [
       { label: 'Version 2', video: tfamSplashScreenV2, videoScale: 'scale-[1.15]' },
     ],
     version1:
-      "I put the audio guide at the top of the arrival screen. That made the audio guide easy to see, but the app lost its context. People had no idea what the app was, all that was left was the TFAM logo mark in the top-left corner, which most people didn't recognize.",
+      "I put the audio guide at the top of the arrival screen. That made the audio guide easy to see, but the app lost its context. People had no idea what the app was. All that was left was the TFAM logo mark in the top-left corner, which most people didn't recognize.",
     version2:
       'I built a splash screen to carry the brand, then added a clear "Welcome to Taipei Fine Arts Museum" on the arrival screen. Now the app tells you what it is and where you are the moment it opens, and the working screens still stay clean and simple.',
   },
@@ -68,20 +68,20 @@ const FINDINGS = [
     observed:
       'The card sliders used a peeking card and dots to show they could be swiped. That signals it well, but swiping is still a gesture, and a gesture needs finger reach and flexibility. For a visitor using one thumb, knowing you can swipe doesn’t help if the swipe itself is hard to do.',
     images: [
-      // No videoScale here, unlike the other findings' videos: these two
-      // clips' own aspect ratio already matches the 221:396 box almost
-      // exactly, so plain object-cover leaves ~0 vertical crop room —
-      // scale-[1.15] pushed 7.5% of the frame past the box's top AND
-      // bottom edges, and these clips have almost no margin below the
-      // phone to spare, so the bottom (tab bar / swipe UI) was getting
-      // clipped.
-      { label: 'Version 1', video: accessibilityMockupV1 },
-      { label: 'Version 2', video: accessibilityMockup },
+      // Same centered scale-[1.15] as Finding 1's videos, so the phone renders
+      // at the same size across findings. Without it these two rendered ~10%
+      // smaller (phone ~330px tall vs 353-384px elsewhere in a 396px box).
+      // Zooming needs ~26px of clearance above and below the phone at 115%;
+      // these clips have 29-34px at every frame (measured), so the phone
+      // stays fully inside the box. That was an earlier concern about the
+      // bottom edge being clipped — re-measured, it isn't.
+      { label: 'Version 1', video: accessibilityMockupV1, videoScale: 'scale-[1.15]' },
+      { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' },
     ],
     version1:
       'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
     version2:
-      "I added an arrow so you can move between cards with one tap, no swipe needed. Where a peeking card already hints there's more (What's On and Activities), the arrow shows up only when you start to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realise the slider could move.",
+      "I added an arrow so you can move between cards with one tap, no swipe needed. Where a peeking card already hints there's more (What's On and Activities), the arrow shows up only when you start to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realize the slider could move.",
   },
 ];
 
@@ -187,13 +187,13 @@ export default function Testing() {
       eyebrow="TESTING"
       eyebrowColor="text-tfam-gray"
       eyebrowClassName="mb-6"
-      title="It worked, but it wasn't finished."
+      title="It worked, but it wasn't finished"
       titleClassName="mb-3"
     >
       <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-[90px]">
         I built the first version as a full, working prototype and tested it with five visitors across the range
-        TFAM serves, ages 25 to 58. All five finished the four core tasks, start the audio guide, find a gallery on
-        the map, book a class, and check what&apos;s on, so the structure held. But passing the tasks only proved the
+        TFAM serves, ages 25 to 58. All five finished the four core tasks (start the audio guide, find a gallery on
+        the map, book a class, and check what&apos;s on), so the structure held. But passing the tasks only proved the
         app worked, not that it was finished. In fixing an app that was too pretty to use, I had overcorrected into
         one that was too plain to feel like a museum. The test showed me a good app has to do three things at once:
         be usable, feel like the brand, and be open to everyone. These are the problems that surfaced.

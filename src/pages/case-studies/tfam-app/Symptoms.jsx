@@ -91,22 +91,22 @@ const CALLOUTS = {
       id: 1,
       top: '7%',
       left: '2%',
-      title: 'Recognition Rather Than Recall (H6)',
-      body: 'Nav hidden inside an unlabeled logo.',
+      title: 'Navigation is difficult to discover',
+      body: 'The main navigation is hidden behind an unlabeled symbol.',
     },
     {
       id: 2,
       top: '44%',
       left: '2%',
-      title: 'Aesthetic & Minimalist Design (H8)',
-      body: 'Image dominates, no supporting structure to guide the visitor.',
+      title: 'Visuals overpower navigation',
+      body: 'The exhibition image dominates the screen, leaving little structure to guide visitors.',
     },
     {
       id: 3,
       top: '76%',
       left: '2%',
-      title: 'Visibility of System Status (H1)',
-      body: 'Unlabeled row of marks at the bottom, purpose unclear.',
+      title: 'Interactive elements lack clear meaning',
+      body: 'The marks at the bottom appear interactive, but their purpose and status are unclear.',
     },
   ],
   navDrawer: [
@@ -114,55 +114,55 @@ const CALLOUTS = {
       id: 4,
       top: '5%',
       left: '10%',
-      title: 'Recognition Rather Than Recall (H6)',
-      body: 'Six unlabeled icons in the left rail (logo, menu, heart, headphones, person, globe, eye).',
+      title: 'Icons are hard to understand',
+      body: 'The left sidebar uses six icons without labels, so visitors have to guess what each one means.',
     },
     {
       id: 5,
       top: 'calc(68% - 48px)',
       left: '88%',
-      title: 'Consistency and Standards (H4)',
-      body: '"Hours/Tickets" and "Current/Upcoming/Past" use two different visual styles for what could both be interactive.',
+      title: 'Key links take visitors outside the app',
+      body: '“Hours/Tickets” and “Current/Upcoming/Past” open the TFAM website instead of keeping visitors in the app.',
     },
     {
       id: 6,
       top: '90%',
       left: '52%',
-      title: 'Consistency and Standards (H4)',
-      body: 'Tapping Current, Upcoming, or Past exits the app to the website in a browser, instead of showing exhibitions in the app itself.',
+      title: 'The app unexpectedly sends users to the website',
+      body: 'When visitors tap Current, Upcoming, or Past, they are taken out of the app and into a browser instead of staying in the app.',
       calloutSide: 'right',
     },
   ],
   audioPlayer: [
     {
-      id: 8,
+      id: 7,
       top: '5%',
       left: '9%',
-      title: 'Consistency and Standards (H4)',
-      body: 'The back icon has low, image-dependent contrast and an unconventional shape, unlike a standard chevron.',
+      title: 'The back button is hard to recognize',
+      body: 'The back icon has low contrast and uses an unusual shape, making it harder to spot and understand.',
     },
     {
-      id: 9,
+      id: 8,
       top: '50%',
       left: '-2%',
-      title: 'Consistency and Standards (H4)',
-      body: 'Description text is fully justified, with the first line letter-spaced. On a narrow screen this creates uneven word gaps and hurts reading.',
+      title: 'The text is harder to read',
+      body: 'The description uses wide spacing and full justification, creating uneven gaps between words on a small screen.',
     },
   ],
   audioCodeEntry: [
     {
-      id: 10,
+      id: 9,
       top: '28%',
       left: '11%',
-      title: 'Match Between System and Real World (H2)',
-      body: 'Screen labeled "Keyboard," which names the component, not the task. A visitor expects something like "Enter audio guide number."',
+      title: 'The screen label does not match the task',
+      body: '“Keyboard” describes the tool, not what visitors need to do.',
     },
     {
-      id: 11,
+      id: 10,
       top: '70%',
       left: '90%',
-      title: 'Match Between System and Real World (H2)',
-      body: 'The button says "Send," but this isn\'t a message, it should read "Play" or "Start."',
+      title: 'The button label is misleading',
+      body: 'The button says “Send,” but visitors are starting an audio guide.',
     },
   ],
 };
@@ -288,7 +288,7 @@ function FindingCallout({ note, reduceMotion }) {
             : `clamp(4px, calc(${note.left} - 12px), calc(100% - 184px))`,
       }}
     >
-      <p className="font-satoshi font-bold text-[14px] leading-[19px] text-ink">{note.title}.</p>
+      <p className="font-satoshi font-bold text-[14px] leading-[19px] text-ink">{note.title}</p>
       <p className="font-satoshi text-[14px] leading-[19px] text-ink mt-1">{note.body}</p>
     </motion.div>
   );
@@ -303,7 +303,7 @@ function FindingsList({ screen, notes, onHoverFinding }) {
         <div key={note.id} onMouseEnter={() => onHoverFinding(screen.key, note.id)} className="flex gap-3 items-start">
           <NoteBadge id={note.id} />
           <p className="font-satoshi text-[16px] leading-[25px] text-ink max-w-[380px]">
-            <span className="font-bold block">{note.title}.</span>
+            <span className="font-bold block">{note.title}</span>
             {note.body}
           </p>
         </div>
@@ -489,8 +489,8 @@ export default function Symptoms() {
 
       <p className="font-satoshi font-bold text-[20px] text-ink mt-[52px] mb-6">Heuristic Evaluation</p>
       <p className="font-satoshi text-[16px] text-ink leading-[25px]">
-        Reviews told me people were frustrated. To find out exactly why, I ran a heuristic evaluation to turn the
-        vague complaints into specific, nameable problems I could design against.
+        Reviews pointed to recurring frustration. I used a heuristic evaluation to identify where the interface was
+        creating friction and turn those complaints into specific design problems.
       </p>
 
       {/* Pinned scrollytelling layout (desktop only): the whole two-column
