@@ -31,8 +31,8 @@ const SECTIONS = [
   { id: 'hypothesis', label: 'Hypothesis' },
   { id: 'the-experience', label: 'The Experience' },
   { id: 'character-system', label: 'Character System' },
-  { id: 'exploration', label: 'Exploration' },
-  { id: 'design', label: 'Design' },
+  { id: 'exploration', label: 'Key Decisions' },
+  { id: 'design', label: 'Final Experience' },
   { id: 'impact-reflection', label: 'Impact & Reflection' },
 ];
 

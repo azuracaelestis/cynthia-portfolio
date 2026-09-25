@@ -55,25 +55,27 @@ export default function Overview() {
           {...enterProps}
           variants={reduceMotion ? textVariantsReduced : textVariants}
           transition={textDelay(0.08, 0.04)}
-          className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-black"
+          className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[44px] lg:leading-[56px] lg:tracking-[-0.02em] text-black text-balance"
         >
-          A Product Update<br className="lg:hidden" /> Teachers Wanted<br className="lg:hidden" /> to Play
+          Designing a product update teachers could learn by playing
         </motion.h1>
 
         <div className="mt-6 flex flex-col gap-6 lg:mt-12 lg:flex-row lg:justify-between lg:gap-x-8">
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.18, 0.08)}>
             <p className="font-satoshi font-medium text-[20px] text-black">Overview</p>
             <p className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[390px]">
-              Classroom Quest is a gamified web experience for myViewBoard 3.0 where teachers play through five familiar classroom moments, each resolving into the feature that solves it.
+              Teachers weren&apos;t discovering myViewBoard 3.0 through a traditional product launch. We turned five familiar classroom problems into a game that let them discover the new features through play.
             </p>
           </motion.div>
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.24, 0.12)}>
             <p className="font-satoshi font-medium text-[20px] text-black">Role</p>
-            <p className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[220px]">
-              <span className="font-semibold">Lead UI Designer</span>
-              <br />
-              Owned visual direction, interaction design, character system, and localization
-            </p>
+            <div className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[320px]">
+              <p className="font-semibold">Lead UI Designer</p>
+              <p>
+                Interaction design, experience flows, visual direction, responsive design, character system,
+                localization, and engineering handoff.
+              </p>
+            </div>
           </motion.div>
           <motion.div {...enterProps} variants={reduceMotion ? textVariantsReduced : textVariants} transition={textDelay(0.3, 0.16)}>
             <p className="font-satoshi font-medium text-[20px] text-black">The Team</p>

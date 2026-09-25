@@ -6,7 +6,7 @@ import noHardSell from '../../../assets/case study/case-study-classroom-quest/pr
 import Section from '../../../components/case-study/Section';
 
 const CARDS = [
-  { icon: lowAwareness, title: 'Low Adoption Awareness', body: 'Over half of myViewBoard users worldwide still ran 2.0, unaware version 3.0 existed.' },
+  { icon: lowAwareness, title: 'Low Adoption Awareness', body: 'Over half of active myViewBoard users were still on version 2.0 after the 3.0 launch.' },
   { icon: narrowReach, title: 'Narrow Reach', body: "The launch ran on LinkedIn, reaching IT and admins, not the teachers who'd use it." },
   { icon: optInUpdate, title: 'Opt-In Upgrade', body: 'No auto-update. A teacher had to want myViewBoard 3.0 enough to ask IT for updates.' },
   { icon: noHardSell, title: 'No Hard Sell', body: 'Teachers tune out pitches, and pressure deepens resistance. Interest had to pull them, not push.' },

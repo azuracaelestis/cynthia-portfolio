@@ -39,20 +39,21 @@ export default function Exploration() {
   return (
     <Section
       id="exploration"
-      eyebrow="EXPLORATION"
-      title="Built inside constraints, not around them."
+      eyebrow="KEY DESIGN DECISIONS"
+      title="Designing for real-world constraints"
       eyebrowClassName="mb-4"
       titleClassName="mb-6 lg:mb-8"
     >
-      <p className="font-satoshi font-bold text-[20px] text-black mb-[1.11vw]">Landing Page</p>
-      <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
-        This was the first thing teachers saw. A button invites them to play, and below it sits a myViewBoard
-        download card, tied to the campaign&apos;s main goal. The problem was the text inside the interactive
-        display: it couldn&apos;t stretch, so longer languages like German and Spanish spilled outside the frame. To
-        fix this, I locked the visual to a fixed safe zone and moved the subheadline outside the display, giving
-        longer translations room to grow.
+      <p className="font-satoshi text-[16px] text-black leading-[23px] mb-10 lg:mb-[3.5vw]">
+        The experience had to work across languages, screen sizes, and real event conditions. These constraints
+        shaped four key design decisions.
       </p>
-      <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center mb-[calc(18%+64px)] lg:mb-0">
+      <p className="font-satoshi font-bold text-[20px] text-black mb-[1.11vw]">01 Designing for localization</p>
+      <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
+        Longer translations like German and Spanish broke the original hero layout. I moved the supporting copy
+        outside the display and created a safer layout that could scale across languages.
+      </p>
+      <div className="relative w-full aspect-[890/656] rounded-2xl bg-bleed-blue flex items-center justify-center">
         <motion.img
           src={landingPage}
           alt="Classroom Quest landing page: a hero banner inviting teachers to 'Embark on Your Quest', illustrated classroom-hero characters, and a myViewBoard feature callout below."
@@ -74,12 +75,16 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-satoshi font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Choose Your Companion</p>
+      {/* Subsection spacing: each heading's top margin is set so the VISIBLE gap
+          from the previous image to this heading is 80px. That isn't the same
+          as the gap between boxes — the images don't sit flush in them: 01's
+          landing image hangs 60px below its box (its baked-in y:60), 02's fills
+          its box, and 03's ends ~17px inside its box on desktop. So the margins
+          are 60+80, 80 and 80-17. Re-measure if an image or its box changes. */}
+      <p className="font-satoshi font-bold text-[20px] text-black mt-[140px] mb-[1.11vw]">02 Keeping the next step visible</p>
       <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
-        This was where teachers picked their guide: one of four characters from last year&apos;s Teaching Superpower
-        quiz, chosen by tapping flash cards. On a mobile screen, a button under the cards would end up too low to
-        see. So I made the button appear on the card itself once it&apos;s picked, and used the same idea on desktop
-        too.
+        On mobile, placing one CTA below all four character cards pushed the action too far down the page. I moved
+        the CTA onto the selected card, then carried the same interaction back to desktop.
       </p>
       <div className="relative w-full">
         <motion.img
@@ -119,11 +124,10 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-satoshi font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Mission Scenarios</p>
+      <p className="font-satoshi font-bold text-[20px] text-black mt-20 mb-[1.11vw]">03 Removing interaction noise</p>
       <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
-        Each scene put teachers into a real classroom moment and asked them to choose what to do. At first, I tried
-        making it look like a game console, with a window-style design. But I simplified it into a clean chat
-        layout, so the only thing to tap is the choice itself, with nothing else competing for attention.
+        The first mission concept looked like a game console, but the extra controls competed with the actual
+        choices. I stripped it back to a chat-style interface so there was only one obvious thing to interact with.
       </p>
       <div className="relative w-full aspect-[874/460] rounded-2xl flex items-center justify-center">
         <motion.img
@@ -157,12 +161,10 @@ export default function Exploration() {
         />
       </div>
 
-      <p className="font-satoshi font-bold text-[20px] text-black mt-12 lg:mt-[6.94vw] mb-[1.11vw]">Result Page</p>
+      <p className="font-satoshi font-bold text-[20px] text-black mt-20 lg:mt-[63px] mb-[1.11vw]">04 Turning features into rewards</p>
       <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8 lg:mb-[2.22vw]">
-        Here, the teacher&apos;s choices turned into myViewBoard 3.0 features that matched their style. Last
-        year&apos;s version was full of research text. This time, the page had to sell features, so I built it as a
-        grid of cards, styled like a game character card. Each tool feels like a reward you earned, not just a list
-        of specs.
+        The result page still needed to introduce myViewBoard 3.0 without ending the game with a feature list. I
+        turned the teacher’s choices into unlocked skills, framing each product feature as a reward they had earned.
       </p>
       <div className="relative w-full aspect-[3560/2548] rounded-2xl flex items-center justify-center">
         <motion.img
