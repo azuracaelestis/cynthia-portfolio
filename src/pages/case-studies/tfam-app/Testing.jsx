@@ -68,15 +68,15 @@ const FINDINGS = [
     observed:
       'The card sliders used a peeking card and dots to show they could be swiped. That signals it well, but swiping is still a gesture, and a gesture needs finger reach and flexibility. For a visitor using one thumb, knowing you can swipe doesn’t help if the swipe itself is hard to do.',
     images: [
-      // No videoScale here, unlike the other findings' videos: these two
-      // clips' own aspect ratio already matches the 221:396 box almost
-      // exactly, so plain object-cover leaves ~0 vertical crop room —
-      // scale-[1.15] pushed 7.5% of the frame past the box's top AND
-      // bottom edges, and these clips have almost no margin below the
-      // phone to spare, so the bottom (tab bar / swipe UI) was getting
-      // clipped.
-      { label: 'Version 1', video: accessibilityMockupV1 },
-      { label: 'Version 2', video: accessibilityMockup },
+      // Same centered scale-[1.15] as Finding 1's videos, so the phone renders
+      // at the same size across findings. Without it these two rendered ~10%
+      // smaller (phone ~330px tall vs 353-384px elsewhere in a 396px box).
+      // Zooming needs ~26px of clearance above and below the phone at 115%;
+      // these clips have 29-34px at every frame (measured), so the phone
+      // stays fully inside the box. That was an earlier concern about the
+      // bottom edge being clipped — re-measured, it isn't.
+      { label: 'Version 1', video: accessibilityMockupV1, videoScale: 'scale-[1.15]' },
+      { label: 'Version 2', video: accessibilityMockup, videoScale: 'scale-[1.15]' },
     ],
     version1:
       'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
