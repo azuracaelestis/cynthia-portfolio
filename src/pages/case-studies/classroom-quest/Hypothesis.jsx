@@ -9,7 +9,7 @@ const QUESTIONS = [
 
 export default function Hypothesis() {
   return (
-    <Section id="hypothesis" eyebrow="HYPOTHESIS" title="We bet a game could sell without selling.">
+    <Section id="hypothesis" eyebrow="HYPOTHESIS" title="We bet a game could sell without selling">
       <div className="flex flex-col gap-12">
         <div className="flex flex-col gap-5">
           <p className="font-satoshi font-bold text-[16px] text-black">What We Knew</p>
@@ -25,7 +25,7 @@ export default function Hypothesis() {
             </a>
             , that took the
             ISTE spotlight and drew over 6,000 visitors and 11,000 page views. Gamification clearly worked to attract
-            teachers, the real question was what kind of experience could also move them toward myViewBoard 3.0. A
+            teachers. The real question was what kind of experience could also move them toward myViewBoard 3.0. A
             quiz only has to be fun. Selling a real product without triggering a sales pitch raised harder questions:
           </p>
           <div className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] px-6 py-8 flex flex-col gap-5 w-full">

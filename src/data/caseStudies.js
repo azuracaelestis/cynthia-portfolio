@@ -20,7 +20,7 @@ import tfamThumbnailExhibitionDetail from '../assets/case study/folder-thumnail/
 export const CASE_STUDIES = [
   {
     id: 'tfam',
-    tag: 'Taipei Fine Art Museum',
+    tag: 'Taipei Fine Arts Museum',
     title: 'Redesigning a museum app around what visitors need, when they need it',
     body: 'I redesigned the TFAM app around three moments in the museum journey: plan, wander, and remember.',
     folder: folderYellow,

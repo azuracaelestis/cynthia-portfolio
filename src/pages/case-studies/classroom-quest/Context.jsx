@@ -2,7 +2,7 @@ import Section from '../../../components/case-study/Section';
 
 export default function Context() {
   return (
-    <Section id="context" eyebrow="CONTEXT" title="Not everyone in the room is the user.">
+    <Section id="context" eyebrow="CONTEXT" title="Not everyone in the room is the user">
       <p className="font-satoshi text-[16px] text-black leading-[23px] mb-[24px]">
         myViewBoard is a digital whiteboard app, sold together with ViewSonic&apos;s interactive flat panel displays.
         It&apos;s one of the more popular whiteboard apps in schools across North America. In 2025, it got a major

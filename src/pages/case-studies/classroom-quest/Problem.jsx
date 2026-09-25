@@ -23,7 +23,7 @@ export default function Problem() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew.">
+    <Section id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {CARDS.map((card, i) => (
           <motion.div

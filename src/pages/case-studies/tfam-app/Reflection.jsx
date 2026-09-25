@@ -20,7 +20,7 @@ const LEARNED = [
     body: "Many polished apps I looked at were pretty but hard to use, the same trap as the old TFAM app. So I kept the simple, usable base and added TFAM's identity on top, mostly on the arrival and splash, not the working screens.",
   },
   {
-    title: 'Micro interactions are communication.',
+    title: 'Micro-interactions are communication.',
     body: "Small motion in an app isn't just polish. It tells you a button works, a tap landed, or the app is loading. Most of my second round went into these details, and they mattered more than I expected.",
   },
 ];
@@ -32,7 +32,7 @@ const NEXT = [
   },
   {
     title: 'Do more research on the map experience.',
-    body: 'Right now it’s flat, just numbered steps. For first timers like Marco, I want to test whether a more guided or interactive wayfinding experience actually helps, before deciding what that looks like.',
+    body: 'Right now it’s flat, just numbered steps. For first-timers like Marco, I want to test whether a more guided or interactive wayfinding experience actually helps, before deciding what that looks like.',
   },
 ];
 

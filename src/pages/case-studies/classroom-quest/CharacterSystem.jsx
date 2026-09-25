@@ -46,7 +46,7 @@ export default function CharacterSystem() {
   });
 
   return (
-    <Section id="character-system" eyebrow="CHARACTER SYSTEM" title="Designing for real-world performance">
+    <Section id="character-system" eyebrow="CHARACTER SYSTEM" title="Reducing load without losing personality">
       <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8">
         Last year&apos;s 3D GIFs loaded slowly on venue Wi-Fi. I rebuilt the character system as lightweight 2D
         motion assets so the experience could retain its personality without compromising performance.

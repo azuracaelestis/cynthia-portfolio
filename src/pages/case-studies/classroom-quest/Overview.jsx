@@ -72,8 +72,8 @@ export default function Overview() {
             <div className="mt-2 font-satoshi text-[16px] text-black lg:max-w-[320px]">
               <p className="font-semibold">Lead UI Designer</p>
               <p>
-                Interaction design, experience flows, visual direction, responsive design, character system,
-                localization, and engineering handoff.
+                Interaction design, visual direction, responsive design, character system,
+                localization, and engineering hand-off.
               </p>
             </div>
           </motion.div>

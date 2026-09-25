@@ -13,7 +13,7 @@ const LESSONS = [
     body: "Some languages, like Arabic, needed extra care: the text reads right to left, and it's often longer than English. This need came in late, so I used Canva, a quick and simple tool, letting our local partners in each country adjust the layout themselves.",
   },
   {
-    title: 'Time Constrains',
+    title: 'Time Constraints',
     body: 'We had five weeks to define, ideate, prototype, iterate, and deploy. That left less time to refine any single piece than I would have liked. Leading through this meant making fast decisions with incomplete information, and trusting that the most important ones would hold up.',
   },
 ];

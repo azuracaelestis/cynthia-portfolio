@@ -45,7 +45,7 @@ const FINDINGS = [
       { label: 'Version 2', video: tfamSplashScreenV2, videoScale: 'scale-[1.15]' },
     ],
     version1:
-      "I put the audio guide at the top of the arrival screen. That made the audio guide easy to see, but the app lost its context. People had no idea what the app was, all that was left was the TFAM logo mark in the top-left corner, which most people didn't recognize.",
+      "I put the audio guide at the top of the arrival screen. That made the audio guide easy to see, but the app lost its context. People had no idea what the app was. All that was left was the TFAM logo mark in the top-left corner, which most people didn't recognize.",
     version2:
       'I built a splash screen to carry the brand, then added a clear "Welcome to Taipei Fine Arts Museum" on the arrival screen. Now the app tells you what it is and where you are the moment it opens, and the working screens still stay clean and simple.',
   },
@@ -81,7 +81,7 @@ const FINDINGS = [
     version1:
       'You moved between cards by swiping. The peeking card and the dots hinted that you could, but swiping was the only way, so if the gesture was hard for you, you were stuck.',
     version2:
-      "I added an arrow so you can move between cards with one tap, no swipe needed. Where a peeking card already hints there's more (What's On and Activities), the arrow shows up only when you start to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realise the slider could move.",
+      "I added an arrow so you can move between cards with one tap, no swipe needed. Where a peeking card already hints there's more (What's On and Activities), the arrow shows up only when you start to drag, keeping the screen clean. Where there's just a row of dots (the full exhibition slider), the arrow stays visible, since without it people didn't realize the slider could move.",
   },
 ];
 
@@ -187,13 +187,13 @@ export default function Testing() {
       eyebrow="TESTING"
       eyebrowColor="text-tfam-gray"
       eyebrowClassName="mb-6"
-      title="It worked, but it wasn't finished."
+      title="It worked, but it wasn't finished"
       titleClassName="mb-3"
     >
       <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-[90px]">
         I built the first version as a full, working prototype and tested it with five visitors across the range
-        TFAM serves, ages 25 to 58. All five finished the four core tasks, start the audio guide, find a gallery on
-        the map, book a class, and check what&apos;s on, so the structure held. But passing the tasks only proved the
+        TFAM serves, ages 25 to 58. All five finished the four core tasks (start the audio guide, find a gallery on
+        the map, book a class, and check what&apos;s on), so the structure held. But passing the tasks only proved the
         app worked, not that it was finished. In fixing an app that was too pretty to use, I had overcorrected into
         one that was too plain to feel like a museum. The test showed me a good app has to do three things at once:
         be usable, feel like the brand, and be open to everyone. These are the problems that surfaced.

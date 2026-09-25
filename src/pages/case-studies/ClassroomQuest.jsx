@@ -4,6 +4,7 @@ import MoreCaseStudies from '../../components/case-study/MoreCaseStudies';
 import Section from '../../components/case-study/Section';
 import ImagePlaceholder from '../../components/case-study/ImagePlaceholder';
 import Overview from './classroom-quest/Overview';
+import Impact from './classroom-quest/Impact';
 import Context from './classroom-quest/Context';
 import Problem from './classroom-quest/Problem';
 import Hypothesis from './classroom-quest/Hypothesis';
@@ -23,6 +24,10 @@ const CUSTOM_SECTIONS = {
   design: Design,
   'impact-reflection': ImpactReflection,
 };
+
+// Start the side-nav reveal earlier (viewport-relative) because Impact sits
+// above the layout; otherwise the nav would appear late (same as TfamApp).
+const NAV_START_LINE = () => window.innerHeight * 0.75;
 
 const SECTIONS = [
   { id: 'overview', label: 'Overview' },
@@ -44,20 +49,23 @@ export default function ClassroomQuest() {
         <link rel="canonical" href="https://cynthiatanawi.design/work/classroom-quest" />
         <meta
           name="description"
-          content="A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play."
+          content="A gamified experience that helped teachers discover myViewBoard 3.0 through familiar classroom challenges."
         />
         <meta property="og:type" content="article" />
         <meta property="og:title" content="Classroom Quest — Cynthia Tanawi" />
         <meta
           property="og:description"
-          content="A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play."
+          content="A gamified experience that helped teachers discover myViewBoard 3.0 through familiar classroom challenges."
         />
         <meta property="og:image" content="/classroom-quest-og-image.jpg" />
       </Helmet>
 
       <Overview />
 
-      <CaseStudyLayout sections={SECTIONS}>
+      {/* Impact sits above the side-nav layout as a centred full-width band. */}
+      <Impact />
+
+      <CaseStudyLayout sections={SECTIONS} navStartLine={NAV_START_LINE}>
         {SECTIONS.filter((section) => section.id !== 'overview').map((section) => {
           const Custom = CUSTOM_SECTIONS[section.id];
           if (Custom) return <Custom key={section.id} />;
