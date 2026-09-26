@@ -1,17 +1,18 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import stickerBlobMobile from '../../assets/hero/decoration-mobile/element12-mobile.svg';
 import stickerStarMobile from '../../assets/hero/decoration-mobile/element13-mobile.svg';
+import { stickerVariants, stickerTransition } from './stickerEntrance';
 
 const STICKERS = [
   { src: stickerBlobMobile, className: 'top-[104px] right-[33px] w-[85px] h-[85px]', y: 32, duration: 7, delay: 0.4 },
   { src: stickerStarMobile, className: 'top-[110px] left-[42px] w-[49px]', y: 0, duration: 5.5, delay: 1.2 },
 ];
 
-const fadeUpVariants = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } };
-
-export default function DecorationsMobile({ entranceReady = true }) {
+// Same triggers as Decorations (first entrance, and waking from sleep).
+export default function DecorationsMobile({ entranceReady = true, playFirst = false, wakeCount = 0 }) {
   const reduceMotion = useReducedMotion();
-  const entranceDelay = (s) => (reduceMotion ? { duration: 0 } : { duration: 0.35, delay: s, ease: 'easeOut' });
+  const kind = wakeCount > 0 ? 'wake' : 'first';
+  const animateIn = wakeCount > 0 || playFirst;
 
   return (
     <div
@@ -20,12 +21,12 @@ export default function DecorationsMobile({ entranceReady = true }) {
     >
       {STICKERS.map((sticker, index) => (
         <motion.div
-          key={sticker.src}
+          key={`${sticker.src}-${wakeCount}`}
           className={`absolute select-none ${sticker.className}`}
-          variants={fadeUpVariants}
-          initial="hidden"
+          variants={stickerVariants}
+          initial={animateIn ? 'hidden' : false}
           animate={entranceReady ? 'visible' : 'hidden'}
-          transition={entranceDelay(0.24 + index * 0.06)}
+          transition={stickerTransition({ index, kind, reduceMotion })}
         >
           <motion.img
             src={sticker.src}

@@ -4,6 +4,7 @@ import { useTimeOfDay } from '../../hooks/useTimeOfDay';
 import { useIsScrolling } from '../../hooks/useIsScrolling';
 import { useCharacterMood } from '../../hooks/useCharacterMood';
 import { useEyeTracking } from '../../hooks/useEyeTracking';
+import { useDelayedTrue } from '../../hooks/useDelayedTrue';
 import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useSeenAtRest } from '../../hooks/useSeenAtRest';
@@ -12,6 +13,9 @@ import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
 import DecorationsMobile from './DecorationsMobile';
+
+// How long the sleeping character stays asleep after the visitor first stirs.
+const WAKE_DELAY_MS = 1000;
 
 const ENTRANCE_STORAGE_KEY = 'portfolio:hero:entrance-played';
 
@@ -182,16 +186,41 @@ export default function Hero() {
         };
   const entranceDelay = (s) => (reduceMotion ? { duration: 0 } : { duration: 0.35, delay: s, ease: 'easeOut' });
 
-  const isThinking = isScrolling && isHeroInView && mobileGateOpen;
+  // Waking from sleep is a two-step: any stir (moving the cursor, scrolling, a
+  // key press, hovering a CTA) only ASKS to wake; the character keeps sleeping
+  // for WAKE_DELAY_MS more, then wakes slowly (CharacterStage lengthens the
+  // crossfade, and the arm rises last). The load-time cascade wake below is
+  // deliberate and immediate, as is everything under reduced motion.
+  const stirred = (hasWokenUp && mobileGateOpen) || isHoveringWork || isHoveringResume;
+  const wakeReady = useDelayedTrue(stirred, reduceMotion ? 0 : WAKE_DELAY_MS);
+  const isAwakened = wakeReady || hasEyeWoken;
+  const stillAsleep = isNight && !isAwakened;
+  // Scrolling would normally jump straight to 'thinking'; while still in bed it waits too.
+  const isThinking = isScrolling && isHeroInView && mobileGateOpen && !stillAsleep;
   const mood = useCharacterMood({
     isNight,
-    isHoveringWork,
-    isHoveringResume,
+    isHoveringWork: false, // CTA hover is folded into `stirred` above
+    isHoveringResume: false,
     isThinkingScroll: isThinking,
     reduceMotion,
-    hasWokenUp: (hasWokenUp && mobileGateOpen) || hasEyeWoken,
+    hasWokenUp: isAwakened,
   });
   const { offset, tiltDeg } = useEyeTracking(frameRef, { enabled: !reduceMotion });
+
+  // The stickers around her pop in one by one on the visitor's FIRST entrance
+  // (latched at mount: the entrance flag flips true mid-play) and again each
+  // time she wakes from sleep — but not on the wake that coincides with the
+  // first entrance (it is the same moment), nor on awake <-> thinking.
+  const [playFirstEntrance] = useState(() => !hasPlayedEntrance);
+  const [wakeCount, setWakeCount] = useState(0);
+  const previousMood = useRef(mood);
+  const decorationsPlayed = useRef(false);
+  useEffect(() => {
+    const wokeFromSleep = previousMood.current === 'sleeping' && mood !== 'sleeping';
+    if (wokeFromSleep && decorationsPlayed.current) setWakeCount((count) => count + 1);
+    if (entranceSettled && mood !== 'sleeping') decorationsPlayed.current = true;
+    previousMood.current = mood;
+  }, [mood, entranceSettled]);
 
   return (
     <section
@@ -199,8 +228,8 @@ export default function Hero() {
       id="home"
       className="relative lg:z-0 mt-[6px] lg:mt-0 mx-auto max-w-7xl px-6 lg:px-10 pt-[250px] lg:pt-[clamp(4.5rem,12vh,9rem)] pb-24 lg:pb-[244px] grid lg:grid-cols-2 gap-x-12 gap-y-[120px] lg:gap-y-12 items-center"
     >
-      <Decorations show={mood === 'awake'} entranceReady={entranceSettled} />
-      <DecorationsMobile entranceReady={entranceSettled} />
+      <Decorations show={mood === 'awake'} entranceReady={entranceSettled} playFirst={playFirstEntrance} wakeCount={wakeCount} />
+      <DecorationsMobile entranceReady={entranceSettled} playFirst={playFirstEntrance} wakeCount={wakeCount} />
 
       <div className="relative font-satoshi">
         <h1 className="font-bold text-[40px] md:text-[48px] lg:text-[64px] leading-[1.17] text-ink">

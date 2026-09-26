@@ -3,6 +3,7 @@ import stickerBlueBloom from '../../assets/hero/decorations/sticker-346.svg';
 import stickerYellowBlob from '../../assets/hero/decorations/sticker-344.svg';
 import stickerGear from '../../assets/hero/decorations/sticker-343.svg';
 import stickerPaleBloom from '../../assets/hero/decorations/sticker-345.svg';
+import { stickerVariants, stickerTransition } from './stickerEntrance';
 
 // x/y are static offsets applied via Framer Motion's own motion values (not
 // CSS transform classes) — motion.img's animate={{ y: [...] }} bob writes
@@ -18,11 +19,14 @@ const STICKERS = [
   { src: stickerPaleBloom, className: 'lg:top-[48%] lg:right-[8%] lg:left-auto lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
 ];
 
-const fadeUpVariants = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } };
-
-export default function Decorations({ show = true, entranceReady = true }) {
+// `playFirst`: this is the visitor's first entrance, so the stickers pop in one
+// by one once `entranceReady`. `wakeCount`: bumped each time the character wakes
+// from sleep; a new value remounts the stickers so they pop in again. Otherwise
+// (a return within the session) they are simply there.
+export default function Decorations({ show = true, entranceReady = true, playFirst = false, wakeCount = 0 }) {
   const reduceMotion = useReducedMotion();
-  const entranceDelay = (s) => (reduceMotion ? { duration: 0 } : { duration: 0.35, delay: s, ease: 'easeOut' });
+  const kind = wakeCount > 0 ? 'wake' : 'first';
+  const animateIn = wakeCount > 0 || playFirst;
 
   return (
     <motion.div
@@ -33,13 +37,13 @@ export default function Decorations({ show = true, entranceReady = true }) {
     >
       {STICKERS.map((sticker, index) => (
         <motion.div
-          key={sticker.src}
+          key={`${sticker.src}-${wakeCount}`}
           className={`absolute select-none ${sticker.className}`}
           style={{ x: sticker.x }}
-          variants={fadeUpVariants}
-          initial="hidden"
+          variants={stickerVariants}
+          initial={animateIn ? 'hidden' : false}
           animate={entranceReady ? 'visible' : 'hidden'}
-          transition={entranceDelay(0.24 + index * 0.06)}
+          transition={stickerTransition({ index, kind, reduceMotion })}
         >
           <motion.img
             src={sticker.src}

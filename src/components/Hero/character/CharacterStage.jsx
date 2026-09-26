@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import AwakeArt from './AwakeArt';
 import SleepingArt from './SleepingArt';
@@ -14,6 +14,12 @@ const ART_BY_MOOD = {
 // fixed frame (never to the frame itself), so it scales all 3 moods
 // identically without reopening the frame-consistency fix.
 const CHARACTER_SCALE = 1.08;
+
+// Mood crossfades are quick (350ms), except waking up from sleep, which is a
+// slow 1.1s so the character stirs awake rather than snapping (the raised arm
+// follows even later; see [data-hand] in index.css).
+const CROSSFADE_MS = 350;
+const WAKE_CROSSFADE_MS = 1100;
 
 const ZZZ = [
   { className: 'top-[38%] right-[18%] text-lg', delay: 0 },
@@ -38,10 +44,20 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
   const isSleeping = mood === 'sleeping';
   const snoring = isSleeping && !reduceMotion;
 
+  // Read during the render that switches mood, before the effect below moves
+  // the ref on, so the crossfade that starts now gets the slow duration.
+  const previousMood = useRef(mood);
+  const wakingUp = previousMood.current === 'sleeping' && mood !== 'sleeping';
+  useEffect(() => {
+    previousMood.current = mood;
+  }, [mood]);
+  const crossfadeMs = reduceMotion ? 0 : wakingUp ? WAKE_CROSSFADE_MS : CROSSFADE_MS;
+
   return (
     <motion.div
       ref={ref}
       className="relative w-[282px] h-[351px] sm:w-[360px] sm:h-[510px] lg:w-[420px] lg:h-[596px]"
+      data-sleeping={isSleeping ? 'true' : 'false'}
       style={{
         '--eye-x': `${eyeOffset?.x ?? 0}px`,
         '--eye-y': `${eyeOffset?.y ?? 0}px`,
@@ -64,7 +80,7 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
                 opacity: mood === key ? 1 : 0,
                 pointerEvents: 'none',
                 transitionProperty: 'opacity',
-                transitionDuration: reduceMotion ? '0ms' : '350ms',
+                transitionDuration: `${crossfadeMs}ms`,
                 transitionTimingFunction: 'ease-in-out',
               }}
             />
