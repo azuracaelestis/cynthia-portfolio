@@ -10,6 +10,7 @@ import audioGuideMockup from '../../../assets/case study/case-study-tfam-app/sol
 import mapSuggestedRouteMockup from '../../../assets/case study/case-study-tfam-app/solutions/map-suggested-route-mockup-v2.mp4';
 import notificationMockup from '../../../assets/case study/case-study-tfam-app/solutions/notification-mockup-v2.mp4';
 import languageMockup from '../../../assets/case study/case-study-tfam-app/solutions/language-mockup-v2.mp4';
+import Flow from '../../../components/Flow';
 
 // IA tree, per Figma (node 258:1227): a root pill fanning out to 5 tabs,
 // each tab a vertical chain of screens.
@@ -471,80 +472,92 @@ function SingleFeatureRow({ feature }) {
 export default function Solutions() {
   const reduceMotion = useReducedMotion();
   return (
-    <Section id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
-      <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
-      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-[57px]">
-        The three moments became five tabs: Home, What&apos;s On, Map, Activities, and Settings. Every feature that
-        was hidden in the old app now sits in the tab where a visitor would look for it. The audio guide, the old
-        app&apos;s weakest point, can now be reached from Home, What&apos;s On, and the Map, so it&apos;s never more
-        than one tap away.
-      </p>
+    <Section flow id="solutions" eyebrow="SOLUTION" eyebrowColor="text-tfam-gray" title="One companion, three moments of the visit">
+      <Flow>
+        <p className="font-satoshi font-bold text-[20px] text-ink mb-4">From three moments to a five-tab app</p>
+        <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-[57px]">
+          The three moments became five tabs: Home, What&apos;s On, Map, Activities, and Settings. Every feature that
+          was hidden in the old app now sits in the tab where a visitor would look for it. The audio guide, the old
+          app&apos;s weakest point, can now be reached from Home, What&apos;s On, and the Map, so it&apos;s never more
+          than one tap away.
+        </p>
+      </Flow>
 
-      <IaDiagram />
+      <Flow>
+        <IaDiagram />
+      </Flow>
 
       {/* Figma (node 258:1301 vs 258:1227) measures a 146px gap here — much
           wider than the 87px between individual moments — reproduced as-is
           rather than rounded down to match the smaller rhythm. */}
-      <div className="flex flex-col gap-[87px] mt-[98px]">
-        {MOMENTS.map((m) => (
-          <div key={m.title} className="flex flex-col">
-            <p className="font-satoshi font-bold text-[20px] text-ink mb-[42px]">{m.title}</p>
-            {/* 90px between rows within a moment (was 42px, +48px per
-                request) — both moments now have 2 rows: Plan's second row
-                (Stay in the Loop) and Wander's second row (Two Languages)
-                each hold a single feature, left-aligned in the 2-col grid
-                below, since Notification moved from Wander to Plan. */}
-            <div className="flex flex-col gap-[90px]">
-              {m.rows.map((row, rowIndex) =>
-                row.length === 1 ? (
-                  <SingleFeatureRow key={rowIndex} feature={row[0]} />
-                ) : (
-                  <FeatureRow key={rowIndex} features={row} />
-                ),
-              )}
+      <Flow>
+        <div className="flex flex-col gap-[87px] mt-[98px]">
+          {MOMENTS.map((m) => (
+            <div key={m.title} className="flex flex-col">
+              <p className="font-satoshi font-bold text-[20px] text-ink mb-[42px]">{m.title}</p>
+              {/* 90px between rows within a moment (was 42px, +48px per
+                  request) — both moments now have 2 rows: Plan's second row
+                  (Stay in the Loop) and Wander's second row (Two Languages)
+                  each hold a single feature, left-aligned in the 2-col grid
+                  below, since Notification moved from Wander to Plan. */}
+              <div className="flex flex-col gap-[90px]">
+                {m.rows.map((row, rowIndex) =>
+                  row.length === 1 ? (
+                    <SingleFeatureRow key={rowIndex} feature={row[0]} />
+                  ) : (
+                    <FeatureRow key={rowIndex} features={row} />
+                  ),
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Flow>
 
-      <div className="mt-[56px] mb-[80px]">
-        <p className="font-satoshi font-bold text-[20px] text-ink mb-[21px]">Remember (After the Visit)</p>
-        <p className="font-satoshi text-[16px] text-ink leading-[25px]">
-          Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it was
-          the right one to cut from this build while booking and wayfinding came first.
-        </p>
-      </div>
+      <Flow>
+        <div className="mt-[56px] mb-[80px]">
+          <p className="font-satoshi font-bold text-[20px] text-ink mb-[21px]">Remember (After the Visit)</p>
+          <p className="font-satoshi text-[16px] text-ink leading-[25px]">
+            Save the pieces you loved during the visit. This was the lowest-friction moment of the three, so it was
+            the right one to cut from this build while booking and wayfinding came first.
+          </p>
+        </div>
+      </Flow>
 
-      <div className="bg-ink/5 rounded-2xl p-6 mb-[49px] flex flex-col gap-2">
-        <p className="font-satoshi font-bold text-[14px] text-ink">Note on the numbers below</p>
-        <p className="font-satoshi text-[14px] text-ink leading-[21px]">
-          This is a self-initiated passion project, so these are design targets I&apos;d measure against, not results
-          from real usage. I&apos;m labeling them that way on purpose. Validating them against real visitor data is
-          the natural next step once the museum&apos;s booking system exists.
-        </p>
-      </div>
+      <Flow>
+        <div className="bg-ink/5 rounded-2xl p-6 mb-[49px] flex flex-col gap-2">
+          <p className="font-satoshi font-bold text-[14px] text-ink">Note on the numbers below</p>
+          <p className="font-satoshi text-[14px] text-ink leading-[21px]">
+            This is a self-initiated passion project, so these are design targets I&apos;d measure against, not results
+            from real usage. I&apos;m labeling them that way on purpose. Validating them against real visitor data is
+            the natural next step once the museum&apos;s booking system exists.
+          </p>
+        </div>
+      </Flow>
 
       {/* Per Figma (node 258:1340): a vertical stack of full-width rows, not
           a 3-col grid of centered cards. */}
-      <div className="flex flex-col gap-3 mb-[119px]">
-        {STATS.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial="hidden"
-            whileInView="visible"
-            viewport={revealViewport}
-            variants={reduceMotion ? revealVariantsReduced : revealVariants}
-            transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * STAT_STAGGER }}
-            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex items-start"
-          >
-            <CountUpStat prefix={s.prefix} value={s.value} suffix={s.suffix} />
-            <div className="flex flex-col gap-[9px] pl-6">
-              <p className="font-satoshi font-bold text-[16px] text-ink">{s.label}</p>
-              <p className="font-satoshi text-[16px] text-ink">{s.body}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      <Flow>
+        <div className="flex flex-col gap-3 mb-[119px]">
+          {STATS.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial="hidden"
+              whileInView="visible"
+              viewport={revealViewport}
+              variants={reduceMotion ? revealVariantsReduced : revealVariants}
+              transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * STAT_STAGGER }}
+              className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-6 flex items-start"
+            >
+              <CountUpStat prefix={s.prefix} value={s.value} suffix={s.suffix} />
+              <div className="flex flex-col gap-[9px] pl-6">
+                <p className="font-satoshi font-bold text-[16px] text-ink">{s.label}</p>
+                <p className="font-satoshi text-[16px] text-ink">{s.body}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Flow>
 
       {/* Per Figma (node 258:1459), updated design: a real phone-mockup
           screenshot beside a QR code + copy, not a dark CTA card. QR code
@@ -553,36 +566,38 @@ export default function Solutions() {
           mobile, where the visitor already IS on their phone; mobile gets
           an "Open the Prototype" button linking directly to the live
           prototype instead. */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={revealViewport}
-        variants={reduceMotion ? revealVariantsReduced : revealVariants}
-        transition={reduceMotion ? revealTransitionReduced : revealTransition}
-        className="flex flex-col lg:flex-row gap-8 lg:gap-[42px] items-center justify-center"
-      >
-        <img
-          src={tryItYourself}
-          alt="TFAM app arrival screen, showing a welcome message, a Start audio guide button, and Today at the Museum and Explore the Museum sections"
-          className="w-full max-w-[259px] h-auto rounded-2xl shrink-0"
-        />
-        <div className="flex flex-col gap-3 items-center text-center lg:w-[292px]">
-          <img src={qrCode} alt="QR code linking to the TFAM app prototype" className="hidden lg:block size-[103px]" />
-          <p className="font-satoshi font-bold text-[20px] text-ink">Try it yourself</p>
-          <p className="font-satoshi text-[14px] text-ink leading-[21px]">
-            This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
-            class, just like a visitor would. Please open it on your phone.
-          </p>
-          <a
-            href="https://tfam-app.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="lg:hidden mt-2 flex items-center justify-center rounded-full bg-ink text-white font-satoshi font-semibold text-[16px] w-[calc(100vw-40px)] max-w-[400px] h-[48px]"
-          >
-            Open the Prototype
-          </a>
-        </div>
-      </motion.div>
+      <Flow>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
+          className="flex flex-col lg:flex-row gap-8 lg:gap-[42px] items-center justify-center"
+        >
+          <img
+            src={tryItYourself}
+            alt="TFAM app arrival screen, showing a welcome message, a Start audio guide button, and Today at the Museum and Explore the Museum sections"
+            className="w-full max-w-[259px] h-auto rounded-2xl shrink-0"
+          />
+          <div className="flex flex-col gap-3 items-center text-center lg:w-[292px]">
+            <img src={qrCode} alt="QR code linking to the TFAM app prototype" className="hidden lg:block size-[103px]" />
+            <p className="font-satoshi font-bold text-[20px] text-ink">Try it yourself</p>
+            <p className="font-satoshi text-[14px] text-ink leading-[21px]">
+              This is a real, working prototype. Walk through the arrival screen, start the audio guide, and book a
+              class, just like a visitor would. Please open it on your phone.
+            </p>
+            <a
+              href="https://tfam-app.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lg:hidden mt-2 flex items-center justify-center rounded-full bg-ink text-white font-satoshi font-semibold text-[16px] w-[calc(100vw-40px)] max-w-[400px] h-[48px]"
+            >
+              Open the Prototype
+            </a>
+          </div>
+        </motion.div>
+      </Flow>
     </Section>
   );
 }

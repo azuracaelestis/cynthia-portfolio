@@ -10,6 +10,7 @@ import iconVolume from '../../../assets/case study/case-study-tfam-app/symptoms/
 import iconFrown from '../../../assets/case study/case-study-tfam-app/symptoms/icon-frown.svg';
 import iconTag from '../../../assets/case study/case-study-tfam-app/symptoms/icon-tag.svg';
 import iconThumbsDown from '../../../assets/case study/case-study-tfam-app/symptoms/icon-thumbs-down.svg';
+import Flow from '../../../components/Flow';
 
 const PROBLEMS = [
   {
@@ -433,6 +434,7 @@ export default function Symptoms() {
 
   return (
     <Section
+      flow
       id="symptoms"
       eyebrow="SYMPTOMS"
       eyebrowColor="text-tfam-gray"
@@ -440,58 +442,68 @@ export default function Symptoms() {
       title="Built to look like art, not to be used"
       titleClassName="mb-3"
     >
-      <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-8">
-        The app was not short on features. It had plenty. But it was built to look like the museum first, so the
-        features visitors needed most were either hard to reach or missing. Four problems stood out.
-      </p>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-[28px] gap-y-[32px]">
-        {PROBLEMS.map((problem, i) => (
-          <motion.div
-            key={problem.title}
-            initial="hidden"
-            whileInView="visible"
-            viewport={revealViewport}
-            variants={reduceMotion ? revealVariantsReduced : revealVariants}
-            transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * CARD_STAGGER }}
-            className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-[20px] flex flex-col gap-5 transition-transform duration-200 ease-out hover:-translate-y-2 hover:shadow-[0px_12px_24px_rgba(0,0,0,0.15)]"
-          >
-            <div className="size-[42px] overflow-clip">
-              <img src={problem.icon} alt="" className="block size-full" />
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="font-satoshi font-bold text-[20px] leading-[25px] text-ink">{problem.title}</p>
-              <p className="font-satoshi text-[16px] text-ink leading-[25px]">{problem.body}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <p className="font-satoshi text-[16px] text-ink leading-[25px] mt-[54px]">
-        These weren&apos;t just my read. For an app this polished, the public reviews were only lukewarm.
-      </p>
-
-      <motion.blockquote
-        initial="hidden"
-        whileInView="visible"
-        viewport={revealViewport}
-        variants={reduceMotion ? revealVariantsReduced : revealVariants}
-        transition={reduceMotion ? revealTransitionReduced : revealTransition}
-        className="mt-6 bg-white rounded-2xl px-6 py-5 flex items-center gap-6"
-      >
-        <div className="bg-black w-[3px] h-[85px] shrink-0" />
-        <p className="font-satoshi text-[16px] text-ink leading-[30px]">
-          &ldquo;A curator&apos;s vanity project, not a useful app for the public.&rdquo;
-          <br />
-          <span className="font-bold">— TFAM app review, App Store</span>
+      <Flow>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-8">
+          The app was not short on features. It had plenty. But it was built to look like the museum first, so the
+          features visitors needed most were either hard to reach or missing. Four problems stood out.
         </p>
-      </motion.blockquote>
+      </Flow>
 
-      <p className="font-satoshi font-bold text-[20px] text-ink mt-[52px] mb-6">Heuristic Evaluation</p>
-      <p className="font-satoshi text-[16px] text-ink leading-[25px]">
-        Reviews pointed to recurring frustration. I used a heuristic evaluation to identify where the interface was
-        creating friction and turn those complaints into specific design problems.
-      </p>
+      <Flow>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-[28px] gap-y-[32px]">
+          {PROBLEMS.map((problem, i) => (
+            <motion.div
+              key={problem.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={revealViewport}
+              variants={reduceMotion ? revealVariantsReduced : revealVariants}
+              transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * CARD_STAGGER }}
+              className="bg-white rounded-2xl shadow-[0px_0px_5px_rgba(0,0,0,0.1)] p-[20px] flex flex-col gap-5 transition-transform duration-200 ease-out hover:-translate-y-2 hover:shadow-[0px_12px_24px_rgba(0,0,0,0.15)]"
+            >
+              <div className="size-[42px] overflow-clip">
+                <img src={problem.icon} alt="" className="block size-full" />
+              </div>
+              <div className="flex flex-col gap-3">
+                <p className="font-satoshi font-bold text-[20px] leading-[25px] text-ink">{problem.title}</p>
+                <p className="font-satoshi text-[16px] text-ink leading-[25px]">{problem.body}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Flow>
+
+      <Flow>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px] mt-[54px]">
+          These weren&apos;t just my read. For an app this polished, the public reviews were only lukewarm.
+        </p>
+      </Flow>
+
+      <Flow>
+        <motion.blockquote
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          variants={reduceMotion ? revealVariantsReduced : revealVariants}
+          transition={reduceMotion ? revealTransitionReduced : revealTransition}
+          className="mt-6 bg-white rounded-2xl px-6 py-5 flex items-center gap-6"
+        >
+          <div className="bg-black w-[3px] h-[85px] shrink-0" />
+          <p className="font-satoshi text-[16px] text-ink leading-[30px]">
+            &ldquo;A curator&apos;s vanity project, not a useful app for the public.&rdquo;
+            <br />
+            <span className="font-bold">— TFAM app review, App Store</span>
+          </p>
+        </motion.blockquote>
+      </Flow>
+
+      <Flow>
+        <p className="font-satoshi font-bold text-[20px] text-ink mt-[52px] mb-6">Heuristic Evaluation</p>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px]">
+          Reviews pointed to recurring frustration. I used a heuristic evaluation to identify where the interface was
+          creating friction and turn those complaints into specific design problems.
+        </p>
+      </Flow>
 
       {/* Pinned scrollytelling layout (desktop only): the whole two-column
           block sticks in place while the reader scrolls through 4 invisible

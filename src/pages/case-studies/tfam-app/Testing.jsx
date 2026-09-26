@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
+import Flow from '../../../components/Flow';
 import Section from '../../../components/case-study/Section';
 import ImagePlaceholder from '../../../components/case-study/ImagePlaceholder';
 import tfamSplashTest from '../../../assets/case study/case-study-tfam-app/testing/tfam-splash-test.mp4';
@@ -183,6 +184,7 @@ export default function Testing() {
   const reduceMotion = useReducedMotion();
   return (
     <Section
+      flow
       id="testing"
       eyebrow="TESTING"
       eyebrowColor="text-tfam-gray"
@@ -190,18 +192,20 @@ export default function Testing() {
       title="It worked, but it wasn't finished"
       titleClassName="mb-3"
     >
-      <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-[90px]">
-        I built the first version as a full, working prototype and tested it with five visitors across the range
-        TFAM serves, ages 25 to 58. All five finished the four core tasks (start the audio guide, find a gallery on
-        the map, book a class, and check what&apos;s on), so the structure held. But passing the tasks only proved the
-        app worked, not that it was finished. In fixing an app that was too pretty to use, I had overcorrected into
-        one that was too plain to feel like a museum. The test showed me a good app has to do three things at once:
-        be usable, feel like the brand, and be open to everyone. These are the problems that surfaced.
-      </p>
+      <Flow>
+        <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-[90px]">
+          I built the first version as a full, working prototype and tested it with five visitors across the range
+          TFAM serves, ages 25 to 58. All five finished the four core tasks (start the audio guide, find a gallery on
+          the map, book a class, and check what&apos;s on), so the structure held. But passing the tasks only proved the
+          app worked, not that it was finished. In fixing an app that was too pretty to use, I had overcorrected into
+          one that was too plain to feel like a museum. The test showed me a good app has to do three things at once:
+          be usable, feel like the brand, and be open to everyone. These are the problems that surfaced.
+        </p>
+      </Flow>
 
       <div className="flex flex-col gap-[90px]">
         {FINDINGS.map((finding, i) => (
-          <div key={finding.title} className="flex flex-col gap-8">
+          <Flow key={finding.title} className="flex flex-col gap-8">
             <p className="font-satoshi font-bold text-[20px] text-ink">
               Finding {i + 1}: {finding.title}
             </p>
@@ -328,7 +332,7 @@ export default function Testing() {
                 )}
               </div>
             </div>
-          </div>
+          </Flow>
         ))}
       </div>
     </Section>

@@ -4,6 +4,7 @@ import Section from '../../../components/case-study/Section';
 import yuChenLinPhoto from '../../../assets/case study/case-study-tfam-app/diagnosis/yu-chen-lin.jpg';
 import marcoPhoto from '../../../assets/case study/case-study-tfam-app/diagnosis/marco.jpg';
 import arrowRight from '../../../assets/case study/case-study-tfam-app/diagnosis/arrow-right.svg';
+import Flow from '../../../components/Flow';
 
 const FRICTION = [
   {
@@ -160,6 +161,7 @@ export default function Diagnosis() {
 
   return (
     <Section
+      flow
       id="diagnosis"
       eyebrow="DIAGNOSIS"
       eyebrowColor="text-tfam-gray"
@@ -167,11 +169,13 @@ export default function Diagnosis() {
       title="Five visitors, one clear pattern"
       titleClassName="mb-2"
     >
-      <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-12">
-        I used two research methods. First, five in-depth interviews with real visitors, both locals and tourists.
-        Second, a four-lens audit of the live app: App Store reviews, TripAdvisor feedback, a heuristic review, and
-        my own walkthrough inside the museum. The interviews showed me the pattern. The audit confirmed it.
-      </p>
+      <Flow>
+        <p className="font-satoshi text-[16px] text-ink leading-[23px] mb-12">
+          I used two research methods. First, five in-depth interviews with real visitors, both locals and tourists.
+          Second, a four-lens audit of the live app: App Store reviews, TripAdvisor feedback, a heuristic review, and
+          my own walkthrough inside the museum. The interviews showed me the pattern. The audit confirmed it.
+        </p>
+      </Flow>
 
       {/* Timeline, per Figma (node 258:1090): a rail with a dot above each
           moment — the first ringed — over three cards. The block is capped at
@@ -202,80 +206,36 @@ export default function Diagnosis() {
           instead of one shared circle sliding between fixed x coordinates,
           since that slide has no equivalent y-coordinate to slide to across
           variable-height rows. */}
-      <div className="mb-[52px] w-full max-w-[711px] mx-auto flex flex-col items-center gap-8">
-        <p className="font-satoshi font-bold text-[20px] text-ink w-full">Friction showed up at three moments of the visit</p>
-        <svg viewBox="0 0 700 44" className="hidden lg:block w-[700px] h-[44px]" aria-hidden="true">
-          <rect y="21" width="700" height="3" rx="1.5" fill="black" />
-          {!reduceMotion && (
+      <Flow>
+        <div className="mb-[52px] w-full max-w-[711px] mx-auto flex flex-col items-center gap-8">
+          <p className="font-satoshi font-bold text-[20px] text-ink w-full">Friction showed up at three moments of the visit</p>
+          <svg viewBox="0 0 700 44" className="hidden lg:block w-[700px] h-[44px]" aria-hidden="true">
+            <rect y="21" width="700" height="3" rx="1.5" fill="black" />
+            {!reduceMotion && (
+              <motion.circle
+                cy="22.5"
+                fill="black"
+                animate={{ cx: FRICTION[activeIndex].cx, r: PULSE_R, fillOpacity: PULSE_OPACITY }}
+                transition={{ cx: FOLLOW_TRANSITION, r: PULSE_TRANSITION, fillOpacity: PULSE_TRANSITION }}
+              />
+            )}
             <motion.circle
               cy="22.5"
+              r={BASE_HALO_R}
               fill="black"
-              animate={{ cx: FRICTION[activeIndex].cx, r: PULSE_R, fillOpacity: PULSE_OPACITY }}
-              transition={{ cx: FOLLOW_TRANSITION, r: PULSE_TRANSITION, fillOpacity: PULSE_TRANSITION }}
+              fillOpacity="0.2"
+              animate={{ cx: FRICTION[activeIndex].cx }}
+              transition={reduceMotion ? INSTANT_TRANSITION : FOLLOW_TRANSITION}
             />
-          )}
-          <motion.circle
-            cy="22.5"
-            r={BASE_HALO_R}
-            fill="black"
-            fillOpacity="0.2"
-            animate={{ cx: FRICTION[activeIndex].cx }}
-            transition={reduceMotion ? INSTANT_TRANSITION : FOLLOW_TRANSITION}
-          />
-          {FRICTION.map((f) => (
-            <circle key={f.title} cx={f.cx} cy="22.5" r={DOT_R} fill="black" />
-          ))}
-        </svg>
-        <div ref={cardsRowRef} className="w-full">
-          <div className="hidden lg:flex lg:items-stretch lg:justify-between gap-6">
-            {FRICTION.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '0px 0px -20% 0px' }}
-                variants={reduceMotion ? cardVariantsReduced : cardVariants}
-                transition={{
-                  ...(reduceMotion ? cardTransitionReduced : cardTransition),
-                  delay: reduceMotion ? 0 : (i * REVEAL_STAGGER_MS) / 1000,
-                }}
-                onMouseEnter={() => handleMomentActive(i)}
-                onFocus={() => handleMomentActive(i)}
-                className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 lg:w-[221px] flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
-              >
-                <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
-                <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
-              </motion.div>
+            {FRICTION.map((f) => (
+              <circle key={f.title} cx={f.cx} cy="22.5" r={DOT_R} fill="black" />
             ))}
-          </div>
-
-          <div className="lg:hidden grid grid-cols-[32px_1fr] gap-x-4 gap-y-6">
-            <div
-              className="w-[3px] mx-auto bg-black rounded-full"
-              style={{ gridColumn: 1, gridRow: '1 / span 3' }}
-              aria-hidden="true"
-            />
-            {FRICTION.map((f, i) => (
-              <Fragment key={f.title}>
-                <div className="relative z-10 flex items-center justify-center" style={{ gridColumn: 1, gridRow: i + 1 }}>
-                  {!reduceMotion && activeIndex === i && (
-                    <motion.div
-                      className="absolute rounded-full bg-black"
-                      style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
-                      animate={{ scale: [1, (PULSE_R[1] * 2) / (BASE_HALO_R * 2)], opacity: PULSE_OPACITY }}
-                      transition={PULSE_TRANSITION}
-                    />
-                  )}
-                  {activeIndex === i && (
-                    <div
-                      className="absolute rounded-full bg-black/20"
-                      style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
-                    />
-                  )}
-                  <div className="relative rounded-full bg-black" style={{ width: DOT_R * 2, height: DOT_R * 2 }} />
-                </div>
+          </svg>
+          <div ref={cardsRowRef} className="w-full">
+            <div className="hidden lg:flex lg:items-stretch lg:justify-between gap-6">
+              {FRICTION.map((f, i) => (
                 <motion.div
-                  style={{ gridColumn: 2, gridRow: i + 1 }}
+                  key={f.title}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: '0px 0px -20% 0px' }}
@@ -286,107 +246,159 @@ export default function Diagnosis() {
                   }}
                   onMouseEnter={() => handleMomentActive(i)}
                   onFocus={() => handleMomentActive(i)}
-                  className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
+                  className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 lg:w-[221px] flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
                 >
                   <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
                   <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
                 </motion.div>
-              </Fragment>
+              ))}
+            </div>
+
+            <div className="lg:hidden grid grid-cols-[32px_1fr] gap-x-4 gap-y-6">
+              <div
+                className="w-[3px] mx-auto bg-black rounded-full"
+                style={{ gridColumn: 1, gridRow: '1 / span 3' }}
+                aria-hidden="true"
+              />
+              {FRICTION.map((f, i) => (
+                <Fragment key={f.title}>
+                  <div className="relative z-10 flex items-center justify-center" style={{ gridColumn: 1, gridRow: i + 1 }}>
+                    {!reduceMotion && activeIndex === i && (
+                      <motion.div
+                        className="absolute rounded-full bg-black"
+                        style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
+                        animate={{ scale: [1, (PULSE_R[1] * 2) / (BASE_HALO_R * 2)], opacity: PULSE_OPACITY }}
+                        transition={PULSE_TRANSITION}
+                      />
+                    )}
+                    {activeIndex === i && (
+                      <div
+                        className="absolute rounded-full bg-black/20"
+                        style={{ width: BASE_HALO_R * 2, height: BASE_HALO_R * 2 }}
+                      />
+                    )}
+                    <div className="relative rounded-full bg-black" style={{ width: DOT_R * 2, height: DOT_R * 2 }} />
+                  </div>
+                  <motion.div
+                    style={{ gridColumn: 2, gridRow: i + 1 }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '0px 0px -20% 0px' }}
+                    variants={reduceMotion ? cardVariantsReduced : cardVariants}
+                    transition={{
+                      ...(reduceMotion ? cardTransitionReduced : cardTransition),
+                      delay: reduceMotion ? 0 : (i * REVEAL_STAGGER_MS) / 1000,
+                    }}
+                    onMouseEnter={() => handleMomentActive(i)}
+                    onFocus={() => handleMomentActive(i)}
+                    className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-3 transition-transform duration-200 ease-out hover:-translate-y-1"
+                  >
+                    <p className="font-satoshi font-bold text-[16px] text-ink">{f.title}</p>
+                    <p className="font-satoshi text-[16px] text-ink">{f.body}</p>
+                  </motion.div>
+                </Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Flow>
+
+      <Flow>
+        <div className="mb-[52px]">
+          <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Two visitors, two different breaking points</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {PERSONAS.map((p, i) => (
+              <motion.div
+                key={p.name}
+                initial="hidden"
+                whileInView="visible"
+                viewport={revealViewport}
+                variants={reduceMotion ? cardVariantsReduced : cardVariants}
+                transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * PERSONA_STAGGER }}
+                className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] overflow-hidden"
+              >
+                <img
+                  src={p.photo}
+                  alt={p.name}
+                  className="w-full h-[270px] lg:h-[306px] object-cover"
+                  style={{ objectPosition: 'center calc(50% + 48px)' }}
+                />
+                <div className="p-8 flex flex-col gap-4">
+                  <div>
+                    <p className="font-satoshi font-bold text-[24px] text-ink">{p.name}</p>
+                    <p className="font-satoshi text-[16px] text-charcoal">{p.tag}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {p.badges.map((badge) => (
+                      <span key={badge} className="rounded-full bg-ink/5 font-satoshi text-[14px] text-ink px-4 py-2">
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-4 mt-6">
+                    {TRAITS.map(({ key, label, Icon }) => (
+                      <div key={key} className="flex gap-4 items-start">
+                        <span className="shrink-0 size-11 rounded-full bg-ink/5 flex items-center justify-center">
+                          <Icon />
+                        </span>
+                        <div>
+                          <p className="font-satoshi font-bold text-[16px] text-ink">{label}</p>
+                          <p className="font-satoshi text-[16px] text-charcoal leading-[23px]">{p[key]}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </Flow>
 
-      <div className="mb-[52px]">
-        <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Two visitors, two different breaking points</p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {PERSONAS.map((p, i) => (
-            <motion.div
-              key={p.name}
-              initial="hidden"
-              whileInView="visible"
-              viewport={revealViewport}
-              variants={reduceMotion ? cardVariantsReduced : cardVariants}
-              transition={{ ...(reduceMotion ? revealTransitionReduced : revealTransition), delay: reduceMotion ? 0 : i * PERSONA_STAGGER }}
-              className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] overflow-hidden"
-            >
-              <img
-                src={p.photo}
-                alt={p.name}
-                className="w-full h-[270px] lg:h-[306px] object-cover"
-                style={{ objectPosition: 'center calc(50% + 48px)' }}
-              />
-              <div className="p-8 flex flex-col gap-4">
-                <div>
-                  <p className="font-satoshi font-bold text-[24px] text-ink">{p.name}</p>
-                  <p className="font-satoshi text-[16px] text-charcoal">{p.tag}</p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {p.badges.map((badge) => (
-                    <span key={badge} className="rounded-full bg-ink/5 font-satoshi text-[14px] text-ink px-4 py-2">
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-4 mt-6">
-                  {TRAITS.map(({ key, label, Icon }) => (
-                    <div key={key} className="flex gap-4 items-start">
-                      <span className="shrink-0 size-11 rounded-full bg-ink/5 flex items-center justify-center">
-                        <Icon />
-                      </span>
-                      <div>
-                        <p className="font-satoshi font-bold text-[16px] text-ink">{label}</p>
-                        <p className="font-satoshi text-[16px] text-charcoal leading-[23px]">{p[key]}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+      <Flow>
+        <div className="mb-[52px]">
+          <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Each frustration turned into a question</p>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={reduceMotion ? cardVariantsReduced : cardVariants}
+            transition={reduceMotion ? revealTransitionReduced : revealTransition}
+            className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-[14px]"
+          >
+            {QUESTIONS.map((q) => (
+              <div key={q} className="flex gap-[14px] items-start">
+                <img src={arrowRight} alt="" className="shrink-0 size-5" />
+                <p className="font-satoshi text-[16px] text-ink">{q}</p>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </motion.div>
         </div>
-      </div>
+      </Flow>
 
-      <div className="mb-[52px]">
-        <p className="font-satoshi font-bold text-[20px] text-ink mb-6">Each frustration turned into a question</p>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={revealViewport}
-          variants={reduceMotion ? cardVariantsReduced : cardVariants}
-          transition={reduceMotion ? revealTransitionReduced : revealTransition}
-          className="bg-white rounded-2xl shadow-[0px_0px_10px_rgba(0,0,0,0.1)] p-6 flex flex-col gap-[14px]"
-        >
-          {QUESTIONS.map((q) => (
-            <div key={q} className="flex gap-[14px] items-start">
-              <img src={arrowRight} alt="" className="shrink-0 size-5" />
-              <p className="font-satoshi text-[16px] text-ink">{q}</p>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-
-      <div>
-        <p className="font-satoshi font-bold text-[20px] text-ink mb-2">The decision this led to</p>
-        <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-8">
-          The personas pointed to one choice. Instead of redesigning a list of features, I anchored the whole app on
-          three moments in a visit: <span className="font-bold">plan, wander, remember</span>. Every feature would
-          live inside whichever moment it actually served.
-        </p>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={revealViewport}
-          variants={reduceMotion ? cardVariantsReduced : cardVariants}
-          transition={reduceMotion ? revealTransitionReduced : revealTransition}
-          className="bg-ink/5 rounded-2xl p-6 flex flex-col gap-2"
-        >
-          <p className="font-satoshi font-bold text-[16px] text-ink">Guiding principle</p>
-          <p className="font-satoshi text-[16px] text-ink">
-            People take in information best right when they need it, not all at once on a home screen.
+      <Flow>
+        <div>
+          <p className="font-satoshi font-bold text-[20px] text-ink mb-2">The decision this led to</p>
+          <p className="font-satoshi text-[16px] text-ink leading-[25px] mb-8">
+            The personas pointed to one choice. Instead of redesigning a list of features, I anchored the whole app on
+            three moments in a visit: <span className="font-bold">plan, wander, remember</span>. Every feature would
+            live inside whichever moment it actually served.
           </p>
-        </motion.div>
-      </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={revealViewport}
+            variants={reduceMotion ? cardVariantsReduced : cardVariants}
+            transition={reduceMotion ? revealTransitionReduced : revealTransition}
+            className="bg-ink/5 rounded-2xl p-6 flex flex-col gap-2"
+          >
+            <p className="font-satoshi font-bold text-[16px] text-ink">Guiding principle</p>
+            <p className="font-satoshi text-[16px] text-ink">
+              People take in information best right when they need it, not all at once on a home screen.
+            </p>
+          </motion.div>
+        </div>
+      </Flow>
     </Section>
   );
 }
