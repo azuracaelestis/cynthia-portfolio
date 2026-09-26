@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import heroIllustration from '../assets/visual/hero-illustration.svg';
+import { useEyeTracking } from '../hooks/useEyeTracking';
+import HeroCharacterArt from '../components/visual/HeroCharacterArt';
 import paletteCard from '../assets/visual/palette-card.svg';
 import heroFlowerYellow from '../assets/visual/hero-flower-yellow.svg';
 import heroPictureCard from '../assets/visual/hero-picture-card.svg';
@@ -158,7 +160,26 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
   );
 }
 
+// Eyes sit at about (66%, 26%) of the illustration; the head nods (rotates
+// about the neck) with the cursor's vertical position, up to 5 degrees.
+const EYE_ANCHOR = { x: 0.66, y: 0.26 };
+const EYE_LIMITS = { minX: -4, maxX: 0, minY: -1.5, maxY: 3 };
+
 export default function VisualDesign() {
+  const reduceMotion = useReducedMotion();
+  const characterRef = useRef(null);
+  const { offset, tiltDeg } = useEyeTracking(characterRef, {
+    enabled: !reduceMotion,
+    anchor: EYE_ANCHOR,
+    tiltAxis: 'y',
+    // Her pupils already sit against the right edge of each eye white (she
+    // looks right), and the whites are small, so they can only travel left
+    // and slightly up/down before leaving the eye.
+    offsetLimits: EYE_LIMITS,
+    maxTiltDeg: 5,
+    degPerCursorPx: 0.012,
+  });
+
   return (
     <>
       <Helmet>
@@ -190,12 +211,13 @@ export default function VisualDesign() {
             Selected brand, campaign, and communication design from across my practice.
           </p>
 
-          <img
-            src={heroIllustration}
-            alt="Illustration of Cynthia working at a laptop"
-            className="absolute z-10 block max-w-none"
-            style={place(663.94, 154, 565.13)}
-          />
+          <div
+            ref={characterRef}
+            className="absolute z-10"
+            style={{ ...place(663.94, 154, 565.13), '--eye-x': `${offset.x}px`, '--eye-y': `${offset.y}px`, '--head-tilt': `${tiltDeg}deg` }}
+          >
+            <HeroCharacterArt className="block w-full" alt="Illustration of Cynthia working at a laptop" />
+          </div>
           {FLOATERS.map((item) => (
             <Floater key={item.name} {...item} />
           ))}
