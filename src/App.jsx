@@ -8,6 +8,7 @@ import { useScrollToTopOnNavigate } from './hooks/useScrollToTopOnNavigate';
 
 const ClassroomQuest = lazy(() => import('./pages/case-studies/ClassroomQuest'));
 const TfamApp = lazy(() => import('./pages/case-studies/TfamApp'));
+const VisualDesign = lazy(() => import('./pages/VisualDesign'));
 
 // Exported so the build-time prerender (entry-server.jsx) can render the same
 // tree inside a StaticRouter, without BrowserRouter or Analytics.
@@ -22,6 +23,7 @@ export function AppLayout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/work/classroom-quest" element={<ClassroomQuest />} />
+            <Route path="/visual-design" element={<VisualDesign />} />
             <Route path="/work/tfam-app" element={<TfamApp />} />
           </Routes>
         </Suspense>

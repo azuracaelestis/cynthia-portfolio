@@ -25,7 +25,7 @@ const SITE_URL = 'https://cynthiatanawi.design';
 const ROUTES = [
   {
     path: '/',
-    title: 'Cynthia Tanawi — Product & Graphic Designer',
+    title: 'Cynthia Tanawi — Product Designer',
     description:
       "Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving.",
     ogType: 'website',

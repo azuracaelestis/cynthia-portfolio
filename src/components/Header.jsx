@@ -7,19 +7,29 @@ import { useActiveSection } from '../hooks/useActiveSection';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '#home' },
-  { label: 'Work', href: '#work' },
+  { label: 'Product', href: '#work' },
+  { label: 'Visual', to: '/visual-design' },
   { label: 'About', href: '#about' },
 ];
 
-const SECTION_IDS = NAV_ITEMS.map((item) => item.href.slice(1));
+// Only the in-page anchors take part in scroll-spy; 'Visual' is its own page.
+const SECTION_IDS = NAV_ITEMS.filter((item) => item.href).map((item) => item.href.slice(1));
+
+// Anchor items scroll within the home page (or route back to it from
+// elsewhere); page items always route to their own URL.
+function getItemLink(item, isHome) {
+  if (item.to) return { Tag: Link, props: { to: item.to } };
+  return isHome ? { Tag: 'a', props: { href: item.href } } : { Tag: Link, props: { to: `/${item.href}` } };
+}
 
 export default function Header() {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isTfam = location.pathname === '/work/tfam-app';
+  const pageIndex = NAV_ITEMS.findIndex((item) => item.to === location.pathname);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const effectiveSelectedIndex = isHome ? selectedIndex : null;
+  const effectiveSelectedIndex = isHome ? selectedIndex : pageIndex !== -1 ? pageIndex : null;
   const displayIndex = hoveredIndex ?? effectiveSelectedIndex;
   const isHovering = hoveredIndex !== null;
   const hasScrolled = useHasScrolled();
@@ -30,7 +40,7 @@ export default function Header() {
 
   useEffect(() => {
     if (!isHome) return;
-    const idx = NAV_ITEMS.findIndex((item) => item.href === `#${activeId}`);
+    const idx = NAV_ITEMS.findIndex((item) => item.href && item.href === `#${activeId}`);
     if (idx !== -1) setSelectedIndex(idx);
   }, [activeId, isHome]);
 
@@ -103,7 +113,7 @@ export default function Header() {
           keeps the center links group truly centered regardless of the
           logo and CTA columns having different widths. */}
       <motion.nav
-        className={`hidden md:flex fixed top-5 left-1/2 z-50 items-center gap-[52px] rounded-full h-[63px] lg:h-[68px] px-5 lg:px-6 border border-white/60 bg-white/70 backdrop-blur-2xl backdrop-saturate-150 transition-shadow duration-200 ${
+        className={`hidden md:flex fixed top-5 inset-x-0 mx-auto w-fit max-w-[calc(100vw-16px)] z-50 items-center gap-6 lg:gap-[52px] rounded-full h-[63px] lg:h-[68px] px-5 lg:px-6 border border-white/60 bg-white/70 backdrop-blur-2xl backdrop-saturate-150 transition-shadow duration-200 ${
           hasScrolled
             ? 'shadow-[0_12px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.6)]'
             : 'shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.6)]'
@@ -111,7 +121,6 @@ export default function Header() {
         animate={{ y: navHidden ? '-150%' : '0%', opacity: navHidden ? 0 : 1 }}
         initial={false}
         transition={{ duration: reduceMotion ? 0 : 0.3, ease: 'easeInOut' }}
-        style={{ x: '-50%' }}
       >
         <Link to="/" className="group flex items-center gap-2 shrink-0">
           <span className="w-[27px] h-[27px] lg:w-[40px] lg:h-[40px] flex items-center justify-center shrink-0">
@@ -126,8 +135,7 @@ export default function Header() {
 
         <div className="flex items-center gap-1" onMouseLeave={() => setHoveredIndex(null)}>
           {NAV_ITEMS.map((item, i) => {
-            const ItemTag = isHome ? 'a' : Link;
-            const itemLinkProps = isHome ? { href: item.href } : { to: `/${item.href}` };
+            const { Tag: ItemTag, props: itemLinkProps } = getItemLink(item, isHome);
             return (
               <ItemTag
                 key={item.label}
@@ -205,8 +213,7 @@ export default function Header() {
         className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-sky-50 rounded-full px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-md"
       >
         {NAV_ITEMS.map((item, i) => {
-          const ItemTag = isHome ? 'a' : Link;
-          const itemLinkProps = isHome ? { href: item.href } : { to: `/${item.href}` };
+          const { Tag: ItemTag, props: itemLinkProps } = getItemLink(item, isHome);
           return (
             <ItemTag
               key={item.label}

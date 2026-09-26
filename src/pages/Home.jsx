@@ -11,21 +11,21 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Cynthia Tanawi — Product & Graphic Designer</title>
+        <title>Cynthia Tanawi — Product Designer</title>
         <link rel="canonical" href="https://cynthiatanawi.design/" />
         <meta
           name="description"
           content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Cynthia Tanawi — Product & Graphic Designer" />
+        <meta property="og:title" content="Cynthia Tanawi — Product Designer" />
         <meta
           property="og:description"
           content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
         />
         <meta property="og:image" content="/cynthia-og-image.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Cynthia Tanawi — Product & Graphic Designer" />
+        <meta name="twitter:title" content="Cynthia Tanawi — Product Designer" />
         <meta
           name="twitter:description"
           content="Cynthia Tanawi's design portfolio — product and graphic design work bridging storytelling, collaboration, and fearless problem-solving."
