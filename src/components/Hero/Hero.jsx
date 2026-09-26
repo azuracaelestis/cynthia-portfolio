@@ -13,6 +13,7 @@ import CharacterStage from './character/CharacterStage';
 import ThoughtPostits from './ThoughtPostits';
 import Decorations from './Decorations';
 import DecorationsMobile from './DecorationsMobile';
+import DecorationsMobileCharacter from './DecorationsMobileCharacter';
 
 // How long the sleeping character stays asleep after the visitor first stirs.
 const WAKE_DELAY_MS = 1000;
@@ -324,6 +325,12 @@ export default function Hero() {
 
       <div className="relative flex justify-center lg:justify-end lg:translate-y-[180px] lg:-translate-x-[114px]">
         <ThoughtPostits show={isThinking} />
+        <DecorationsMobileCharacter
+          show={mood === 'awake'}
+          entranceReady={entranceSettled && isCharacterRevealed}
+          playFirst={playFirstEntrance}
+          wakeCount={wakeCount}
+        />
         <CharacterStage ref={frameRef} mood={mood} eyeOffset={offset} tiltDeg={tiltDeg} />
       </div>
     </section>
