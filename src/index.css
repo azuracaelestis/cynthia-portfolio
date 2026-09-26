@@ -125,8 +125,18 @@ html.custom-cursor * {
   transition: transform 250ms cubic-bezier(0.5, 0, 0.75, 0), opacity 200ms ease-in;
 }
 
+/* --wake-x/y/rot are set by CharacterStage while the head swings between the
+   sleeping and awake poses, so the two crossfading heads stay aligned. */
+/* Awake eyes open after the sleep -> awake swap (CharacterStage sets --eye-open). */
+[data-eye] {
+  transform: scaleY(var(--eye-open, 1));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
 [data-head-tilt] {
-  transform: rotate(var(--head-tilt, 0deg));
+  transform: translate(var(--wake-x, 0px), var(--wake-y, 0px))
+    rotate(calc(var(--head-tilt, 0deg) + var(--wake-rot, 0deg)));
   transition: transform 150ms ease-out;
 }
 

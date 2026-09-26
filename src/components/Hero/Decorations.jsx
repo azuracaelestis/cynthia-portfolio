@@ -33,7 +33,7 @@ export default function Decorations({ show = true, entranceReady = true, playFir
       className="hidden lg:block pointer-events-none absolute inset-0 col-span-full row-span-full lg:translate-x-[50px]"
       aria-hidden="true"
       animate={{ opacity: show ? 1 : 0 }}
-      transition={{ duration: show ? 0.35 : 0.15, ease: 'easeInOut' }}
+      transition={{ duration: show ? 0.35 : 0.5, ease: 'easeInOut' }}
     >
       {STICKERS.map((sticker, index) => (
         <motion.div

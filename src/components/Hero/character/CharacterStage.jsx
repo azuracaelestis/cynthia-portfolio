@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, animate, cubicBezier, useMotionValue, useReducedMotion, useTransform } from 'framer-motion';
 import AwakeArt from './AwakeArt';
 import SleepingArt from './SleepingArt';
 import ThinkingArt from './ThinkingArt';
@@ -15,11 +15,30 @@ const ART_BY_MOOD = {
 // identically without reopening the frame-consistency fix.
 const CHARACTER_SCALE = 1.08;
 
-// Mood crossfades are quick (350ms), except waking up from sleep, which is a
-// slow 1.1s so the character stirs awake rather than snapping (the raised arm
-// follows even later; see [data-hand] in index.css).
+// Awake <-> thinking is a quick opacity crossfade. Sleeping <-> awake can't
+// be one: the two heads are different drawings, so any blend long enough to
+// read as smooth shows a double head. Instead a single `wake` progress (0
+// asleep, 1 awake) plays "lift, swap, blink": the sleeping head lifts about
+// the neck, the awake drawing takes over mid-motion at the same pose (a ~60ms
+// swap, masked by a small stretch), then settles and opens its eyes; the
+// raised arm follows (see [data-hand] in index.css). Falling asleep plays it
+// backwards.
 const CROSSFADE_MS = 350;
-const WAKE_CROSSFADE_MS = 1100;
+const WAKE_SECONDS = 1.4;
+const SLEEP_SECONDS = 0.9;
+const SWAP = [0.48, 0.52];
+
+// Sleeping head -> awake head, measured from the closed-eye strokes vs the
+// pupils (svg units): rotation in degrees plus the translate that follows it.
+const HEAD_ROT = 37.5;
+const SLEEP_HEAD_SHIFT = { x: -119.9, y: -8.7 };
+const AWAKE_HEAD_SHIFT = { x: 101.7, y: -68.5 };
+
+// How far the head has swung from the sleeping pose (0) to the awake pose (1):
+// speeding up into the swap, then easing out with a slight overshoot.
+const POSE_STOPS = [0, 0.5, 0.75, 0.9];
+const POSE_VALUES = [0, 0.7, 1.05, 1];
+const POSE_EASE = [cubicBezier(0.5, 0, 1, 1), cubicBezier(0, 0, 0.3, 1), cubicBezier(0.45, 0, 0.55, 1)];
 
 const ZZZ = [
   { className: 'top-[38%] right-[18%] text-lg', delay: 0 },
@@ -44,14 +63,40 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
   const isSleeping = mood === 'sleeping';
   const snoring = isSleeping && !reduceMotion;
 
-  // Read during the render that switches mood, before the effect below moves
-  // the ref on, so the crossfade that starts now gets the slow duration.
-  const previousMood = useRef(mood);
-  const wakingUp = previousMood.current === 'sleeping' && mood !== 'sleeping';
+  const wake = useMotionValue(isSleeping ? 0 : 1);
   useEffect(() => {
-    previousMood.current = mood;
-  }, [mood]);
-  const crossfadeMs = reduceMotion ? 0 : wakingUp ? WAKE_CROSSFADE_MS : CROSSFADE_MS;
+    const target = isSleeping ? 0 : 1;
+    if (reduceMotion) {
+      wake.set(target);
+      return undefined;
+    }
+    const controls = animate(wake, target, {
+      duration: isSleeping ? SLEEP_SECONDS : WAKE_SECONDS,
+      ease: 'linear',
+    });
+    return () => controls.stop();
+  }, [isSleeping, reduceMotion, wake]);
+
+  // The awake-side layer that stays fully opaque underneath the wake fade.
+  const awakeMood = useRef('awake');
+  if (mood !== 'sleeping') awakeMood.current = mood;
+
+  const pose = useTransform(wake, POSE_STOPS, POSE_VALUES, { ease: POSE_EASE });
+  const sleepOpacity = useTransform(wake, SWAP, [1, 0]);
+  const awakeOpacity = useTransform(wake, SWAP, [0, 1]);
+  const eyeOpen = useTransform(wake, [0.55, 0.8], [0.1, 1]);
+  const stretch = useTransform(wake, [0.4, 0.5, 0.65], [1, 1.02, 1]);
+  const sleepRot = useTransform(pose, (p) => `${HEAD_ROT * p}deg`);
+  const sleepX = useTransform(pose, (p) => `${SLEEP_HEAD_SHIFT.x * p}px`);
+  const sleepY = useTransform(pose, (p) => `${SLEEP_HEAD_SHIFT.y * p}px`);
+  const awakeRot = useTransform(pose, (p) => `${-HEAD_ROT * (1 - p)}deg`);
+  const awakeX = useTransform(pose, (p) => `${AWAKE_HEAD_SHIFT.x * (1 - p)}px`);
+  const awakeY = useTransform(pose, (p) => `${AWAKE_HEAD_SHIFT.y * (1 - p)}px`);
+  const layerMotion = {
+    sleeping: { opacity: sleepOpacity, '--wake-rot': sleepRot, '--wake-x': sleepX, '--wake-y': sleepY },
+    awake: { opacity: awakeOpacity, '--wake-rot': awakeRot, '--wake-x': awakeX, '--wake-y': awakeY, '--eye-open': eyeOpen },
+  };
+  layerMotion.thinking = layerMotion.awake;
 
   return (
     <motion.div
@@ -72,19 +117,21 @@ const CharacterStage = forwardRef(function CharacterStage({ mood, eyeOffset, til
           animate={reduceMotion ? undefined : { y: [0, -8, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          {Object.entries(ART_BY_MOOD).map(([key, Art]) => (
-            <Art
-              key={key}
-              className="absolute inset-0 h-full w-full select-none"
-              style={{
-                opacity: mood === key ? 1 : 0,
-                pointerEvents: 'none',
-                transitionProperty: 'opacity',
-                transitionDuration: `${crossfadeMs}ms`,
-                transitionTimingFunction: 'ease-in-out',
-              }}
-            />
-          ))}
+          <motion.div className="absolute inset-0" style={{ scaleY: stretch, transformOrigin: 'bottom center' }}>
+            {Object.entries(ART_BY_MOOD).map(([key, Art]) => (
+              <motion.div key={key} className="absolute inset-0" style={{ ...layerMotion[key], pointerEvents: 'none' }}>
+                <Art
+                  className="absolute inset-0 h-full w-full select-none"
+                  style={{
+                    opacity: key === 'sleeping' || key === awakeMood.current ? 1 : 0,
+                    transitionProperty: 'opacity',
+                    transitionDuration: `${reduceMotion ? 0 : CROSSFADE_MS}ms`,
+                    transitionTimingFunction: 'ease-in-out',
+                  }}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
 

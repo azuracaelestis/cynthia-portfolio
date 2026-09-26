@@ -30,7 +30,7 @@ export default function DecorationsMobileCharacter({ show = true, entranceReady 
       className="pointer-events-none absolute left-1/2 top-0 h-[351px] w-[282px] -translate-x-1/2 lg:hidden"
       aria-hidden="true"
       animate={{ opacity: show ? 1 : 0 }}
-      transition={{ duration: show ? 0.35 : 0.15, ease: 'easeInOut' }}
+      transition={{ duration: show ? 0.35 : 0.5, ease: 'easeInOut' }}
     >
       {STICKERS.map((sticker, index) => (
         <motion.div
