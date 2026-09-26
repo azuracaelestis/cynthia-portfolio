@@ -14,7 +14,7 @@ import stickerPaleBloom from '../../assets/hero/decorations/sticker-345.svg';
 const STICKERS = [
   { src: stickerBlueBloom, className: 'lg:top-[22%] lg:left-[57%] lg:w-[48px]', x: 0, y: -48, duration: 6, delay: 0 },
   { src: stickerYellowBlob, className: 'lg:top-[24%] lg:right-[14%] lg:left-auto lg:w-[50px]', x: -34, y: -8, duration: 7, delay: 0.4 },
-  { src: stickerGear, className: 'hidden lg:block lg:top-[58%] lg:left-[50%] lg:w-[78px]', x: 0, y: 80, duration: 6.5, delay: 0.8 },
+  { src: stickerGear, className: 'hidden lg:block lg:top-[58%] lg:left-[50%] lg:w-[78px]', x: -24, y: 80, duration: 6.5, delay: 0.8 },
   { src: stickerPaleBloom, className: 'lg:top-[48%] lg:right-[8%] lg:left-auto lg:w-[72px]', x: 0, y: 0, duration: 5.5, delay: 1.2 },
 ];
 
