@@ -26,7 +26,9 @@ export default function Header() {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isTfam = location.pathname === '/work/tfam-app';
-  const pageIndex = NAV_ITEMS.findIndex((item) => item.to === location.pathname);
+  const pageIndex = NAV_ITEMS.findIndex(
+    (item) => item.to && (location.pathname === item.to || location.pathname.startsWith(`${item.to}/`)),
+  );
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const effectiveSelectedIndex = isHome ? selectedIndex : pageIndex !== -1 ? pageIndex : null;

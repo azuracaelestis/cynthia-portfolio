@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -9,6 +10,9 @@ import heroFlowerYellow from '../assets/visual/hero-flower-yellow.svg';
 import heroPictureCard from '../assets/visual/hero-picture-card.svg';
 import heroFlowerBlue from '../assets/visual/hero-flower-blue.svg';
 import folder from '../assets/visual/folder.svg';
+import brochureCover from '../assets/visual/education-brochure/cover.jpg';
+import brochureViewboard from '../assets/visual/education-brochure/spread-viewboard.jpg';
+import brochureMonitors from '../assets/visual/education-brochure/spread-creative-monitors.jpg';
 
 // Desktop layout, built from the Figma frame "Cynthia - Portfolio Visual"
 // (1440 wide; node 360:390). The hero is a fixed-aspect stage so the
@@ -29,7 +33,7 @@ const place = (x, y, w) => ({
 // enough to notice, gentle enough not to distract. `delay` is the entrance
 // start (seconds); the float begins once the entrance has landed.
 const FLOATERS = [
-  { name: 'picture-card', src: heroPictureCard, pos: place(668.94, 201, 169), delay: 0.4, rise: 12, tilt: 1.5, period: 4.6, z: 'z-20' },
+  { name: 'picture-card', src: heroPictureCard, pos: place(669.94, 176, 170), delay: 0.4, rise: 12, tilt: 1.5, period: 4.6, z: 'z-20' },
   { name: 'palette-card', src: paletteCard, pos: place(1138.38, 172, 123.21), delay: 0.7, rise: 10, tilt: -1.5, period: 5.2, z: '' },
   { name: 'yellow-flower', src: heroFlowerYellow, pos: place(615, 475, 83), delay: 1.0, rise: 11, tilt: 4, period: 4.2, z: '' },
   { name: 'blue-flower', src: heroFlowerBlue, pos: place(1247, 339, 91), delay: 1.3, rise: 9, tilt: -4, period: 4.9, z: '' },
@@ -66,8 +70,15 @@ function Floater({ src, pos, delay, rise, tilt, period, z }) {
 // Captions are placeholders except Bett's — they only exist so the hover
 // reveal can be judged; replace with real copy per project.
 const PLACEHOLDER_CAPTION = 'Project description goes here.';
+// `files` are the sheets inside the folder, left to right (the last one is the
+// front sheet). Projects without files show plain white placeholder sheets.
 const PROJECTS = [
-  { title: 'Bett 2024', caption: 'Promotional campaign and motion storytelling for ViewSonic at BETT.' },
+  {
+    title: 'Education Brochure 2026',
+    caption: 'A modular brochure system that makes the education ecosystem clearer across global markets.',
+    to: '/visual-design/education-brochure-2026',
+    files: [brochureMonitors, brochureViewboard, brochureCover],
+  },
   { title: 'IFP53' },
   {},
   {},
@@ -96,14 +107,22 @@ const EASE = [0.22, 1, 0.36, 1];
 // above it, and the caption fades in below. Without a hover-capable pointer
 // (touch) there is nothing to trigger it, so the caption just stays visible;
 // with reduced motion the same end states apply instantly.
-function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
+function FolderCard({ title, caption = PLACEHOLDER_CAPTION, files = [], to }) {
+  // Keyboard focus opens the folder the same way hover does.
+  const [focused, setFocused] = useState(false);
   const reduceMotion = useReducedMotion();
   const canHover = useMediaQuery('(hover: hover)');
   const t = (duration, delay = 0) => ({ duration: reduceMotion ? 0 : duration, delay: reduceMotion ? 0 : delay, ease: EASE });
 
+  const Wrapper = to ? Link : 'div';
   return (
+    <Wrapper
+      {...(to ? { to, 'aria-label': `${title}: ${caption}`, onFocus: () => setFocused(true), onBlur: () => setFocused(false) } : {})}
+      className="block rounded-[32px] outline-none focus-visible:ring-2 focus-visible:ring-case-study-blue"
+    >
     <motion.div
       initial="rest"
+      animate={focused ? 'hover' : 'rest'}
       whileHover="hover"
       className="flex flex-col items-center gap-8"
     >
@@ -121,12 +140,14 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
               }}
             >
               <motion.div
-                className="h-[223px] w-[284px] rounded-[15px] bg-white shadow-[0px_0px_6px_2px_rgba(0,0,0,0.05)]"
+                className="h-[223px] w-[284px] overflow-hidden rounded-[15px] bg-white shadow-[0px_0px_6px_2px_rgba(0,0,0,0.05)]"
                 variants={{
                   rest: { rotate: sheet.rotate, transition: t(0.45) },
                   hover: { rotate: sheet.hover.rotate, transition: t(0.5, i * 0.03) },
                 }}
-              />
+              >
+                {files[i] && <img src={files[i]} alt="" className="size-full object-cover" />}
+              </motion.div>
             </motion.div>
           ))}
           <motion.div
@@ -138,7 +159,13 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
           >
             <img src={folder} alt="" className="absolute inset-0 block size-full max-w-none" />
             {title && (
-              <p className="absolute inset-x-0 top-[60.67%] text-center font-satoshi font-bold text-[36px] leading-[75px] text-black">
+              // Same band as the original single-line label (centred ~182px
+              // down the folder); long titles drop a size and wrap to two lines.
+              <p
+                className={`absolute inset-x-0 top-[60.67%] flex h-[75px] items-center justify-center px-5 text-center font-satoshi font-bold text-black text-balance ${
+                  title.length > 12 ? 'text-[28px] leading-[32px]' : 'text-[36px] leading-[75px]'
+                }`}
+              >
                 {title}
               </p>
             )}
@@ -148,7 +175,7 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
       {/* Reserved so every row keeps the same rhythm; stays in the DOM (and
           readable to assistive tech and crawlers) while hidden at rest. */}
       <motion.p
-        className="h-12 w-[328px] text-center font-satoshi text-[16px] leading-6 text-black"
+        className="h-12 w-[400px] max-w-none text-center font-satoshi text-[16px] leading-6 text-black"
         variants={{
           rest: { opacity: canHover ? 0 : 1, y: canHover ? 8 : 0, transition: t(0.25) },
           hover: { opacity: 1, y: 0, transition: t(0.35, 0.12) },
@@ -157,6 +184,7 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION }) {
         {caption}
       </motion.p>
     </motion.div>
+    </Wrapper>
   );
 }
 

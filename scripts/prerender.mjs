@@ -35,16 +35,23 @@ const ROUTES = [
     path: '/work/tfam-app',
     title: 'TFAM App — Cynthia Tanawi',
     description:
-      'TFAM built a branding campaign, not a companion. An end-to-end redesign of the Taipei Fine Arts Museum app, focused on surfacing what was already there.',
+      'I redesigned the Taipei Fine Arts Museum app around three moments in the museum journey: plan, wander, and remember.',
     ogType: 'article',
     ogImage: '/tfam-app-og-image.jpg',
   },
   {
     path: '/work/classroom-quest',
     title: 'Classroom Quest — Cynthia Tanawi',
-    description: 'A gamified experience that taught teachers about myViewBoard 3.0 by turning real classroom problems into play.',
+    description: 'A gamified experience that helped teachers discover myViewBoard 3.0 through familiar classroom challenges.',
     ogType: 'article',
     ogImage: '/classroom-quest-og-image.jpg',
+  },
+  {
+    path: '/visual-design/education-brochure-2026',
+    title: 'Education Brochure 2026 — Cynthia Tanawi',
+    description: 'A modular brochure system that makes the ViewSonic education ecosystem clearer across global markets.',
+    ogType: 'article',
+    ogImage: '/cynthia-og-image.jpg',
   },
 ];
 
