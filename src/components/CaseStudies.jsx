@@ -30,6 +30,15 @@ function StudyCard({ study, index }) {
 
       <div className="absolute top-[51px] left-[24px] right-[24px] lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[48%] lg:flex lg:flex-col lg:justify-center lg:pl-14 lg:pr-6">
         <div className="max-w-[440px] translate-y-[28px]">
+          {study.meta && (
+            <ul className="mb-4 flex flex-wrap gap-2">
+              {study.meta.map((label) => (
+                <li key={label} className="rounded-lg bg-tag-cream/70 px-3 py-1 font-satoshi text-[13px] font-medium text-black lg:px-4 lg:py-1.5 lg:text-[14px]">
+                  {label}
+                </li>
+              ))}
+            </ul>
+          )}
           <h3 className="font-satoshi font-bold text-[24px] md:text-[32px] lg:text-[36px] text-[#000000] leading-tight">
             {study.title}
           </h3>

@@ -94,7 +94,7 @@ export default function Overview() {
           Taipei Fine Arts Museum (TFAM)
         </span>
         <h1 className="mt-4 lg:mt-3 font-satoshi font-bold text-[36px] leading-[47px] lg:text-[48px] lg:leading-[60px] text-white">
-          Redesigning a museum app around what visitors need, when they need it
+          A museum app for every moment
         </h1>
 
         <div className="mt-6 lg:mt-6 flex flex-col gap-6 lg:flex-row lg:justify-start lg:gap-x-12 rounded-2xl border border-white/25 bg-white/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] px-6 py-6 lg:pl-8 lg:pr-10 lg:py-8">

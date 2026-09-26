@@ -138,6 +138,15 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
                       Coming soon
                     </span>
                   )}
+                  {study.meta && (
+                    <ul className="mb-4 flex flex-wrap gap-2">
+                      {study.meta.map((label) => (
+                        <li key={label} className="rounded-lg bg-tag-cream/70 px-3 py-1 font-satoshi text-[13px] font-medium text-ink lg:px-4 lg:py-1.5 lg:text-[14px]">
+                          {label}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <h3 className="font-satoshi font-bold text-[24px] lg:text-[32px] text-ink leading-tight">
                     {study.title}
                   </h3>

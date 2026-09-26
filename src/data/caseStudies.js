@@ -19,7 +19,8 @@ export const CASE_STUDIES = [
   {
     id: 'tfam',
     tag: 'Taipei Fine Arts Museum',
-    title: 'Redesigning a museum app around what visitors need, when they need it',
+    meta: ['Mobile', 'End-to-End', 'Independent'],
+    title: 'A museum app for every moment',
     body: 'I redesigned the TFAM app around three moments in the museum journey: plan, wander, and remember.',
     folder: folderYellow,
     folderMobile: folderMobileYellow,

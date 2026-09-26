@@ -22,7 +22,7 @@ const SWELL = 36;
 const PILL_HEIGHT = 46;
 const PILL_PADDING = 21; // each side
 const ICON = 26; // the flower art has empty margin, so this reads as roughly a 20px icon
-const SPIN_SECONDS = 7; // one full turn of the flower
+const SPIN_SECONDS = 1.2; // one full turn of the flower (the shape is 15-fold symmetric, so slower looks static)
 
 const TONE_CLASS = {
   brand: 'bg-case-study-blue text-white',
