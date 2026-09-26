@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import hatIcon from '../assets/hero/character/hat-icon.svg';
@@ -14,6 +14,48 @@ const NAV_ITEMS = [
 
 // Only the in-page anchors take part in scroll-spy; 'Visual' is its own page.
 const SECTION_IDS = NAV_ITEMS.filter((item) => item.href).map((item) => item.href.slice(1));
+
+// The nav highlight (the pill behind the selected / hovered item) slides
+// between items by animating its measured x / y / size — position relative to
+// the bar (offsetLeft / offsetTop), never the page. A shared-layout animation
+// (framer's layoutId) was used before, but it measures in page coordinates, so
+// a route change that resets the scroll to the top (tapping Visual from far
+// down the home page) made the pill fly in from the old scroll offset instead
+// of sliding between items. Returns the last measured rect (so the pill can
+// fade out in place) and whether an item is currently selected.
+function useItemRect(containerRef, itemRefs, index) {
+  const [rect, setRect] = useState(null);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = index == null ? null : itemRefs.current[index];
+      if (el) setRect({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight });
+    };
+    measure();
+    const container = containerRef.current;
+    const observer = typeof ResizeObserver !== 'undefined' && container ? new ResizeObserver(measure) : null;
+    observer?.observe(container);
+    window.addEventListener('resize', measure);
+    document.fonts?.ready.then(measure);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [containerRef, itemRefs, index]);
+  return { rect, visible: index != null };
+}
+
+function NavHighlight({ rect, visible, color, reduceMotion }) {
+  if (!rect) return null;
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="pointer-events-none absolute left-0 top-0 rounded-full"
+      initial={false}
+      animate={{ x: rect.x, y: rect.y, width: rect.w, height: rect.h, opacity: visible ? 1 : 0, backgroundColor: color }}
+      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 500, damping: 35 }}
+    />
+  );
+}
 
 // Anchor items scroll within the home page (or route back to it from
 // elsewhere); page items always route to their own URL.
@@ -34,6 +76,12 @@ export default function Header() {
   const effectiveSelectedIndex = isHome ? selectedIndex : pageIndex !== -1 ? pageIndex : null;
   const displayIndex = hoveredIndex ?? effectiveSelectedIndex;
   const isHovering = hoveredIndex !== null;
+  const desktopItemsRef = useRef([]);
+  const desktopItemsBox = useRef(null);
+  const desktopHighlight = useItemRect(desktopItemsBox, desktopItemsRef, displayIndex);
+  const mobileNavBox = useRef(null);
+  const mobileItemsRef = useRef([]);
+  const mobileHighlight = useItemRect(mobileNavBox, mobileItemsRef, effectiveSelectedIndex);
   const hasScrolled = useHasScrolled();
   const activeId = useActiveSection(SECTION_IDS);
   const reduceMotion = useReducedMotion();
@@ -135,25 +183,21 @@ export default function Header() {
           <span className="font-satoshi font-semibold text-[14px] lg:text-[16px] text-ink whitespace-nowrap transition-colors group-hover:text-about-blue">Cynthia Tanawi</span>
         </Link>
 
-        <div className="flex items-center gap-1" onMouseLeave={() => setHoveredIndex(null)}>
+        <div ref={desktopItemsBox} className="relative flex items-center gap-1" onMouseLeave={() => setHoveredIndex(null)}>
+          <NavHighlight {...desktopHighlight} color={isHovering ? '#B0DDF8' : '#1A87D5'} reduceMotion={reduceMotion} />
           {NAV_ITEMS.map((item, i) => {
             const { Tag: ItemTag, props: itemLinkProps } = getItemLink(item, isHome);
             return (
               <ItemTag
                 key={item.label}
+                ref={(el) => {
+                  desktopItemsRef.current[i] = el;
+                }}
                 {...itemLinkProps}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onClick={() => setSelectedIndex(i)}
                 className="font-satoshi relative rounded-full px-4 py-1.5 font-semibold text-[14px]"
               >
-                {displayIndex === i && (
-                  <motion.span
-                    layoutId="nav-highlight"
-                    className="absolute inset-0 rounded-full"
-                    animate={{ backgroundColor: isHovering ? '#B0DDF8' : '#1A87D5' }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                  />
-                )}
                 <span
                   className={`relative z-10 transition-colors ${
                     displayIndex === i ? (isHovering ? 'text-ink' : 'text-white') : 'text-black'
@@ -211,26 +255,24 @@ export default function Header() {
       </motion.nav>
 
       <nav
+        ref={mobileNavBox}
         aria-label="Mobile"
         className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-sky-50 rounded-full px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-md"
       >
+        <NavHighlight {...mobileHighlight} color="#1A87D5" reduceMotion={reduceMotion} />
         {NAV_ITEMS.map((item, i) => {
           const { Tag: ItemTag, props: itemLinkProps } = getItemLink(item, isHome);
           return (
             <ItemTag
               key={item.label}
+              ref={(el) => {
+                mobileItemsRef.current[i] = el;
+              }}
               {...itemLinkProps}
               onClick={() => setSelectedIndex(i)}
               aria-current={effectiveSelectedIndex === i ? 'page' : undefined}
               className="font-satoshi relative min-h-[44px] flex items-center justify-center rounded-full px-4 font-semibold text-[14px]"
             >
-              {effectiveSelectedIndex === i && (
-                <motion.span
-                  layoutId="mobile-nav-highlight"
-                  className="absolute inset-0 rounded-full bg-[#1A87D5]"
-                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                />
-              )}
               <span className={`relative z-10 transition-colors ${effectiveSelectedIndex === i ? 'text-white' : 'text-ink'}`}>
                 {item.label}
               </span>
