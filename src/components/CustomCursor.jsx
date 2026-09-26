@@ -58,7 +58,9 @@ function Flower({ spinning }) {
 }
 
 export default function CustomCursor() {
-  const enabled = useMediaQuery('(hover: hover) and (pointer: fine)');
+  // Desktop only: a fine pointer AND a desktop-width window (lg and up), so a narrowed
+  // browser window that emulates mobile keeps the native cursor too.
+  const enabled = useMediaQuery('(hover: hover) and (pointer: fine) and (min-width: 1024px)');
   const reduceMotion = useReducedMotion();
 
   const x = useMotionValue(-100);

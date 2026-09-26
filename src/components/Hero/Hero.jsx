@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useTimeOfDay } from '../../hooks/useTimeOfDay';
 import { useIsScrolling } from '../../hooks/useIsScrolling';
+import { useIsScrollingDown } from '../../hooks/useIsScrollingDown';
 import { useCharacterMood } from '../../hooks/useCharacterMood';
 import { useEyeTracking } from '../../hooks/useEyeTracking';
 import { useDelayedTrue } from '../../hooks/useDelayedTrue';
+import { useIsIdle } from '../../hooks/useIsIdle';
 import { useWakeOnInteraction } from '../../hooks/useWakeOnInteraction';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useSeenAtRest } from '../../hooks/useSeenAtRest';
@@ -17,6 +19,8 @@ import DecorationsMobileCharacter from './DecorationsMobileCharacter';
 
 // How long the sleeping character stays asleep after the visitor first stirs.
 const WAKE_DELAY_MS = 1000;
+// With no mouse movement, scrolling, touch or key press for this long she dozes off again.
+const IDLE_SLEEP_MS = 60000;
 
 const ENTRANCE_STORAGE_KEY = 'portfolio:hero:entrance-played';
 
@@ -135,7 +139,7 @@ export default function Hero() {
   // hero is scrolling out of view, instead of cutting off immediately.
   const isHeroInView = useInView(sectionRef, { amount: 0.1 });
   const isNight = useTimeOfDay();
-  const isScrolling = useIsScrolling(1800); // keep — thinking hold
+  const isScrollingDown = useIsScrollingDown(1800); // thinking trigger + hold: scrolling DOWN out of the hero only
   const isScrollingQuick = useIsScrolling(400); // new — for the wake gate
   const hasWokenUp = useWakeOnInteraction();
   const [isHoveringWork, setIsHoveringWork] = useState(false);
@@ -195,24 +199,39 @@ export default function Hero() {
   const stirred = (hasWokenUp && mobileGateOpen) || isHoveringWork || isHoveringResume;
   const wakeReady = useDelayedTrue(stirred, reduceMotion ? 0 : WAKE_DELAY_MS);
   const isAwakened = wakeReady || hasEyeWoken;
-  const stillAsleep = isNight && !isAwakened;
+
+  // Dozing off again: after IDLE_SLEEP_MS of no activity she goes back to sleep
+  // (night only: 8pm-6am, like the sleeping she starts the day with). Any activity starts the same two-step wake: the
+  // character stays asleep for WAKE_DELAY_MS, then wakes slowly. `activeDelayed`
+  // is "has been active for a second"; `hasIdled` latches so this never
+  // applies before the first idle spell.
+  const isIdle = useIsIdle(IDLE_SLEEP_MS);
+  const [hasIdled, setHasIdled] = useState(false);
+  useEffect(() => {
+    if (isIdle) setHasIdled(true);
+  }, [isIdle]);
+  const activeDelayed = useDelayedTrue(!isIdle, reduceMotion ? 0 : WAKE_DELAY_MS);
+  const napping = isNight && hasIdled && !activeDelayed;
+
+  const stillAsleep = (isNight && !isAwakened) || napping;
   // Scrolling would normally jump straight to 'thinking'; while still in bed it waits too.
-  const isThinking = isScrolling && isHeroInView && mobileGateOpen && !stillAsleep;
+  const isThinking = isScrollingDown && isHeroInView && mobileGateOpen && !stillAsleep;
   const mood = useCharacterMood({
-    isNight,
+    isNight: isNight || napping,
     isHoveringWork: false, // CTA hover is folded into `stirred` above
     isHoveringResume: false,
     isThinkingScroll: isThinking,
     reduceMotion,
-    hasWokenUp: isAwakened,
+    hasWokenUp: isAwakened && !napping,
   });
   const { offset, tiltDeg } = useEyeTracking(frameRef, { enabled: !reduceMotion });
 
-  // The stickers around her pop in one by one on the visitor's FIRST entrance
-  // (latched at mount: the entrance flag flips true mid-play) and again each
-  // time she wakes from sleep — but not on the wake that coincides with the
-  // first entrance (it is the same moment), nor on awake <-> thinking.
-  const [playFirstEntrance] = useState(() => !hasPlayedEntrance);
+  // The stickers around her pop in one by one every time the home page mounts
+  // — a fresh load, a reload, or coming back from another page — and again
+  // each time she wakes from sleep, but not on the wake that coincides with
+  // that entrance (it is the same moment), nor on awake <-> thinking. (The
+  // headline's word cascade, by contrast, still plays once per session.)
+  const playFirstEntrance = true;
   const [wakeCount, setWakeCount] = useState(0);
   const previousMood = useRef(mood);
   const decorationsPlayed = useRef(false);

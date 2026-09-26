@@ -139,13 +139,9 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
                     </span>
                   )}
                   {study.meta && (
-                    <ul className="mb-4 flex -translate-y-3 flex-wrap gap-2">
-                      {study.meta.map((label) => (
-                        <li key={label} className="rounded-full shadow-[inset_0_0_0_0.5px_#000] px-3 py-1 font-satoshi text-[13px] font-medium text-ink lg:px-4 lg:py-1.5 lg:text-[14px]">
-                          {label}
-                        </li>
-                      ))}
-                    </ul>
+                    <p className="mb-4 -translate-y-3 font-satoshi text-[14px] font-medium text-ink/70 lg:text-[16px]">
+                      {study.meta.join(' · ')}
+                    </p>
                   )}
                   <h3 className="font-satoshi font-bold text-[24px] lg:text-[32px] text-ink leading-tight">
                     {study.title}
