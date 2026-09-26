@@ -8,7 +8,7 @@ function StudyCard({ study, index }) {
   const reduceMotion = useReducedMotion();
   const isMobileViewport = useMediaQuery('(max-width: 1023px)');
   const Wrapper = study.link ? Link : 'div';
-  const wrapperProps = study.link ? { to: study.link } : {};
+  const wrapperProps = study.link ? { to: study.link, 'data-cursor': 'Read case study' } : {};
 
   const cardContent = (
     <>
@@ -34,13 +34,6 @@ function StudyCard({ study, index }) {
             {study.title}
           </h3>
           <p className="mt-4 font-satoshi font-light lg:font-normal text-[16px] md:text-lg lg:text-[20px] text-black">{study.body}</p>
-          {study.arrowRight && (
-            <img
-              src={study.arrowRight}
-              alt=""
-              className="hidden lg:block mt-4 w-[48px] opacity-0 -translate-x-4 transition-[opacity,transform] duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0"
-            />
-          )}
           {study.thumbnail?.phones && (
             <div className="lg:hidden relative mt-[25px] w-full aspect-[6/5]">
               <motion.img

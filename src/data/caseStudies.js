@@ -6,8 +6,6 @@ import folderMobileYellow from '../assets/case study/folder-mobile/folder-mobile
 import folderMobileBlue from '../assets/case study/folder-mobile/folder-mobile-blue.svg';
 import folderMobileBrown from '../assets/case study/folder-mobile/folder-mobile-brown.svg';
 import folderBlueHover from '../assets/case study/folder/folder-blue-hover.svg';
-import arrowRight from '../assets/case study/folder-thumnail/classroom quest/arrow-right.svg';
-import arrowRightBlack from '../assets/case study/folder/arrow-right-black.svg';
 import classroomQuestMockup from '../assets/case study/folder-thumnail/classroom quest/Classroom Quest.jpg';
 import cyanBird from '../assets/case study/folder-thumnail/classroom quest/cyan-bird.svg';
 import purpleBlueBird from '../assets/case study/folder-thumnail/classroom quest/purple-blue_bird.svg';
@@ -26,7 +24,6 @@ export const CASE_STUDIES = [
     folder: folderYellow,
     folderMobile: folderMobileYellow,
     folderHover: folderYellowHover,
-    arrowRight: arrowRightBlack,
     rotate: -5,
     link: '/work/tfam-app',
     thumbnail: {
@@ -43,7 +40,6 @@ export const CASE_STUDIES = [
     folder: folderBlue,
     folderMobile: folderMobileBlue,
     folderHover: folderBlueHover,
-    arrowRight,
     rotate: 4,
     link: '/work/classroom-quest',
     thumbnail: {

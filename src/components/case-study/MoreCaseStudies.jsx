@@ -49,7 +49,7 @@ export default function MoreCaseStudies({ currentId, background = 'bg-case-study
       ? Array.from({ length: PEEK_COUNT }, (_, i) => otherStudies[i % otherStudies.length])
       : [];
   const Wrapper = study.link ? Link : 'div';
-  const wrapperProps = study.link ? { to: study.link } : {};
+  const wrapperProps = study.link ? { to: study.link, 'data-cursor': 'Read case study' } : {};
 
   async function handleShuffle() {
     const myToken = ++tokenRef.current;

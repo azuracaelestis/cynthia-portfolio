@@ -117,7 +117,7 @@ function FolderCard({ title, caption = PLACEHOLDER_CAPTION, files = [], to }) {
   const Wrapper = to ? Link : 'div';
   return (
     <Wrapper
-      {...(to ? { to, 'aria-label': `${title}: ${caption}`, onFocus: () => setFocused(true), onBlur: () => setFocused(false) } : {})}
+      {...(to ? { to, 'data-cursor': 'View', 'data-cursor-tone': 'light', 'aria-label': `${title}: ${caption}`, onFocus: () => setFocused(true), onBlur: () => setFocused(false) } : {})}
       className="block rounded-[32px] outline-none focus-visible:ring-2 focus-visible:ring-case-study-blue"
     >
     <motion.div

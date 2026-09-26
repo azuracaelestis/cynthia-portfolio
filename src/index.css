@@ -91,6 +91,13 @@ body {
   display: none;
 }
 
+/* Custom cursor (see CustomCursor.jsx): the native cursor is hidden while it
+   is active — it only mounts for fine pointers, and only then adds this class. */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
 /* Hero character eye-tracking + head-tilt channels: driven purely by the
    --eye-x/--eye-y/--head-tilt custom properties set on the CharacterStage
    frame (see useEyeTracking.js), so the tracking hook only ever writes CSS

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 import Home from './pages/Home';
 import { useScrollToTopOnNavigate } from './hooks/useScrollToTopOnNavigate';
 
@@ -31,6 +32,7 @@ export function AppLayout() {
         </Suspense>
       </main>
       <Footer />
+      <CustomCursor />
     </div>
   );
 }
