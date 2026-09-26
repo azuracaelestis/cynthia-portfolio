@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import viewboardTextDesktop from '../../../assets/case study/case-study-classroom-quest/reflection/viewboard_text_desktop2.svg';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 const LESSONS = [
   {
@@ -120,35 +121,35 @@ export default function ImpactReflection() {
   };
 
   return (
-    <Section id="impact-reflection" eyebrow="IMPACT & REFLECTION" title="The direct hand-off">
+    <Section flow id="impact-reflection" eyebrow="IMPACT & REFLECTION" title="The direct hand-off">
       <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-4">
+        <Flow className="flex flex-col gap-4">
           <p className="font-satoshi font-bold text-[20px] text-black">Shipped, but promotion was paused</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
             Classroom Quest was completed and launched on ViewSonic&apos;s website. Before the planned campaign began,
             the myViewBoard 3.0 product team paused promotion to address usability issues in the core product. As a
             result, the campaign did not generate enough traffic to evaluate conversion or adoption reliably.
           </p>
-        </div>
-        <div className="flex flex-col gap-4">
+        </Flow>
+        <Flow className="flex flex-col gap-4">
           <p className="font-satoshi font-bold text-[20px] text-black">What I’d measure after launch</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
             I’d track three signals: completion across all five scenes, clicks from the Result Page to the download
             page, and time spent in each scenario. Together, they would show whether the experience moved teachers
             from engagement to action.
           </p>
-        </div>
+        </Flow>
       </div>
 
       <div className="flex flex-col gap-6 mt-12 lg:mt-8">
-        <div className="flex flex-col gap-4">
+        <Flow className="flex flex-col gap-4">
           <p className="font-satoshi font-bold text-[20px] text-black">Reflection</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
             This project reshaped how I think about building design: as big-team collaboration, where communicating
             the work clearly and bringing the whole team along matters as much as the design itself.
           </p>
-        </div>
-        <div className="relative">
+        </Flow>
+        <Flow className="relative">
           <div
             ref={scrollerRef}
             onPointerDown={handlePointerDown}
@@ -212,17 +213,17 @@ export default function ImpactReflection() {
           >
             <ChevronIcon direction="right" />
           </button>
-        </div>
+        </Flow>
       </div>
 
-      <div className="mt-12 lg:mt-8 flex flex-col gap-4">
+      <Flow className="mt-12 lg:mt-8 flex flex-col gap-4">
         <p className="font-satoshi font-bold text-[28px] lg:text-[36px] text-ink leading-tight">Play it yourself</p>
         <p className="font-satoshi text-[16px] text-black leading-[23px]">
           This is the real game — it&apos;s live, but no one ever got to hear about it. Try it yourself.
         </p>
-      </div>
+      </Flow>
 
-      <div className="relative mt-8 scale-110 lg:scale-100 lg:max-w-[94%] lg:mx-auto">
+      <Flow className="relative mt-8 scale-110 lg:scale-100 lg:max-w-[94%] lg:mx-auto">
         <img
           src={viewboardTextDesktop}
           alt="myViewBoard 3.0 browser mockup showing the Classroom Quest game live on the ViewSonic Education website."
@@ -237,7 +238,7 @@ export default function ImpactReflection() {
         >
           Embark on Your Quest
         </a>
-      </div>
+      </Flow>
     </Section>
   );
 }

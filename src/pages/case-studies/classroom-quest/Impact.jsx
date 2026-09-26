@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import Flow from '../../../components/Flow';
 
 // Shared scroll-reveal recipe (matches Section.jsx / Diagnosis / Symptoms /
 // Solutions / Testing / Reflection — one fade+rise system across the page).
@@ -55,36 +56,38 @@ export default function Impact() {
   return (
     <div className="bg-case-study-cream">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-[97px] lg:pt-[109px]">
-        <section id="impact" className="scroll-mt-28 rounded-3xl bg-[#E7F5FD] p-6 lg:p-8">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={revealViewport}
-            variants={variants}
-            transition={transition}
-            className="flex items-center gap-3 font-satoshi font-bold text-[24px] text-ink leading-tight mb-6 lg:mb-8"
-          >
-            <LightbulbIcon className="size-6 shrink-0" />
-            Project Outcome
-          </motion.h2>
+        <Flow>
+          <section id="impact" className="scroll-mt-28 rounded-3xl bg-[#E7F5FD] p-6 lg:p-8">
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={revealViewport}
+              variants={variants}
+              transition={transition}
+              className="flex items-center gap-3 font-satoshi font-bold text-[24px] text-ink leading-tight mb-6 lg:mb-8"
+            >
+              <LightbulbIcon className="size-6 shrink-0" />
+              Project Outcome
+            </motion.h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-            {IMPACTS.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={revealViewport}
-                variants={variants}
-                transition={{ ...transition, delay: reduceMotion ? 0 : i * ITEM_STAGGER }}
-                className="bg-white rounded-2xl p-6 flex flex-col gap-3"
-              >
-                <p className="font-satoshi font-bold text-[20px] text-ink">{item.title}</p>
-                <p className="font-satoshi text-[16px] text-ink leading-[23px]">{item.body}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+              {IMPACTS.map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={revealViewport}
+                  variants={variants}
+                  transition={{ ...transition, delay: reduceMotion ? 0 : i * ITEM_STAGGER }}
+                  className="bg-white rounded-2xl p-6 flex flex-col gap-3"
+                >
+                  <p className="font-satoshi font-bold text-[20px] text-ink">{item.title}</p>
+                  <p className="font-satoshi text-[16px] text-ink leading-[23px]">{item.body}</p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        </Flow>
       </div>
     </div>
   );

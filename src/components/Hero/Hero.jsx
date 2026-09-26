@@ -24,6 +24,11 @@ const IDLE_SLEEP_MS = 60000;
 
 const ENTRANCE_STORAGE_KEY = 'portfolio:hero:entrance-played';
 
+// Module state, so it survives navigating to another page and back (the home
+// page unmounts and remounts) but resets on a real page load or reload: true
+// once the home page has been shown during this page load.
+let homeShownThisPageLoad = false;
+
 // "Hi," / "I'm" / "Cynthia." — deterministic per-word tilt (not random), so
 // the crafted entrance looks the same on every load rather than jittering.
 const WORD_ROTATIONS = [-8, 6, -4];
@@ -162,7 +167,15 @@ export default function Hero() {
   // this is the deliberate always-above-the-fold first paint, not an
   // incidental scroll wake.
   const [hasPlayedEntrance, markEntrancePlayed] = useHasPlayedOnce(ENTRANCE_STORAGE_KEY);
-  const [hasEyeWoken, setHasEyeWoken] = useState(false);
+  // Coming back to the home page from another page (e.g. Visual) at night: she
+  // is simply already awake — no sleeping-to-awake transition — and the
+  // stickers pop in as usual. A fresh load or reload still starts the way it
+  // always did (asleep at night until the cascade wakes her).
+  const [cameBackFromAnotherPage] = useState(() => homeShownThisPageLoad);
+  useEffect(() => {
+    homeShownThisPageLoad = true;
+  }, []);
+  const [hasEyeWoken, setHasEyeWoken] = useState(cameBackFromAnotherPage);
   const skipEntrance = hasPlayedEntrance;
   const entranceSettled = hasEyeWoken || skipEntrance;
   const hasTriggeredRef = useRef(false);

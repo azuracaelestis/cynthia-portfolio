@@ -3,6 +3,7 @@ import userFlow from '../../../assets/case study/case-study-classroom-quest/expe
 import swoosh2 from '../../../assets/case study/case-study-classroom-quest/experience/swoosh-2.svg';
 import swoosh1 from '../../../assets/case study/case-study-classroom-quest/experience/swoosh-1.svg';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 const commentVariants = {
   hidden: { opacity: 0, scale: 0.6, transition: { duration: 0.2 } },
@@ -41,13 +42,13 @@ export default function Experience() {
   const variants = reduceMotion ? commentVariantsReduced : commentVariants;
 
   return (
-    <Section
+    <Section flow
       id="the-experience"
       eyebrow="THE EXPERIENCE"
       title="A five-minute quest, built to feel effortless"
       titleClassName="mb-8 lg:mb-6"
     >
-      <div className="relative">
+      <Flow className="relative">
         <motion.img
           src={userFlow}
           alt="User flow diagram: Start the Journey leads through Opening Scenario, Choose Your Companion, five Mission Scenarios (each a choice of three answers), to the Result Page, which branches to the Product page, Download page, or Retake the quest (looping back to Start the Journey)."
@@ -84,7 +85,7 @@ export default function Experience() {
             viewport={{ amount: 0.6, margin: '-20% 0px -20% 0px' }}
           />
         ))}
-      </div>
+      </Flow>
     </Section>
   );
 }

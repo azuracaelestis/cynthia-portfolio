@@ -4,6 +4,7 @@ import narrowReach from '../../../assets/case study/case-study-classroom-quest/p
 import optInUpdate from '../../../assets/case study/case-study-classroom-quest/problem/opt-in-update.svg';
 import noHardSell from '../../../assets/case study/case-study-classroom-quest/problem/no-hard-sell.svg';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 const CARDS = [
   { icon: lowAwareness, title: 'Low Adoption Awareness', body: 'Over half of active myViewBoard users were still on version 2.0 after the 3.0 launch.' },
@@ -23,8 +24,8 @@ export default function Problem() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <Section flow id="problem" eyebrow="PROBLEM" title="A major update launched, and teachers never knew">
+      <Flow className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {CARDS.map((card, i) => (
           <motion.div
             key={card.title}
@@ -45,7 +46,7 @@ export default function Problem() {
             </div>
           </motion.div>
         ))}
-      </div>
+      </Flow>
     </Section>
   );
 }

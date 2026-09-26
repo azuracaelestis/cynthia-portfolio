@@ -1,5 +1,6 @@
 import arrowRight from '../../../assets/case study/case-study-classroom-quest/hypothesis/arrow-right.svg';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 const QUESTIONS = [
   "How might we show myViewBoard 3.0's features without it feeling like a feature list?",
@@ -9,9 +10,9 @@ const QUESTIONS = [
 
 export default function Hypothesis() {
   return (
-    <Section id="hypothesis" eyebrow="HYPOTHESIS" title="We bet a game could sell without selling">
+    <Section flow id="hypothesis" eyebrow="HYPOTHESIS" title="We bet a game could sell without selling">
       <div className="flex flex-col gap-12">
-        <div className="flex flex-col gap-5">
+        <Flow className="flex flex-col gap-5">
           <p className="font-satoshi font-bold text-[16px] text-black">What We Knew</p>
           <p className="font-satoshi text-[16px] text-black leading-[23px]">
             In 2024 we&apos;d built a personality quiz,{' '}
@@ -36,8 +37,8 @@ export default function Hypothesis() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="flex flex-col gap-5">
+        </Flow>
+        <Flow className="flex flex-col gap-5">
           <p className="font-satoshi font-bold text-[16px] text-black">Our Strategy</p>
           <p className="font-satoshi font-bold text-[28px] lg:text-[32px] text-black leading-tight">
             Don&apos;t demo the tool. Make them need it.
@@ -46,7 +47,7 @@ export default function Hypothesis() {
             Instead of presenting features, we put teachers inside a classroom moment and let them feel the friction
             first, then revealed the tool as the answer, not the pitch.
           </p>
-        </div>
+        </Flow>
       </div>
     </Section>
   );

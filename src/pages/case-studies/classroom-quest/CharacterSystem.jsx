@@ -7,6 +7,7 @@ import render3dRed from '../../../assets/case study/case-study-classroom-quest/c
 import motion2dCyan from '../../../assets/case study/case-study-classroom-quest/character system/cyan-bird.svg';
 import motion2dRed from '../../../assets/case study/case-study-classroom-quest/character system/red-bird.svg';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 const COLUMNS = ['Original design for 2024', '3D render', '2D illustration'];
 
@@ -46,19 +47,21 @@ export default function CharacterSystem() {
   });
 
   return (
-    <Section id="character-system" eyebrow="CHARACTER SYSTEM" title="Reducing load without losing personality">
-      <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8">
-        Last year&apos;s 3D GIFs loaded slowly on venue Wi-Fi. I rebuilt the character system as lightweight 2D
-        motion assets so the experience could retain its personality without compromising performance.
-      </p>
-      <div className="grid grid-cols-3 gap-6 mb-5 lg:mb-4">
+    <Section flow id="character-system" eyebrow="CHARACTER SYSTEM" title="Reducing load without losing personality">
+      <Flow>
+        <p className="font-satoshi text-[16px] text-black leading-[23px] mb-8">
+          Last year&apos;s 3D GIFs loaded slowly on venue Wi-Fi. I rebuilt the character system as lightweight 2D
+          motion assets so the experience could retain its personality without compromising performance.
+        </p>
+      </Flow>
+      <Flow className="grid grid-cols-3 gap-6 mb-5 lg:mb-4">
         {COLUMNS.map((label) => (
           <p key={label} className="font-caveat font-bold text-[20px] text-about-blue text-center">
             {label}
           </p>
         ))}
-      </div>
-      <div className="flex flex-col gap-[8px] lg:gap-2">
+      </Flow>
+      <Flow className="flex flex-col gap-[8px] lg:gap-2">
         {ROWS.map((row) => (
           <div key={row.alt} className="grid grid-cols-3 gap-6 items-center">
             <motion.div
@@ -112,7 +115,7 @@ export default function CharacterSystem() {
             </motion.div>
           </div>
         ))}
-      </div>
+      </Flow>
     </Section>
   );
 }

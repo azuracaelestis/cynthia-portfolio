@@ -5,6 +5,7 @@ import chooseCompanion from '../../../assets/case study/case-study-classroom-que
 import missionScenarioDesign from '../../../assets/case study/case-study-classroom-quest/design/mission-scenario-design.mp4';
 import resultPageDesign from '../../../assets/case study/case-study-classroom-quest/design/result-page.mp4';
 import Section from '../../../components/case-study/Section';
+import Flow from '../../../components/Flow';
 
 function PlayIcon() {
   return (
@@ -81,37 +82,37 @@ function AutoplayVideo({ src, ariaLabel }) {
 
 export default function Design() {
   return (
-    <Section id="design" eyebrow="FINAL EXPERIENCE" eyebrowClassName="mb-4">
+    <Section flow id="design" eyebrow="FINAL EXPERIENCE" eyebrowClassName="mb-4">
       <div className="flex flex-col gap-12 lg:gap-[90px]">
-        <div>
+        <Flow>
           <p className="font-satoshi font-bold text-[20px] text-black mb-8 lg:mb-4">Landing Page</p>
           <img
             src={landingPageDesign}
             alt="Landing Page, desktop and mobile: 'Welcome to the Classroom Quest' hero banner with an 'Embark on Your Quest' CTA, illustrated classroom-hero characters, and intro copy."
             className="w-full h-auto rounded-2xl"
           />
-        </div>
-        <div>
+        </Flow>
+        <Flow>
           <p className="font-satoshi font-bold text-[20px] text-black mb-8 lg:mb-4">Choose Your Companion</p>
           <AutoplayVideo
             src={chooseCompanion}
             ariaLabel="Choose Your Companion, desktop and mobile: a walkthrough of the 'Choose Your Avatar for Today's Quest' screen with four character cards and an 'I'm Ready' CTA on the selected card."
           />
-        </div>
-        <div>
+        </Flow>
+        <Flow>
           <p className="font-satoshi font-bold text-[20px] text-black mb-8 lg:mb-4">Mission Scenario</p>
           <AutoplayVideo
             src={missionScenarioDesign}
             ariaLabel="Mission Scenario, desktop and mobile: a walkthrough of the chat-style story sequence ending in a highlighted choice."
           />
-        </div>
-        <div>
+        </Flow>
+        <Flow>
           <p className="font-satoshi font-bold text-[20px] text-black mb-8 lg:mb-4">Result Page</p>
           <AutoplayVideo
             src={resultPageDesign}
             ariaLabel="Result Page, desktop and mobile: a walkthrough of 'The Day Nothing Caught Fire' story recap, the 'Igniter of Curiosity' character result, and the 'You've Leveled Up!' attributes panel."
           />
-        </div>
+        </Flow>
       </div>
     </Section>
   );
