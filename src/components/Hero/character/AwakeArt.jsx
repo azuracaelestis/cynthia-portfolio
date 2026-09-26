@@ -20,8 +20,8 @@ const ART_SCALE = 1.1718; // 1.3706 (fills the frame) x 0.855
 // stripes, longer arm) to keep the torso reaching the frame's bottom edge.
 const PREVIOUS_ART_TOP = 44 - 599 * 1.2335;
 const ART_LIFT = 15.3;
-const ART_TRANSFORM = `translate(${-329 + (579 - 411 * ART_SCALE) / 2} ${PREVIOUS_ART_TOP - ART_LIFT}) scale(${ART_SCALE})`;
-const HEAD_ORIGIN = '205px 385px'; // neck base, in the art's own 411 x 599 space
+export const ART_TRANSFORM = `translate(${-329 + (579 - 411 * ART_SCALE) / 2} ${PREVIOUS_ART_TOP - ART_LIFT}) scale(${ART_SCALE})`;
+export const HEAD_ORIGIN = '205px 385px'; // neck base, in the art's own 411 x 599 space
 // Her pupils rest against the left edge of each eye white (she looks left/up)
 // and the whites are small, so they may only travel right and down: 0..7 and
 // 0..3.5 art units keeps them inside both eyes. This overrides the shared
