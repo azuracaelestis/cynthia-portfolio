@@ -33,16 +33,26 @@ const place = (x, y, w) => ({
 // edge, y from the top of the illustration to its desk). Everything below is
 // placed in those cluster units, then mapped either onto the desktop stage
 // (the cluster's origin sits at 615,154 of the 1440 x 618 frame) or onto the
-// mobile hero (the cluster fills a 306px-wide box, per the mobile frame).
+// mobile hero (the cluster fills a 306px-wide box in the mobile frame; drawn 5% larger, 321.3px).
 const CLUSTER_W = 723;
 const CLUSTER_H = 470;
-const CLUSTER_ORIGIN = { x: 615, y: 154 };
-const placeInCluster = (x, y, w) => ({
-  left: `${(x / CLUSTER_W) * 100}%`,
-  top: `${(y / CLUSTER_H) * 100}%`,
-  width: `${(w / CLUSTER_W) * 100}%`,
-});
-const placeOnStage = (x, y, w) => place(CLUSTER_ORIGIN.x + x, CLUSTER_ORIGIN.y + y, w);
+// The cluster's size relative to the Figma frame (1 = as drawn there), anchored
+// at its bottom centre so the character always sits on the panel. Its top then
+// moves with the scale, so the stage's top padding is derived to keep the
+// illustration's top exactly 90px below the nav (whose bottom edge is at 88px:
+// 178px from the page top), and the hero text is shifted to stay at the same
+// place on the page (266px / 440px, as in the frame plus the original 24px pad).
+// History: 1 -> 1.05 (+5%) -> 0.9975 (-5% of that).
+const CLUSTER_SCALE = 1.05 * 0.95;
+const CLUSTER_TOP = 154 + 470 - 470 * CLUSTER_SCALE; // where the cluster starts in the frame
+const STAGE_TOP_PAD = 178 - CLUSTER_TOP;
+const TEXT_SHIFT = STAGE_TOP_PAD - 24; // the frame's text was placed under a 24px pad
+const CLUSTER_ORIGIN = {
+  x: 615 + (CLUSTER_W - CLUSTER_W * CLUSTER_SCALE) / 2,
+  y: CLUSTER_TOP,
+};
+const placeOnStage = (x, y, w) =>
+  place(CLUSTER_ORIGIN.x + x * CLUSTER_SCALE, CLUSTER_ORIGIN.y + y * CLUSTER_SCALE, w * CLUSTER_SCALE);
 const ILLUSTRATION = { x: 48.94, y: 0, w: 565.13 };
 
 // The elements around the character appear one by one, then float. Each has
@@ -302,13 +312,13 @@ export default function VisualDesign() {
 
       {isDesktop ? (
         <div className="bg-white">
-          {/* 90px from the nav's bottom edge (88px) to the illustration's top
-              (154px in the frame): the frame leaves 66, so 24px is added. */}
-          <div className="pt-6">
+          {/* 90px from the nav's bottom edge (88px) to the illustration's top; the
+              padding is derived from CLUSTER_SCALE (see above). */}
+          <div style={{ paddingTop: STAGE_TOP_PAD }}>
           <section className="relative mx-auto w-full max-w-[1440px]" style={{ aspectRatio: `${STAGE_W} / ${STAGE_H}` }}>
             <h1
               className="absolute font-satoshi font-bold text-black text-[clamp(44px,4.444vw,64px)] leading-[1.17]"
-              style={{ left: `${(100 / STAGE_W) * 100}%`, top: `${(242 / STAGE_H) * 100}%` }}
+              style={{ left: `${(100 / STAGE_W) * 100}%`, top: `${((242 - TEXT_SHIFT) / STAGE_H) * 100}%` }}
             >
               Selected
               <br />
@@ -316,7 +326,7 @@ export default function VisualDesign() {
             </h1>
             <p
               className="absolute font-satoshi text-black text-[clamp(16px,1.389vw,20px)] leading-[1.7]"
-              style={{ left: `${(105 / STAGE_W) * 100}%`, top: `${(416 / STAGE_H) * 100}%`, width: `${(426 / STAGE_W) * 100}%` }}
+              style={{ left: `${(105 / STAGE_W) * 100}%`, top: `${((416 - TEXT_SHIFT) / STAGE_H) * 100}%`, width: `${(426 / STAGE_W) * 100}%` }}
             >
               Selected brand, campaign, and communication design from across my practice.
             </p>
@@ -365,7 +375,7 @@ export default function VisualDesign() {
             </p>
           </section>
 
-          <div className="relative z-10 mx-auto w-[306px]" style={{ aspectRatio: `${CLUSTER_W} / ${CLUSTER_H}` }}>
+          <div className="relative z-10 mx-auto w-[321.3px]" style={{ aspectRatio: `${CLUSTER_W} / ${CLUSTER_H}` }}>
             <div className="absolute z-10" style={placeInCluster(ILLUSTRATION.x, ILLUSTRATION.y, ILLUSTRATION.w)}>
               <HeroCharacterArt className="block w-full" alt="Illustration of Cynthia working at a laptop" />
             </div>
